@@ -900,7 +900,15 @@
           "sprzedaz_sklepowa": "odbiera od ciebie <przedmiot>. (bez kasy; Antonietta, Olof, Ernest)",
           "zakup": "odbiera od ciebie <kwota> w zamian za zakupiony towar."
         },
-        "regula": "kotwica na pelnej formie z 'i wrecza ci'; klasyfikacja po dowodzie (parz. zlecenia_klasyfikacja)"
+        "regula": "kotwica na pelnej formie z 'i wrecza ci'; klasyfikacja po dowodzie (parz. zlecenia_klasyfikacja)",
+        "sekwencja_pelna_v2": [
+          "echo: -> daj <towaru> <NPC> (dopelniacz partitywny, np. '-> daj miesiwa mezczyznie')",
+          "<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostala ilosc>. (tracker postepu)",
+          "<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>."
+        ],
+        "brak_linii_dajesz": "daj do NPC questowych NIE drukuje linii po stronie gracza; dowod = echo + linie NPC; jedna komenda daj = N dostaw (kazda para postep+wyplata)",
+        "lokalizacja_dowodu": "Parravon (plac nad Grismerie)",
+        "finalizacja": "nieznana - zlecenie w logach nieukonczone (wciaz 'potrzebuje jeszcze ponad kilogram'); tryb capture"
       },
       "paczka_spozniona": {
         "wzorzec": "Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.",
@@ -925,7 +933,8 @@
           "Myrrhis",
           "Sniada mila kobieta",
           "Bromius"
-        ]
+        ],
+        "pułapka_zgarnia": "opis pokoju kantoru 'kasjer szybko zgarnia wymieniane monety spogladajac...' lapie sie we wzorzec - wymagana kwota z liczba po 'zgarnia' (twarda zasada nominalu)"
       },
       "bounty_szczury_uzupelnienie": {
         "sekwencja_pelna": [
@@ -945,7 +954,11 @@
           "'Szczurolap' tytul zawodowy graczy na who (Szczurolap/Doswiadczony Szczurolap, halfling; 419x/187x)",
           "'szczury ladowe' = obelga zeglarska",
           "maskotka 'szary szmaciany szczur' (9 dan graczom, zero kasy w oknie 90 s)"
-        ]
+        ],
+        "linia_dawania_cial": "NIE ISTNIEJE (E10: zero Dajesz/Oddajesz cial* do NPC w korpusie; jedyna taka linia to cialo skavena wreczone graczowi Gwenn); kotwica sekwencji na echu '-> daj ciala szczurolapowi'",
+        "skaveny": "bounty obejmuje ciala skavenow - wpis wiedzy 'Dostarczyles cialo skavena szczurolapowi z Nuln.'",
+        "szepty_zaczepki": "oba NPC zaczepiaja szeptem: 'Jesli chcesz zarobic troche grosza... <zapytaj szczurolapa o prace>'; Adler dodatkowo wprost: 'Zapytaj mnie o prace, to wyjasnie szczegoly.'",
+        "sesja_polowanie": "2025-12-14 23:03-23:09: 15 szczurow (licznik 1/1->15/15); 23:12:53: 7x odmowa 'A po co mi to dajesz?' (spam daj niewlasciwym przedmiotem)"
       },
       "przekrzyki_bretonskie": {
         "wzorzec": "<NPC> krzyczy po bretonsku, ale udaje ci sie zrozumiec tylko czesc: ...",
@@ -1000,8 +1013,44 @@
         "trening_druzyna": "odlozone; mechanika: trenuj / trenuj intensywnie; 'um' = umiejetnosci + modyfikatory chwilowe; tag [   DRUZYNA   ]"
       },
       "otwarte": {
-        "linia_dawania_cial": "surowa forma (liczba mnoga 'oddaj ciala'?) - lowisko v2 sekcja E10",
-        "anomalia_E1": "znacznik zabojstwa z &nbsp;? - mechanizm porazki starego regexu potwierdzony testem; diagnostyka v2"
+        "finalizacja_zlecenia": "linia po ostatniej dostawie nieznana (zlecenie w logach nieukonczone) - tryb capture",
+        "szczuroslaw_fuats": "rola niezidentyfikowana, bez kotwic finansowych",
+        "wzrost_wiedzy": "osobne zdarzenie kroniki? - decyzja odlozona"
+      },
+      "przelot_v2_2026_09_17": {
+        "zabici_padding": {
+          "problem": "znacznik ma dopelnienie spacjami do stalej szerokosci: '[  ZABILES  ]' (2 sp), '[   ZABIL   ]'/'[   ZABILA   ]' (3 sp); sztywna pojedyncza spacja w regexie gubila 100% trafien (anomalia E1=0)",
+          "regex": "^\\[\\s*ZABIL(?:ES|A|)\\s*\\]",
+          "liczby": "1796 linii [ ZABIL* ] w korpusie; 37 zabojstw szczurow (23 unikalne); zabojstwa druzynowe (np. Gwenn zabila ... szczura)"
+        },
+        "wiedza_migawka": {
+          "system": "wpisy z prefiksem '* ' to listing komendy 'wiedza' (kategorie wiedzy: stworzenia widziane, przedmioty ogledziane, czyny wykonane)",
+          "przyklady": [
+            "* Widziales szczuroczleka. (387x)",
+            "* Ogladales amulet kultystow Rogatego Szczura. (181x)",
+            "* Dostarczyles cialo skavena szczurolapowi z Nuln. (138x)"
+          ],
+          "interpretacja": "migawka na zadanie (jak postepy/cechy), NIE dziennik zdarzen; licznik wystapien = czestotliwosc komendy; wpis-czyn = jednorazowy koroborant ('zaszlo kiedys przed ta migawka'), nigdy licznik ani timestamp",
+          "pokrewne": [
+            "Wiedza o <kategorii>: (naglowek)",
+            "twoja wiedza o <kategorii> wzrosla ... (wzrost wiedzy, decyzja odlozona)"
+          ]
+        },
+        "rozklad_odbiera_liczby": {
+          "realizacja": 2,
+          "w_zamian": "21 (9 unikalnych; Roseanna, Hanes/Daniger, Kivan/Biraldan, Adela, Stefan, Niemir)",
+          "sprzedaz_sklepowa": "110 (40 unikalnych; Antonietta, Olof, Ernest)"
+        },
+        "ekosystem_platnosci_liczby": {
+          "reszta": "215 (86 unikalnych)",
+          "zgarnia_flavor": 186,
+          "flavor_wreczenia": 278,
+          "placisz_kupujesz_tlo": "1353 (340 unikalnych)"
+        },
+        "npc_niezidentyfikowani": [
+          "Szczuroslaw NPC (Niski korpulentny mezczyzna, 89x)",
+          "Fuats NPC (Lysiejacy szczurkowaty mezczyzna, 59x)"
+        ]
       }
     }
   }
