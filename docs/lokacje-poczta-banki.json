@@ -1,0 +1,701 @@
+{
+  "meta": {
+    "mapa": "Arkadia",
+    "map_sync_version": "430",
+    "map_version": "0.220.0",
+    "zrodlo": "gałąź mapa, arkadia-web_standalone-arkmap_studio",
+    "wygenerowano": "2026-09-16"
+  },
+  "poczta": [
+    {
+      "id": 339,
+      "nazwa": "Poczta w Wyzimie",
+      "obszar": "Wyzima"
+    },
+    {
+      "id": 3765,
+      "nazwa": "Poczta, Anchor",
+      "obszar": "Wyzima"
+    },
+    {
+      "id": 2599,
+      "nazwa": "Poczta w Pianie",
+      "obszar": "Poludniowa Redania"
+    },
+    {
+      "id": 1608,
+      "nazwa": "Poczta w Mons Arx",
+      "obszar": "Poludniowy Mahakam"
+    },
+    {
+      "id": 176,
+      "nazwa": "Poczta w Mariborze",
+      "obszar": "Poludniowa Temeria"
+    },
+    {
+      "id": 543,
+      "nazwa": "Poczta w Bialym Kle",
+      "obszar": "Brugge"
+    },
+    {
+      "id": 3025,
+      "nazwa": "Poczta, Wioska Bobolakow",
+      "obszar": "Brugge"
+    },
+    {
+      "id": 853,
+      "nazwa": "Poczta, Oxenfurt",
+      "obszar": "Oxenfurt"
+    },
+    {
+      "id": 841,
+      "nazwa": "Poczta w Novigradzie",
+      "obszar": "Novigrad"
+    },
+    {
+      "id": 911,
+      "nazwa": "Poczta w Scala",
+      "obszar": "Scala"
+    },
+    {
+      "id": 10495,
+      "nazwa": "Poczta, Craag Ros",
+      "obszar": "Wschodni Mahakam"
+    },
+    {
+      "id": 1364,
+      "nazwa": "Poczta w Fandall",
+      "obszar": "Zachodni Mahakam"
+    },
+    {
+      "id": 1476,
+      "nazwa": "Poczta, Twierdza pod Gora Carbon",
+      "obszar": "Twierdza pod Gora Carbon"
+    },
+    {
+      "id": 10013,
+      "nazwa": "Poczta, Hagge",
+      "obszar": "Hagge"
+    },
+    {
+      "id": 1994,
+      "nazwa": "Poczta w Rinde",
+      "obszar": "Wschodnia Redania"
+    },
+    {
+      "id": 3160,
+      "nazwa": "Poczta w Twierdzy Bodrog",
+      "obszar": "Verden"
+    },
+    {
+      "id": 4035,
+      "nazwa": "Poczta w Blaviken",
+      "obszar": "Polnocna Redania"
+    },
+    {
+      "id": 4533,
+      "nazwa": "Poczta w Gelibolu",
+      "obszar": "Polnocna Redania"
+    },
+    {
+      "id": 4370,
+      "nazwa": "Poczta w Gornej posadzie",
+      "obszar": "Aedirn"
+    },
+    {
+      "id": 8032,
+      "nazwa": "Poczta, Guleta",
+      "obszar": "Aedirn"
+    },
+    {
+      "id": 22948,
+      "nazwa": "Poczta w Eysenlaan",
+      "obszar": "Aedirn"
+    },
+    {
+      "id": 10251,
+      "nazwa": "Poczta w Eldar",
+      "obszar": "Ard Carraigh"
+    },
+    {
+      "id": 10046,
+      "nazwa": "Poczta w Daevon",
+      "obszar": "Daevon"
+    },
+    {
+      "id": 4737,
+      "nazwa": "Poczta, Quenelles",
+      "obszar": "Quenelles"
+    },
+    {
+      "id": 4913,
+      "nazwa": "Poczta, Salignac La Rouge",
+      "obszar": "Salignac"
+    },
+    {
+      "id": 5182,
+      "nazwa": "Poczta w Kreutzhofen",
+      "obszar": "Wissenland"
+    },
+    {
+      "id": 5263,
+      "nazwa": "Poczta, Toskania",
+      "obszar": "Polnocna Tilea"
+    },
+    {
+      "id": 5988,
+      "nazwa": "Poczta, Varieno",
+      "obszar": "Polnocna Tilea"
+    },
+    {
+      "id": 11145,
+      "nazwa": "Poczta, Ebino",
+      "obszar": "Ebino"
+    },
+    {
+      "id": 5469,
+      "nazwa": "Poczta, Campogrotta",
+      "obszar": "Campogrotta"
+    },
+    {
+      "id": 5877,
+      "nazwa": "Poczta, Urbimo",
+      "obszar": "Urbimo"
+    },
+    {
+      "id": 6527,
+      "nazwa": "Poczta w Averheim",
+      "obszar": "Averland"
+    },
+    {
+      "id": 11215,
+      "nazwa": "Poczta w Krainie Zgromadzenia",
+      "obszar": "Kraina Zgromadzenia"
+    },
+    {
+      "id": 7304,
+      "nazwa": "Poczta u Gladiatorow, Nuln",
+      "obszar": "Nuln"
+    },
+    {
+      "id": 7335,
+      "nazwa": "Poczta, Nuln",
+      "obszar": "Nuln"
+    },
+    {
+      "id": 7468,
+      "nazwa": "Poczta, Ubersreik",
+      "obszar": "Reikland"
+    },
+    {
+      "id": 7543,
+      "nazwa": "Poczta, Bogenhafen",
+      "obszar": "Reikland"
+    },
+    {
+      "id": 7612,
+      "nazwa": "Poczta, Jaskare",
+      "obszar": "Reikland"
+    },
+    {
+      "id": 7653,
+      "nazwa": "Poczta w Jouinard",
+      "obszar": "Parravon"
+    },
+    {
+      "id": 26644,
+      "nazwa": "Poczta, Parravon",
+      "obszar": "Parravon"
+    },
+    {
+      "id": 9788,
+      "nazwa": "Poczta, Baccala",
+      "obszar": "Baccala"
+    },
+    {
+      "id": 11342,
+      "nazwa": "Poczta w Karak Varn",
+      "obszar": "Karak Varn"
+    },
+    {
+      "id": 15485,
+      "nazwa": "Poczta w Karak Varn",
+      "obszar": "Karak Varn"
+    },
+    {
+      "id": 14987,
+      "nazwa": "Poczta w Karak Kadrin",
+      "obszar": "Karak Kadrin"
+    },
+    {
+      "id": 20194,
+      "nazwa": "Poczta w Val'kare",
+      "obszar": "Val'kare"
+    },
+    {
+      "id": 23667,
+      "nazwa": "Poczta w Faroe",
+      "obszar": "Pozostale wyspy Skellige"
+    },
+    {
+      "id": 24104,
+      "nazwa": "Poczta, Athel Loren",
+      "obszar": "Athel Loren"
+    }
+  ],
+  "banki_z_bindem": [
+    {
+      "id": 316,
+      "nazwa": "Bank, Wyzima",
+      "obszar": "Wyzima",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 22755,
+      "nazwa": "22755",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22756,
+      "nazwa": "22756",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22757,
+      "nazwa": "22757",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22758,
+      "nazwa": "22758",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22759,
+      "nazwa": "22759",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22761,
+      "nazwa": "22761",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22762,
+      "nazwa": "22762",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22763,
+      "nazwa": "22763",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22764,
+      "nazwa": "22764",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 22765,
+      "nazwa": "22765",
+      "obszar": "Brugge",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+    },
+    {
+      "id": 2687,
+      "nazwa": "Bank, Novigrad",
+      "obszar": "Novigrad",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 893,
+      "nazwa": "893",
+      "obszar": "Scala",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 1467,
+      "nazwa": "Bank, Twierdza pod Gora Carbon",
+      "obszar": "Twierdza pod Gora Carbon",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 1999,
+      "nazwa": "Bank, Rinde",
+      "obszar": "Wschodnia Redania",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 8059,
+      "nazwa": "Sklep, Guleta",
+      "obszar": "Aedirn",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 4574,
+      "nazwa": "Bank w Daevon",
+      "obszar": "Daevon",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 4661,
+      "nazwa": "Bank, Quenelles",
+      "obszar": "Quenelles",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 5364,
+      "nazwa": "Bank, Ebino",
+      "obszar": "Ebino",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 6739,
+      "nazwa": "Bank, Kraina Zgromadzenia",
+      "obszar": "Kraina Zgromadzenia",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 7334,
+      "nazwa": "Bank, Nuln",
+      "obszar": "Nuln",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 26630,
+      "nazwa": "Bank, Parravon",
+      "obszar": "Parravon",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 9776,
+      "nazwa": "Bank, Baccala",
+      "obszar": "Baccala",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 15395,
+      "nazwa": "Bank, Karak Varn",
+      "obszar": "Karak Varn",
+      "bind": "/depozyt",
+      "depozyt_wiki": "TAK (wiki)"
+    },
+    {
+      "id": 20164,
+      "nazwa": "20164",
+      "obszar": "Val'kare",
+      "bind": "przejrzyj depozyt",
+      "depozyt_wiki": "TAK (mapa: pokój $ z bindem; wiki nieaktualna)"
+    }
+  ],
+  "banki_bez_binda": [
+    {
+      "id": 10550,
+      "nazwa": "Bank w Mons Arx",
+      "obszar": "Poludniowy Mahakam",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 480,
+      "nazwa": "Bank, Maribor",
+      "obszar": "Poludniowa Temeria",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 2569,
+      "nazwa": "Bank, Oxenfurt",
+      "obszar": "Oxenfurt",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 10554,
+      "nazwa": "Bank, Craag Ros",
+      "obszar": "Wschodni Mahakam",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 10027,
+      "nazwa": "Bank, Hagge",
+      "obszar": "Hagge",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 22947,
+      "nazwa": "Kantor, Bank, Sklep, Eysenlaan",
+      "obszar": "Aedirn",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 5196,
+      "nazwa": "Bank, Kreutzhofen",
+      "obszar": "Wissenland",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 5277,
+      "nazwa": "Bank, Toskania",
+      "obszar": "Polnocna Tilea",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 6035,
+      "nazwa": "Bank, Varieno",
+      "obszar": "Polnocna Tilea",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 5519,
+      "nazwa": "Bank, Campogrotta",
+      "obszar": "Campogrotta",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 6457,
+      "nazwa": "Bank, Zamek Sigmara",
+      "obszar": "Averland",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 6528,
+      "nazwa": "Bank, Averheim",
+      "obszar": "Averland",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 7482,
+      "nazwa": "Bank, Ubersreik",
+      "obszar": "Reikland",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    },
+    {
+      "id": 24105,
+      "nazwa": "Bank, Athel Loren",
+      "obszar": "Athel Loren",
+      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+    }
+  ],
+  "wiki": {
+    "zrodlo": "wikipedia.arkadia.rpg.pl/view/Pieni%C4%85dze (akt. 2026-05-27) + /view/Skrytki",
+    "depozyt_TAK_imperium": [
+      "Ebino",
+      "Karak Varn",
+      "Kraina Zgromadzenia",
+      "Nuln",
+      "Parravon",
+      "Quenelles"
+    ],
+    "depozyt_TAK_ishtar": [
+      "Ard Skellige",
+      "Baccala",
+      "Carbon",
+      "Daevon",
+      "Guleta",
+      "Novigrad",
+      "Rinde",
+      "Scala",
+      "Wyzima"
+    ],
+    "anomalie": "patrz anomalie_rozwiazane"
+  },
+  "anomalie_rozwiazane": [
+    {
+      "lokacja": "Brugge (11 pokoi 22755-22765 + korytarz 22754)",
+      "status": "POTWIERDZONE: piętro skrytek depozytowych przy Zajeździe Biały Kieł (sklep 540/546, kowal 1084, poczta 543 obok). Bind /depozyt łapie. Wiki nieaktualna."
+    },
+    {
+      "lokacja": "Val'kare (pokój 20164)",
+      "status": "POTWIERDZONE: okienko depozytowe — symbol $, bind \"przejrzyj depozyt\". Brak pokoju \"Bank\". Bind łapie. Wiki nieaktualna."
+    },
+    {
+      "lokacja": "Ard Skellig (pokój 10416)",
+      "status": "ROZWIĄZANE: bank istnieje na mapie (symbol $, env 295), brak binda = luka mappera (cały obszar Ard Skellig: 438 pokoi bez nazw). Suplement w danych pluginu + zgłoszenie upstream do Delwing/arkadia-mapa."
+    }
+  ],
+  "suplement_depozyty": {
+    "mapa_sync": "430",
+    "dodatkowe_id": [
+      10416
+    ],
+    "komentarz": "Ard Skellig — bank bez binda; usunąć po dodaniu binda upstream"
+  },
+  "symbol_dolar": {
+    "pokoi": 29,
+    "wniosek": "$ dostają zarówno banki z depozytem jak i kantory — nie nadaje się na gate"
+  },
+  "poczta_nienazwane_symbol_P": [
+    {
+      "id": 25542,
+      "obszar": "Poludniowy Mahakam",
+      "env": 202,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 21487,
+      "obszar": "Poludniowa Temeria",
+      "env": 269,
+      "status": "potwierdzona (wiki/kontekst)",
+      "identyfikacja": "Kociepole / Gildia Osadników (kontekst + wiki)"
+    },
+    {
+      "id": 25444,
+      "obszar": "Novigrad",
+      "env": 296,
+      "status": "potwierdzona (wiki/kontekst)",
+      "identyfikacja": "SKN Novigrad — kurier (kontekst)"
+    },
+    {
+      "id": 24553,
+      "obszar": "Ard Carraigh",
+      "env": 813,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 16015,
+      "obszar": "Wissenland",
+      "env": 260,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 6472,
+      "obszar": "Averland",
+      "env": 269,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 24778,
+      "obszar": "Gory Sine",
+      "env": 269,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 10412,
+      "obszar": "Ard Skellig",
+      "env": 269,
+      "status": "potwierdzona (wiki/kontekst)",
+      "identyfikacja": "główna poczta Ard Skellige (wiki)"
+    },
+    {
+      "id": 11164,
+      "obszar": "Wyspa Slubow",
+      "env": 295,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 19942,
+      "obszar": "Gory Kranca Swiata",
+      "env": 269,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 20901,
+      "obszar": "Ziemie Czaszki",
+      "env": 269,
+      "status": "prawdopodobna - do weryfikacji w grze",
+      "identyfikacja": ""
+    },
+    {
+      "id": 26796,
+      "obszar": "Sterowiec SGW",
+      "env": 269,
+      "status": "potwierdzona (wiki/kontekst)",
+      "identyfikacja": "poczta pokładowa sterowca SGW (kontekst)"
+    }
+  ],
+  "poczta_wyjatki": [
+    {
+      "lokacja": "Jaskare (7612)",
+      "status": "poczta TAK, paczki NIE (wiki) — wykluczona z gate'a paczek"
+    },
+    {
+      "lokacja": "Faroe (23667)",
+      "status": "prawdopodobnie tylko paczki lokalne (wiki)"
+    },
+    {
+      "lokacja": "Biały Most",
+      "status": "brak poczty (wiki)"
+    }
+  ],
+  "poczta_wnioski": {
+    "symbol_P_razem": 59,
+    "zasada": "gate odbioru paczki: lista ID (59) LUB nazwa ^poczt, minus wykluczenia; symbol P tylko offline do generowania listy (GMCP nie niesie symbolu)",
+    "zasada_gate_a": "GATE MIEKKI (decyzja 2026-09-16): lokalizacja NIGDY nie wyklucza zdarzenia paczki. Odbior i dostawa rejestrowane zawsze, niezaleznie od pokoju. Lista 59 ID + nazwy ^poczt (minus Jaskare) sluzy wylacznie jako: (1) metadane zdarzenia (skad/dokad, statystyki tras), (2) flaga confidence (znana/nieznana lokalizacja odbioru), (3) czujnik odkrywania nowych poczt (mapa-sync lag) — odbior poza lista trafia na liste 'do weryfikacji', nie jest odrzucany. Uzasadnienie: maszyna stanow z python-toolkit osiaga ~100% trafnosci na logach bez zadnej lokalizacji, bo lancuch fraz jest samowalidujacy; twarde wykluczanie daloby falszywe negatywy przy nowych/zmienionych pocztach."
+  },
+  "paczki_hardening_wypłaty": {
+    "testy_adwersarialne_2026-09-16": [
+      "KOLIZJA 'wyplaca ci': galaz 'wyplaca ci' w toolkit NIE wymaga waluty — karczmarz/handlarz wyplacajacy cos tuz po dostawie ZAMYKA paczke z kwota 0 i pochlania prawdziwa wyplate. Kronikarz: galaz 'wyplaca ci' MUSI wymagac waluty w linii (paritet z galazia 'otrzymujesz').",
+      "KOLIZJA 'otrzymujesz od X': podzial lupu / przelew od gracza w oknie <=2 linii od dostawy zostaje zaksiegowany jako wyplata za paczke. Lokalizacja tego NIE naprawia (druzyna moze stac na poczcie). Kronikarz: galaz 'otrzymujesz' odrzuca linie z ' od <kims>' + flaga confidence.",
+      "KWOTY SLOWNIE: 'wyplaca ci kilka miedzianych monet' parsuje sie na 0. Kronikarz: parser liczb slownych (pattern polishNumbers z Towarzysza).",
+      "PACZKA QUESTOWA: fraza 'przekazuje ci jakas paczke' poza poczta tworzy wiszaca paczke — nieszkodliwa dla kasy (brak wyplaty), trafia do 'nierozliczone', audytowalna po surowej linii."
+    ],
+    "zasada_nadrzedna": "kazde zdarzenie audytowalne (surowa linia + zrodlo + confidence); paczki w toku/nierozliczone widoczne w raporcie, nie pochlaniane cicho",
+    "cross_session": "paczka w toku persystowana w storage przez relogin (odpowiednik _merge_cross_session z toolkit)"
+  },
+  "paczki_statusy": {
+    "model": [
+      "dostarczona",
+      "spozniona",
+      "nieoddana",
+      "zwrocona"
+    ],
+    "patterny": {
+      "dostarczona": "^(Oddajesz) pocztowa paczke + wyplata (wyplaca ci+waluta / otrzymujesz+waluta <=2 linie, zahartowane)",
+      "spozniona": "Dostarczyles przesylke po terminie (flaga late na otwartej paczce)",
+      "zwrocona": "^(Zwracasz) pocztowa paczke — nowy wariant (PackageHelper.ts + tjurczyk assistant.lua); brak wyplaty",
+      "nieoddana": "paczka otwarta bez dostawy/zwrotu; persystowana cross-session, widoczna w raporcie jako 'w toku'"
+    },
+    "odmowa_odbioru": [
+      "Ty juz dla nas dostatecznie ciezko zapracowales",
+      "Nie ufam ci na tyle, aby powierzyc ci dostarczenie tej przesylki",
+      "Cos ci sie chyba pomylilo, nie ma takiej oferty",
+      "Niestety, nie widzisz tu nikogo, od kogo mozna by wziac zlecenie"
+    ],
+    "lista_ofert": "PackageHelper packageLineRegex: miasto + zloto/srebro/miedz + limit czasu; etykieta 'Wypisano na niej duzymi literami: <MIASTO>' — cel i nagroda znane przy odbiorze (plan vs wykonanie)",
+    "kanaly_premium": {
+      "packageStatus_event": "{recipient, seconds?, location(room id)} — countdown do deadline co 1 s (plugin API)",
+      "npc_event_i_npcStore": "baza NPC {name, loc}: remote https://delwing.github.io/arkadia-mapa/data/npc.json (TTL 24h) + lokalne douczone przy dostawie do nieznanego adresata",
+      "leadTo_mapPath": "klient rysuje trase do adresata; eventy leadTo/mapPath daja zaplanowana trase",
+      "ArkadiaDeliveryStats_IDB": "historia klienta: {timestamp, late, gold, silver, copper} per postac — backfill premium (bez surowych linii)"
+    },
+    "luki_klienta_do_przeskoczenia": "klient nie rejestruje zwrotow i nieoddanych; parsePayment tylko cyfry (bez liczb slownych); tylko delivered/late"
+  },
+  "zlecenia_klasyfikacja": "KOREKTA 2026-09-16: lokacja zleceniodawcy to tez sklep/tawerna — sprzedaz TAM jest mozliwa. Regula: kasa-przychod na lokacji aktywnego zlecenia z linia 'Sprzedajesz' w oknie = SPRZEDAZ; kasa-przychod bez dowodu sprzedazy = ZAPLATA ZA ZLECENIE. Klasyfikacja po dowodzie sprzedazy, nie po samej lokacji. Oba przypadki audytowalne (surowa linia + confidence)."
+}
