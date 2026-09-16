@@ -793,8 +793,17 @@
   "zlecenia": {
    "kolizja": "'Mam (calkiem) nowe zlecenia.' od Pracownika poczty = PACZKI, nie kontrakt",
    "reklamy": "Mam zlecenie na swieze skory/ryby/mieso, chetnie za nie zaplace. (Benito, Aubert, Naula/Rudolf)",
-   "realizacja": "wyplaca ci 4 sr 2 mdz od nazwanych NPC Tilei (Lucciano, Valenzo, Thomas, Garvazzo, Nazario, Georgio, Daniel/Paolo, Nanetta, Don/Rovigo, Boreg, Luleck) — zgodne z regula dowodu sprzedazy",
-   "tablica_bounty": "| Zleceniodawca | Scigana osoba | Data"
+   "realizacja": "linia oddania towaru bez próbki korpusowej; klasyfikacja wyłącznie po dowodzie (linia 'Sprzedajesz' w oknie), nigdy po NPC/kwocie",
+   "tablica_bounty": "| Zleceniodawca | Scigana osoba | Data",
+   "realizacja_ERRATA": "WYCOFANE: wypłaty 'wyplaca ci 4 sr 2 mdz' od Lucciano/Thomasa/Lulecka itp. to wypłaty za PACZKI (dowód: konteksty 'Oddajesz pocztowa paczke X.' -> 'X wyplaca ci ...'), nie realizacje zleceń. Zleceniodawcy są jednocześnie adresatami paczek.",
+   "oferty_warianty": [
+    "na wagę: 'Potrzebuje trzydziestu jeden kilogramow miesa z sarny. Dobrze zaplace!'",
+    "z jakością: 'Potrzebuje osmiu tarcz, przynajmniej sredniej jakosci. Dobrze zaplace za kazda sztuke.'",
+    "z rozmiarem/typem: 'dziesieciu srednich ryb slodkowodnych'",
+    "broń: 'Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.'",
+    "cudze oferty ('mowi do <ktoś>:') ignorowane"
+   ],
+   "zamowienia_rzemieslnicze": "'odbierz/zloz zamowienie' = wytwórcy (Eckhard), odrębna mechanika"
   },
   "zabici": "ZERO probek w korpusie (postać nie walczyla); patterny tylko z kodu kill.ts — testy syntetyczne + opcjonalny przelot na postaci walczacej",
   "echo_transfery": [
@@ -802,6 +811,27 @@
    "→ wez monety ze swojej sakiewki (2753x)",
    "→ wloz/wez monety do/ze swojego plecaka",
    "→ wez <denominacja> monety z N. ciala (386x)"
-  ]
+  ],
+  "korpus_II_przelot": {
+   "meta": "drugi przelot tego samego korpusu poprawionym skryptem (szerokie filtry: \\bzabil, dawanie/oddawanie)",
+   "zabici": {
+    "forma_w_logach": "klient PRZEPISUJE linię: '[ ZABILES ] Zabiles X. (n / m)', '[ ZABIL ] K zabil X. (n / m)', '[ ZABILA ] K zabila X. (n / m)'; surowa forma nie występuje",
+    "statystyki": "565 wystąpień, 261 unikalnych (ZABILES 241/103, ZABIL 174/81, ZABILA 150/77)",
+    "suffix": "(n / m) — liczniki klienta jako metadane",
+    "szum": "plotki NPC, 'kosciotrup', Trupa Trupi Trup; tagi walki [1/6], [par], [unk]"
+   },
+   "etykiety_paczek": {
+    "struktury": [
+     "3-członowa: NAZWA, PROFESJA, MIASTO (121)",
+     "2-członowa: NAZWA, MIASTO (9)",
+     "1-członowa do poczty: 'POCZTA W X' / 'POCZTA MIASTA X' (5)"
+    ],
+    "pilne": "sufiks ' - PILNE!' (24) — flaga metadanych",
+    "cudzy_odbior": "'<NPC> przekazuje <komuś innemu> jakas paczke.' — ignorowane; kotwica 'przekazuje ci'"
+   },
+   "druzyna": "[ DRUZYNA ] X przekazuje ci prowadzenie druzyny. (25x) — nowy typ zdarzenia sesyjnego",
+   "naprawa": "'Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.' = naprawa u krawca (Novigrad/Campogrotta/Nuln) lub kowala; wydatek-usługa, nie zakup",
+   "lancuch_dostawy": "Odkladasz plecak -> Bierzesz paczke -> Oddajesz paczke X. -> X wyplaca ci ... (okno <=2 linie potwierdzone)"
+  }
  }
 }
