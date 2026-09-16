@@ -147,7 +147,9 @@ Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
 | Oferta | `.+? \S+ do [^:]+: Tak, mam pewne pilne zamowienie na ([^.]+)\. Potrzebuje (?:jeszcze )?([^.,]+?)(?:, przynajmniej ([^.]+) jakosci)?\.` | kod |
 | Termin | `.+? \S+ do [^:]+: Na realizacje zamowienia mam ... (dni/dzien/godzin/godziny/godzine), pozniej zapewne bede potrzebowac czego innego\.` | kod |
 | Brak zlecenia | `.+? \S+ do [^:]+: Nie, w tej chwili niczego mi nie trzeba\. Zajrzyj moze za jakis czas\.` (zamyka kontekst, czyści kontrakty lokacji) | kod |
-| Realizacja | kontekst: pokój aktywnego zlecenia + kasa-przychód **bez dowodu sprzedaży** (patrz reguła §4). Dokładna linia oddania towaru bez próbki korpusowej (w korpusie nie ma realizacji) — domknięcie na trybie capture | projekt |
+| Realizacja | kontekst: pokój aktywnego zlecenia + kasa-przychód **bez dowodu sprzedaży** (patrz reguła §4). Dokładna linia oddania towaru bez próbki korpusowej (grepy 2026-09-17: zero realizacji standardowych zleceń w 3,86 mln linii) — domknięcie na trybie capture | projekt |
+| Realizacja give-based (bounty) | `Dajesz/Oddajesz <NPC> <przedmiot>.` + okno: `<NPC> mowi do ciebie: ... daje <kwote> ... .` i/lub `<NPC> wrecza ci monety.` (kwota w komentarzu NPC, linia wręczenia bez kwoty — łączyć w oknie). Potwierdzone: Adler, ciała szczurów | korpus (grepy 2026-09-17) |
+| Odmowa dawania | `<NPC> mowi do ciebie: A po co mi to dajesz?` — nieudana próba `daj` (NPC nie chce towaru), osobne zdarzenie | korpus (6× Adler) |
 | Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.`, `Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.` | korpus (Lucciano, Benito, Aubert, Naula/Rudolf) |
 | Oferta (warianty korpusowe) | towar na wagę: `Potrzebuje trzydziestu jeden kilogramow miesa z sarny. Dobrze zaplace!`; z jakością: `Potrzebuje osmiu tarcz, przynajmniej sredniej jakosci. Dobrze zaplace za kazda sztuke.`; z rozmiarem/typem: `dziesieciu srednich ryb slodkowodnych`; sufiksy `Dobrze zaplace!` / `Dobrze zaplace za kazda sztuke.` | korpus (Anatol, Ferdinand, Mortimer, Ghaadrav) |
 | Cudze oferty | oferty kierowane do innych graczy (`mowi do <ktoś>:` zamiast `mowi do ciebie:`) — ignorowane | korpus |
@@ -166,6 +168,31 @@ Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
    `Przyjdz tedy i 'odbierz zamowienie'.`, `Przeciez nie skladales zadnego
    zamowienia!`) — odrębna mechanika, nie mieszać ze zleceniami.
 
+**Bounty za ciała szczurów (korpus + deklaracja gracza 2026-09-17):** mechanika
+młodego expa — zabijasz szczury (zabójstwo liczone **normalnie** w statystykach
+zabitych, jak każde inne), a ciała oddajesz za kasę szczurolapom. Sekwencja:
+`daj <szczura> <NPC>` → `Adler mowi do ciebie: Dorodny okaz! Za takiego slicznego
+szczurka daje trzy srebrne monety.` → `Adler wrecza ci monety.` Klasyfikacja kasy:
+przychód **bounty „zapłata za szczury"**, NIE realizacja zlecenia towarowego.
+Lokalizacje (deklaracja gracza, do potwierdzenia tagiem `(... NPC)` w surowych
+logach): **Adler → Nuln**, **szczurolap → Novigrad**.
+
+**Katalog wykluczeń dla linii `Dajesz/Oddajesz` (korpus, grepy 2026-09-17):**
+1. `Oddajesz pocztowa paczke ...` — paczki (§2.1).
+2. `Oddajesz ... ze stojka, placac ...` — naprawa u krawca/kowala (§2.2).
+3. Transfery do graczy — odbiorca to imię własne / tag GP (`Dajesz elfi chleb Gwenn.`,
+   `Dajesz przepyszny makowiec Gwenn.`; echa `daj szczura/wianek/jedzenie elfce` =
+   Gwenn, gracz-elfka) — transfer gracz→gracz (§2.2).
+4. Bilety transportowe — `Dajesz zatluszczony czerwony bilet starszemu spokojnemu
+   mezczyznie.`, `Dajesz niewielki szary bilet ciemnowlosemu przyjacielskiemu
+   mezczyznie.` — osobna kategoria: odprawa transportu.
+5. `Nie dajesz rady ...` (np. `uniesc drewnianej klapy`) — negacja-zdolność, nie
+   zdarzenie; twardy filtr.
+
+**Anomalia tagów (korpus):** formułę oferty `Mam zlecenie na swieze ...` wygłaszają
+też postaci z tagiem **GP** (gracz: Anatol, Ghaadrav) — kolizja tagu lub relacja
+gracza; parser kotwiczy wyłącznie na tagu `NPC`, GP idzie do przeglądu.
+
 Premium: odczyt storage klienta klucz `contracts` (aktywne zlecenia z `locationId`,
 przedmiotem, liczbą, jakością i deadline). Fallback: własne śledzenie tymi samymi
 patternami.
@@ -183,7 +210,9 @@ patternami.
 `[ ZABILA ]`, suffix licznika). Parser backfillu kotwiczy na przepisanej formie.
 Szum do odfiltrowania: plotki NPC (`mowi: A wczoraj to... zabil`), opisy lokacji
 (`kosciotrup`, trupy), nazwy własne (Trupa Trupi Trup). Linie walki otoczenia noszą
-tagi `[1/6]`, `[par]`, `[unk]`.
+tagi `[1/6]`, `[par]`, `[unk]`. Zabójstwa szczurów (exp + bounty u szczurolapów) bez
+specjalnego traktowania — normalne wpisy statystyk; kasa za ciała to osobne zdarzenie
+bounty (§2.4).
 | Premium live | eventy API `kill` {killer: ME/TEAM/OTHER} i `enemyKilled` {objNum, killer, hasBody} | kod (plugin-types) |
 | Premium historia | IndexedDB `ArkadiaKillsDB` (indeks `character`) | kod |
 
@@ -455,10 +484,13 @@ drugi z poprawionymi filtrami):
 Nadal otwarte:
 1. Zbiór wartości pola `type` wpisów `ArkadiaMessagesDB` (rozróżnienie strukturalne
    komend/linii walki) — korpus pochodził z plików HTML, nie z IndexedDB.
-2. Dokładna linia realizacji zlecenia (oddanie towaru): w korpusie brak realizacji;
-   wypłaty od nazwanych NPC okazały się wypłatami za paczki (dowód: konteksty).
-   Plan: celowe greppowanie surowych logów lub tryb capture przy pierwszym realnym
-   zleceniu (§8).
+2. Dokładna linia realizacji **standardowego** zlecenia towarowego (skóry/ryby/
+   mięso/broń/tarcze): grepy 2026-09-17 (czasownik + rzeczownik oraz sam czasownik,
+   3,86 mln linii) — **zero realizacji**; gracz w okresie logowania żadnego nie
+   ukończył. Potwierdzony jest natomiast wzorzec give-based dla bounty (Adler,
+   §2.4). Plan: tryb capture przy pierwszym realnym zleceniu (§8) lub celowe
+   wykonanie zlecenia na logu. Do potwierdzenia tagiem NPC: Adler → Nuln,
+   szczurolap → Novigrad.
 3. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
 
@@ -496,6 +528,13 @@ Podjęte:
   (log-time z HTML albo czas live) i podlega globalnym filtrom — zakresy dat i typy
   zdarzeń; cel: 100% pokrycia i wykorzystania danych, zero degradacji do samych
   liczników.
+- (2026-09-17, korpus + deklaracja gracza) Szczury: zabójstwo = normalna statystyka
+  zabitych; kasa za oddanie ciała = przychód bounty „zapłata za szczury" (wzorzec
+  give-and-pay: komentarz NPC z kwotą + `wrecza ci monety`), nie realizacja zlecenia.
+  Adler → Nuln, szczurolap → Novigrad (do potwierdzenia tagiem NPC).
+- (2026-09-17, korpus) Linie `Dajesz/Oddajesz`: pełny katalog wykluczeń (paczka,
+  naprawa, gracz, bilet transportowy, „nie dajesz rady"); odmowa NPC `A po co mi to
+  dajesz?` jako osobne zdarzenie nieudanej próby.
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
