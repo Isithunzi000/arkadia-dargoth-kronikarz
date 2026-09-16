@@ -49,20 +49,24 @@ Maszyna stanów przeniesiona z modułu `analizator` repo arkadia-python-toolkit
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
 | Odbiór paczki | `<NPC> przekazuje ci jakas paczke.` (NPC anonimowy lub nazwany) | kod + korpus (17 wariantów) |
-| Lista ofert (cel, nagroda, limit czasu) | `packageLineRegex` (miasto + zł/sr/mdz + czas); ciężkie przesyłki oznaczone `*` (`Symbolem * oznaczono przesylki ciezkie.`); komenda `wybierz paczke N` | kod + korpus |
+| Lista ofert (cel, nagroda, limit czasu) | `packageLineRegex` (miasto + zł/sr/mdz + czas `N` lub `nieogr.`) — regex niekotwiczony do końca linii, **toleruje kolumnę `Dystans` i linie `> dystans: N` wstrzykiwane przez klienta w logach HTML** (12/12 ofert testowych, łowisko low_zlecen); ciężkie przesyłki oznaczone `*` (`Symbolem * oznaczono przesylki ciezkie.`); komenda `wybierz paczke N`, wariant `wybierz przesylke N` (wiki); odliczanie limitu w kliencie startuje od pokazania tablicy (`listTime`) — Kronikarz kotwiczy na zdarzeniu odbioru | kod + korpus + wiki |
 | Etykieta paczki | `Wypisano na niej duzymi literami: <...>` w trzech strukturach: 3-członowa `NAZWA, PROFESJA, MIASTO` (121 próbek, nazwa 1–3 słowa), 2-członowa `NAZWA, MIASTO` (9, np. `ANTONIO, CAMPOGROTTA.`), 1-członowa paczka do samej poczty `POCZTA W <MIEŚCIE>` / `POCZTA MIASTA <MIASTO>` (5); sufiks pilności ` - PILNE!` (24) jako flaga metadanych; opcjonalna linia `Ponizej zas odczytujesz drobniejsze pismo:` | korpus |
 | Cudzy odbiór (flavor) | `<NPC> przekazuje <komuś innemu> jakas paczke.` — ignorowane; odbiór własny kotwiczony na `przekazuje ci` | korpus |
 | Dostawa | `^Oddajesz pocztowa paczke <opis adresata w dopełniaczu>\.$` + wypłata (patrz niżej); łańcuch potwierdzony kontekstami: `Odkladasz plecak` → `Bierzesz pocztowa paczke...` → `Oddajesz pocztowa paczke X.` → `X wyplaca ci ...` | kod + korpus (16+ wariantów opisów) |
-| Zwrot | `^Zwracasz pocztowa paczke` (brak wypłaty) | kod (PackageHelper + tjurczyk); **zero wystąpień w korpusie** — ścieżka rzadka, pattern bez potwierdzenia korpusowego |
+| Zwrot | kotwica na **echu komendy** `→ zwroc paczke` (korpus III: 4×) + linia wynikowa `^Zwracasz pocztowa paczke` w trybie capture (korpus: N=0 w 3,86 mln linii); mechanika potwierdzona wiki: zwrot w urzędzie, z którego pobrano paczkę, niewielki spadek reputacji; helpery klienckie traktują zwrot jak dostawę (`^(Oddajesz|Zwracasz)`) — Kronikarz rozróżnia; brak wypłaty | kod (PackageHelper + tjurczyk) + korpus (echo) + wiki (mechanika); linia wynikowa: capture |
 | Spóźnienie | `<NPC> mowi do ciebie: Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.` — dostawa po terminie, **wypłata pomniejszona**; dotychczasowa flaga `Dostarczyles przesylke po terminie` z toolkitu zostaje jako wariant | kod (toolkit) + **korpus III** (łowisko 2026-09-17: 4+ wystąpień; NPC: Luter/Andolf, Guy/Gautier, Lit, anonimowy) |
 | Wypłata | `wyplaca ci <waluta>` (waluta wymagana; multi-nominał ze spójnikiem `i`, końcówki `moneta/monety/monet`) LUB `otrzymujesz <waluta>` w oknie ≤ 2 linie od dostawy, bez frazy ` od <kogoś>` | kod + korpus (15 wystąpień; dominuje 4 sr 2 mdz, występują 3-nominałowe) |
 | Nieudany odbiór | `Pocztowa paczka jest zbyt ciezka.`, `Lista przesylek zmienila sie i ta, ktora chcesz podjac byc moze nie jest juz ta, ktora widziales w spisie...` | korpus (15× / 34×) |
 | Kamień milowy zaufania | `Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac.`, `Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke.` | korpus (14× / 45×) |
 | Odmowa odbioru | `Ty juz dla nas dostatecznie ciezko zapracowales`, `Nie ufam ci na tyle, aby powierzyc ci dostarczenie tej przesylki`, `Cos ci sie chyba pomylilo, nie ma takiej oferty`, `nie widzisz tu nikogo, od kogo mozna by wziac zlecenie`; filtrowanie cudzych odmów: liczą się tylko linie `mowi do ciebie`, nie `mowi do <inny gracz>` | kod (tjurczyk) + korpus |
 | Nieoddana | paczka otwarta bez domknięcia; persystowana między sesjami, widoczna w raporcie jako „w toku" | projekt |
+| Reputacja pocztowa | licznik heurystyczny per rewir (dostawa +1, spóźnienie/zwrot −1, zagubienie = blokada ofert ~24 h); kalibracja komendą `sprawdz swoja reputacje` (linia wynikowa nieznana — capture); kamienie milowe zaufania (wiersz wyżej) jako pośredni sygnał progu | wiki + korpus |
 
 Statusy paczki: **dostarczona, spóźniona, zwrócona, nieoddana** — wszystkie obsługiwane.
 Ekwiwalent `_merge_cross_session` z toolkitu: paczka w toku przetrwa relogin (storage).
+Weryfikacja referencyjna: moduł paczek toolkitu jest operacyjny na logach (pary
+odbiór/dostawa, spóźnione `[OPOZ]`, nieoddane, zarobek) — jego raport służy jako
+niezależny wzorzec dla testów regresji maszyny Kronikarza.
 
 Kanały premium (API pluginów klienta):
 - event `packageStatus` = `{recipient, seconds, location}` — adresat, odliczanie do
@@ -75,6 +79,23 @@ Kanały premium (API pluginów klienta):
 
 Raport „plan vs wykonanie": z listy ofert znana jest obiecana nagroda i limit czasu,
 więc kronika pokazuje rozbieżności (obiecane vs wypłacone, limit vs rzeczywisty czas).
+
+**Mechanika czasowa i reputacji (wiki „Pocztylioni", 2026-09-17):** reputacja liczona
+osobno per rewir pocztowy; dostawa ją podnosi, spóźnienie, zwrot i zagubienie
+obniżają. Oferty skalują się reputacją: paczki lokalne (~1 zł), bliższe (2–4 zł),
+dalsze (5–9 zł), najdalsze (10–12 zł, wszystkie do 45 zł). Ciężar paczki ograniczony
+(~50 kg; blokada `Pocztowa paczka jest zbyt ciezka.`, korpus 15×). Paczka nieoddana
+znika 6 h po wylogowaniu (liczone od pobrania); zagubienie blokuje nowe oferty na
+~24 h. Zwrot możliwy w urzędzie, z którego paczka została pobrana (niewielki spadek
+reputacji). Licencja pocztowa (Tilea) poza katalogiem — brak kotwic w korpusie.
+
+**Baza adresatów (kod klienta + korpus, 2026-09-17):** zdalna baza NPC
+(`arkadia-mapa/data/npc.json`, 637 rekordów, TTL 24 h, merge z wpisami lokalnymi,
+dedupe po `name-loc`) pokrywa 111/111 adresatów-osób z korpusu — douczanie lokalne
+potrzebne wyłącznie dla nowych NPC. Etykiety 1-członowe (`POCZTA W X` / `POCZTA
+MIASTA X`, 5 próbek) celowo poza bazą NPC: mapowane na lokacje poczt (§5), nie na
+osoby. Parser etykiety klienta (PackageHelper) łapie tylko pierwszy człon (nazwę) —
+Kronikarz parsuje wszystkie trzy struktury + sufiks ` - PILNE!`.
 
 ### 2.2 Pieniądze
 
@@ -563,6 +584,18 @@ Domknięte na łowisku v2 2026-09-17 (sekcje B+, D+, E1/E10, konteksty):
 11. ~~System wpisów `* `~~ — to listing komendy `wiedza` (migawka wiedzy), nie
     dziennik questów; wpis-czyn = jednorazowy koroborant (§6.2).
 
+Domknięte na pełnej analizie źródeł paczek 2026-09-17 (korpus III + kod klienta
+PackageHelper/deliveryStats/npcStore + tjurczyk assistant.lua + wiki „Pocztylioni"):
+12. ~~Zwrot paczki — status dowodowy~~ — linia wynikowa `Zwracasz pocztowa paczke`
+    nadal N=0 w korpusie, ale mechanika potwierdzona wiki, a echo `→ zwroc paczke`
+    występuje (4×); detekcja kotwiczy na echu, linia w trybie capture (§2.1).
+13. ~~Czy backfill ofert działa na starych logach~~ — tak: tablice w logach są już
+    zmodyfikowane przez klienta (kolumna `Dystans`, linie `> dystans: N`); regex
+    niekotwiczony parsuje 12/12 ofert testowych (§2.1).
+14. ~~Pokrycie adresatów w bazie NPC~~ — 111/111 adresatów-osób korpusu obecnych
+    w zdalnej bazie npc.json (637 rekordów); 5 etykiet pocztowych mapowanych na
+    lokacje poczty (§2.1).
+
 Nadal otwarte:
 1. Linia finalizacji zlecenia (po ostatniej dostawie — w korpusie zlecenie nie
    zostało ukończone: wciąż „potrzebuje jeszcze ponad kilogram") — tryb capture.
@@ -572,6 +605,8 @@ Nadal otwarte:
    kroniki — decyzja odłożona.
 4. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
+5. Linia wynikowa komendy `sprawdz swoja reputacje` — nieznana (komenda nieużywana
+   w korpusie) — tryb capture; reputacja śledzona heurystycznie per rewir (§2.1).
 
 ---
 
@@ -645,6 +680,21 @@ Podjęte:
   postaci) — jednorazowy koroborant czynów, nie licznik ani dziennik zdarzeń (§6.2).
 - (2026-09-17, łowisko v2) Znacznik zabójstwa: regex `^\[\s*ZABIL(?:ES|A|)\s*\]`
   (dopełnienie spacjami); forma trzecioosobowa drużyny objęta (§2.5).
+- (2026-09-17, korpus III + wiki + kod) Zwrot paczki: kotwica na echu `→ zwroc
+  paczke` (4× korpus), linia wynikowa capture; mechanika wiki (urząd źródłowy,
+  niewielki spadek reputacji); helpery klienckie nie rozróżniają zwrotu — Kronikarz
+  rozróżnia (§2.1).
+- (2026-09-17, kod klienta + korpus III) Parser ofert paczek toleruje modyfikacje
+  klienta w logach HTML (kolumna `Dystans`, linie `> dystans: N`) — regex
+  niekotwiczony, 12/12 ofert testowych; odliczanie limitu kotwiczone na odbiorze,
+  nie na pokazaniu tablicy (§2.1).
+- (2026-09-17, wiki) Reputacja pocztowa: licznik heurystyczny per rewir (dostawa +1,
+  spóźnienie/zwrot −1, zagubienie = blokada ~24 h), kalibracja komendą `sprawdz
+  swoja reputacje` (capture); mechaniki: 6 h po wylogowaniu, progi cenowe, limit
+  ~50 kg (§2.1).
+- (2026-09-17, kod klienta + korpus) Baza adresatów paczek: zdalna npc.json (637
+  rekordów, TTL 24 h) + douczanie lokalne; pokrycie korpusu 111/111; etykiety
+  pocztowe mapowane na lokacje poczty (§2.1).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
