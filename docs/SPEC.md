@@ -110,13 +110,18 @@ zdarzenie ewentualnie jako statystyka.
    miedzianych monet i zamawiasz wybrany smakolyk.`) — kotwica na kwocie, nie na
    końcu linii.
 
-**Kantor — zdarzenie bez kwoty (dowód korpusowy):** komenda `zdenominuj` (81 ech)
+**Kantor — pełne zdarzenie bez kwoty (dowód korpusowy):** komenda `zdenominuj` (81 ech)
 drukuje wyłącznie `Twoje pieniadze zostaly zdenominowane.` (61×) lub `Twoje pieniadze
 juz sa maksymalnie zdenominowane.` (20×); w kontekstach ±3 linie zero kwot. Zapisujemy
-zdarzenie denominacji (fakt, timestamp, lokacja), bez wpływu na księgę. Z tabliczek
+pełnoprawne zdarzenie denominacji: timestamp (log-time w backfillu / czas live),
+lokacja (live: GMCP `room.info`; backfill: nazwa pokoju — pokoje korpusowe: `Kantor
+banku w Daevon.`, `Kantorek Vimme Vivaldiego.`, `Posterunek celny i kantor wymiany
+walut.`, `Niewielki kantorek.`, generyczny `Kantor.`) oraz wynik (wykonana /
+maksymalnie zdenominowane). Zdarzenie wchodzi do osi czasu, wyszukiwania i filtrów
+jak każde inne; statystyki: łącznie, per kantor, per postać, per sesja. Z tabliczek
 kantorów: `Za kazda transakcje pobieramy tylko 8 procent prowizji.` — prowizja 8%
 pozostaje niewidzialnym mikrowydatkiem (wymiana nie zmienia majątku poza prowizją).
-Świadomie poza bilansowaniem.
+Świadomie poza bilansowaniem — ale nie poza kroniką.
 
 **Nie istnieje w grze:** kradzież/okradzenie — poza katalogiem.
 
@@ -389,9 +394,14 @@ wejść z IndexedDB i z JSON-a.
 ## 8. Interfejs użytkownika
 
 Popup pluginu (registerPersistentPopup + addPopupMenuEntry), zakładki:
-- **Oś czasu / dziennik** — chronologiczny strumień zdarzeń z filtrami typu i postaci.
+- **Oś czasu / dziennik** — chronologiczny strumień zdarzeń. **Filtry globalne
+  (obowiązują we wszystkich zakładkach): zakres dat (od–do), typy zdarzeń, postać.**
+  Każde zdarzenie ma timestamp (log-time z HTML w backfillu albo czas live), więc
+  każde bez wyjątku jest przyporządkowane do czasu i filtrowalne — nic nie jest
+  redukowane do gołego licznika.
 - **Finanse** — bilans gotówka/banki, przychody/wydatki/transfery, wykresy (wszystkie
-  kategorie, również pokrywające się z licznikami klienta — celowa pełność).
+  kategorie, również pokrywające się z licznikami klienta — celowa pełność);
+  denominacje kantorowe: statystyki łącznie, per kantor, per postać, per sesja.
 - **Paczki** — statusy (dostarczona/spóźniona/zwrócona/nieoddana), plan vs wykonanie,
   trasy i rentowność (czas, zarobek/h, min/max), odmowy.
 - **Zlecenia** — aktywne z deadline, zrealizowane, rentowność.
@@ -479,12 +489,19 @@ Podjęte:
   adresatami paczek, a ich `wyplaca ci` to wypłaty paczkowe (dowód: konteksty).
 - (2026-09-16, korpus II) `Oddajesz ... ze stojka, placac ...` = usługa naprawy
   (krawcy/kowale), osobna kategoria wydatku, nie zakup.
+- (2026-09-17, decyzja) Kantor NIE jest degradowany do licznika: denominacja to pełne
+  zdarzenie {timestamp, lokacja, wynik} w osi czasu; statystyki łącznie + per kantor
+  + per postać + per sesja (§2.2, §8).
+- (2026-09-17, decyzja) Mandat uniwersalny: każde zdarzenie kroniki ma timestamp
+  (log-time z HTML albo czas live) i podlega globalnym filtrom — zakresy dat i typy
+  zdarzeń; cel: 100% pokrycia i wykorzystania danych, zero degradacji do samych
+  liczników.
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
-- Denominacja w kantorze — niemierzalna bez porównania ekwipunku (potwierdzone na
-  korpusie: zero kwot w kontekstach `zdenominuj`); zapisujemy samo zdarzenie; prowizja
-  8% (tabliczki kantorów) poza bilansowaniem.
+- Kwota denominacji w kantorze — niemierzalna bez porównania ekwipunku (potwierdzone
+  na korpusie: zero kwot w kontekstach `zdenominuj`); samo zdarzenie pełnoprawne
+  (§2.2); prowizja 8% (tabliczki kantorów) poza bilansowaniem.
 - Śmierć członka drużyny — możliwa tylko live (GMCP `living`), odłożona.
 - Twardy gate lokalizacji — fałszywe negatywy + unicestwia backfill.
 
