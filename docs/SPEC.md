@@ -97,7 +97,9 @@ Przeliczniki (dwa niezależne źródła: Towarzysz `coins.ts` i toolkit `denomin
 **Twarda zasada:** linia bez jawnego nominału (`monet` + liczba/liczebnik) nie ma wpływu
 na księgę. Frazy `daje ci / wrecza ci / przekazuje ci` bez waluty dotyczą rzeczy lub
 paczek, nie pieniędzy. Zakup bez kwoty (`Kupujesz butelke oleju.`) — zero wpływu,
-zdarzenie ewentualnie jako statystyka.
+zdarzenie ewentualnie jako statystyka. Antyprzykład korpusowy (łowisko v2): opis
+pokoju kantoru `kasjer szybko zgarnia wymieniane monety spogladajac...` łapie się
+we wzorzec `zgarnia ... monet` — reguła kwoty z liczbą odfiltrowuje go automatycznie.
 
 **Reguły parsera kwot (dowody z korpusu):**
 1. Multi-nominał ze spójnikiem `i` i przecinkami; odmiana `moneta/monety/monet` zależna
@@ -148,7 +150,7 @@ Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
 | Oferta | `.+? \S+ do [^:]+: Tak, mam pewne pilne zamowienie na ([^.]+)\. Potrzebuje (?:jeszcze )?([^.,]+?)(?:, przynajmniej ([^.]+) jakosci)?\.` | kod |
 | Termin | `.+? \S+ do [^:]+: Na realizacje zamowienia mam ... (dni/dzien/godzin/godziny/godzine), pozniej zapewne bede potrzebowac czego innego\.` | kod |
 | Brak zlecenia | `.+? \S+ do [^:]+: Nie, w tej chwili niczego mi nie trzeba\. Zajrzyj moze za jakis czas\.` (zamyka kontekst, czyści kontrakty lokacji) | kod |
-| Realizacja | `<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.` — jednoliniowa (towar+kwota); **dostawy częściowe możliwe** (kolejne linie tego samego NPC z tym samym towarem). Dowód: oferta „czterech kilogramow miesa z zajaca" (00:32:07) → 41 s później dwie linie realizacji od `Wysoki zwinny mezczyzna` (4 zł 8 sr 4 mdz + 4 zł 13 sr). Samo `odbiera od ciebie` jest **trójznaczne** (blok niżej) — kotwica na pełnej formie z `i wrecza ci`; reguła §4 (kolizja ze sprzedażą) bez zmian | korpus III (łowisko 2026-09-17) |
+| Realizacja | **Sekwencja (konteksty łowiska v2):** echo komendy `→ daj <towaru> <NPC>` (dopełniacz partitywny, np. `→ daj miesiwa mezczyznie`) → **para linii na każdą sztukę**: `<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostała ilość>.` (tracker postępu, warianty: „dwoch kilogramow", „ponad kilogram") + `<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.` **Brak linii `Dajesz/Oddajesz` po stronie gracza** — dowód to echo + linie NPC. Jedna komenda `daj` może dać N dostaw. Dowód: oferta „czterech kilogramow miesa z zajaca" (00:32:07) → 41 s później dwie pary postęp+zapłata od `Wysoki zwinny mezczyzna` (4 zł 8 sr 4 mdz + 4 zł 13 sr; zlecenie nieukończone w logach — linia finalizacji nieznana, tryb capture). Samo `odbiera od ciebie` jest **trójznaczne** (blok niżej) — kotwica na pełnej formie z `i wrecza ci`; reguła §4 (kolizja ze sprzedażą) bez zmian. Lokalizacja dowodu: Parravon | korpus III + łowisko v2 (2026-09-17) |
 | Realizacja give-based (bounty) | `Dajesz/Oddajesz <NPC> <przedmiot>.` + okno: `<NPC> mowi do ciebie: ... daje <kwote> ... .` i/lub `<NPC> wrecza ci monety.` (kwota w komentarzu NPC, linia wręczenia bez kwoty — łączyć w oknie). Potwierdzone: Adler, ciała szczurów | korpus (grepy 2026-09-17) |
 | Odmowa dawania | `<NPC> mowi do ciebie: A po co mi to dajesz?` — nieudana próba `daj` (NPC nie chce towaru), osobne zdarzenie | korpus (6× Adler) |
 | Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.`, `Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.` | korpus (Lucciano, Benito, Aubert, Naula/Rudolf) |
@@ -193,8 +195,20 @@ prace`). Wykluczenia szumu: „Szczurolap" to także **tytuł zawodowy graczy** 
 (`Szczurolap, halfling`, `Doswiadczony Szczurolap` — 419×/187×, np. Krux Wald, Dove
 Livett) — nie mylić z NPC; `szczury ladowe` to obelga żeglarska; maskotka `szary
 szmaciany szczur` (prezenty dla graczy) — separacja od ciał potwierdzona oknem
-kasowym (9 dań graczom, zero kasy w 90 s). Surowa forma linii dawania ciał (liczba
-mnoga?) — §10 pkt otwarty.
+kasowym (9 dań graczom, zero kasy w 90 s).
+
+**Linia dawania ciał nie istnieje (łowisko v2, E10):** w całym korpusie zero linii
+`Dajesz/Oddajesz ... cial*` do jakiegokolwiek NPC (jedyna taka linia to ciało
+skavena wręczone **graczowi**) — sekwencja bounty kotwiczy na **echu komendy**
+(`→ daj ciala szczurolapowi`, liczba mnoga) + liniach NPC (`oglada uwaznie cialo`
+lub `... sterte szczatkow szczura.` → komentarz z ceną → `wrecza ci monety` →
+`usmiecha sie z zadowoleniem.`). Bounty obejmuje też **ciala skavenów** (wpis
+wiedzy `Dostarczyles cialo skavena szczurolapowi z Nuln.` — §6.2). Obydwa NPC-e
+zaczepiają gracza szeptem: `Jesli chcesz zarobic troche grosza, to szukam kogos do
+pomocy. <zapytaj szczurolapa o prace>...` (Adler dodatkowo wariant bezpośredni:
+`Zapytaj mnie o prace, to wyjasnie szczegoly.`). Sesja korpusowa: polowanie
+2025-12-14 23:03–23:09 (15 szczurów, licznik (1/1)→(15/15)), potem 7× odmowa
+`A po co mi to dajesz?` (23:12:53 — spam `daj` niewłaściwym przedmiotem).
 
 **Katalog wykluczeń dla linii `Dajesz/Oddajesz` (korpus, grepy 2026-09-17):**
 1. `Oddajesz pocztowa paczke ...` — paczki (§2.1).
@@ -227,6 +241,11 @@ patternami.
 **Uwaga korpusowa (zabici):** surowa forma `Zabiles X.` w logach HTML **nie występuje**
 — klient przepisuje linię przed zapisem (prefix `[ ZABILES ]` / `[ ZABIL ]` /
 `[ ZABILA ]`, suffix licznika). Parser backfillu kotwiczy na przepisanej formie.
+**Znacznik ma dopełnienie spacjami do stałej szerokości** (łowisko v2: 1796 linii
+`[ ZABIL* ]` w korpusie): `[  ZABILES  ]` (2 spacje), `[   ZABIL   ]` /
+`[   ZABILA   ]` (3 spacje) — regex kotwiczy na `^\[\s*ZABIL(?:ES|A|)\s*\]`
+(sztywna pojedyncza spacja gubi 100% trafień). Forma trzecioosobowa drużyny też
+dotyczy szczurów (`[   ZABILA   ]  Gwenn zabila brudnego smierdzacego szczura.`).
 Szum do odfiltrowania: plotki NPC (`mowi: A wczoraj to... zabil`), opisy lokacji
 (`kosciotrup`, trupy), nazwy własne (Trupa Trupi Trup). Linie walki otoczenia noszą
 tagi `[1/6]`, `[par]`, `[unk]`. Zabójstwa szczurów (exp + bounty u szczurolapów) bez
@@ -420,6 +439,17 @@ ze swojej sakiewki/plecaka`, `→ wez <denominacja> monety z N. ciala` — trans
 między pojemnikami i looting monet z ciał; nie są przychodem/wydatkiem (loot z ciała
 księguje się z linii `Bierzesz/Dostajesz`), ale są markerami kontekstu.
 
+**Echo `→ wiedza` — migawka wiedzy postaci (łowisko v2):** komenda `wiedza` drukuje
+kategorie wiedzy i wpisy z prefiksem `* ` — stworzenia widziane (`* Widziales
+szczuroczleka.`), przedmioty oglądane (`* Ogladales amulet kultystow Rogatego
+Szczura.`), czyny wykonane (`* Dostarczyles cialo skavena szczurolapowi z Nuln.`).
+To **migawka na żądanie** (jak `postepy`/`cechy`), nie dziennik zdarzeń: liczniki
+wystąpień wpisów = częstotliwość komendy, nie zdarzeń. Wpis-czyn to **jednorazowy
+koroborant** („zdarzenie zaszło kiedyś przed tą migawką") — nigdy licznik ani
+znacznik czasu wykonania. Pokrewne linie: `Wiedza o <kategorii>:` (nagłówek
+kategorii) i `Wydaje ci sie, ze twoja wiedza o <kategorii> wzrosla ...` (wzrost
+wiedzy — kandydat na zdarzenie postępu wiedzy, decyzja odłożona).
+
 **Dedup po treści** (hash linii + czas), nie po nazwie sesji — ta sama sesja może
 wejść z IndexedDB i z JSON-a.
 
@@ -519,13 +549,28 @@ Domknięte na łowisku low_zlecen 2026-09-17 (korpus III, sekcje A–K, 576 sesj
    klienta (LogExportData v1, 1892 wpisy) — strukturalny backfill pokoi/NPC/mowy
    (§6.2); większa próbka potwierdzi kompletność.
 
+Domknięte na łowisku v2 2026-09-17 (sekcje B+, D+, E1/E10, konteksty):
+8. ~~Surowa forma linii dawania ciał~~ — **linia nie istnieje**: zero `Dajesz/
+   Oddajesz ... cial*` do NPC w korpusie; `daj` do NPC questowych drukuje wyłącznie
+   echo komendy + linie NPC (§2.4 realizacja i bounty).
+9. ~~Anomalia E1=0~~ — znacznik zabójstwa ma **dopełnienie spacjami** (`[  ZABILES  ]`,
+   `[   ZABIL   ]`, `[   ZABILA   ]`); sztywna spacja w regexie gubiła 100% trafień;
+   korpus ma 1796 linii `[ ZABIL* ]`, w tym 37 zabójstw szczurów (23 unikalne) i
+   zabójstwa drużynowe (Gwenn).
+10. ~~Pełna sekwencja realizacji~~ — echo `→ daj <towaru> <NPC>` → para {postęp
+    `Dziekuje, potrzebuje jeszcze ...` + zapłata `odbiera od ciebie ... i wrecza
+    ci ...`} ×N dostaw; jedna komenda = N dostaw (§2.4).
+11. ~~System wpisów `* `~~ — to listing komendy `wiedza` (migawka wiedzy), nie
+    dziennik questów; wpis-czyn = jednorazowy koroborant (§6.2).
+
 Nadal otwarte:
-1. Surowa forma linii dawania ciał szczurolapowi (liczba mnoga `oddaj ciala`?) —
-   łowisko v2, sekcja E10 (`Dajesz/Oddajesz ... cial*` bez kotwicy „szczur").
-2. Znacznik linii zabójstwa z twardą spacją (`&nbsp;` w `[ ZABILES ]`) — podejrzenie
-   przyczyny anomalii E1=0 (mechanizm porażki starego regexu potwierdzony testem);
-   diagnostyka łowiska v2 (licznik wszystkich `[ ZABIL* ]` + surowe próbki).
-3. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
+1. Linia finalizacji zlecenia (po ostatniej dostawie — w korpusie zlecenie nie
+   zostało ukończone: wciąż „potrzebuje jeszcze ponad kilogram") — tryb capture.
+2. Rola NPC-ów Szczuroslaw (`Niski korpulentny mezczyzna`) i Fuats (`Lysiejacy
+   szczurkowaty mezczyzna`) — niezidentyfikowani, bez kotwic finansowych.
+3. Wzrost wiedzy (`twoja wiedza o <kategorii> wzrosla ...`) jako osobne zdarzenie
+   kroniki — decyzja odłożona.
+4. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
 
 ---
@@ -590,6 +635,16 @@ Podjęte:
   nie zdarzenie finansowe (§2.4).
 - (2026-09-17, korpus III) Pole `type` eksportu JSON (LogExportData v1): potwierdzony
   zbiór 11 wartości — strukturalny backfill pokoi/NPC/mowy (§6.2).
+- (2026-09-17, łowisko v2) Realizacja zlecenia = sekwencja echo + para {postęp
+  `Dziekuje, potrzebuje jeszcze ...` + `odbiera od ciebie ... i wrecza ci ...`}
+  ×N dostaw; **brak linii `Dajesz` po stronie gracza** (§2.4).
+- (2026-09-17, łowisko v2) Bounty: kotwica na echu komendy + liniach NPC (linia
+  dawania ciał nie istnieje — E10); bounty obejmuje też **ciala skavenów** (wpis
+  wiedzy `Dostarczyles cialo skavena szczurolapowi z Nuln.`).
+- (2026-09-17, łowisko v2) Wpisy `* ` to listing komendy `wiedza` (migawka wiedzy
+  postaci) — jednorazowy koroborant czynów, nie licznik ani dziennik zdarzeń (§6.2).
+- (2026-09-17, łowisko v2) Znacznik zabójstwa: regex `^\[\s*ZABIL(?:ES|A|)\s*\]`
+  (dopełnienie spacjami); forma trzecioosobowa drużyny objęta (§2.5).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
