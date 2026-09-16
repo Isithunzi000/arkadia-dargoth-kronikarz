@@ -736,12 +736,22 @@
    "wycena": "Wydaje ci sie, ze jest wart/a/e okolo N miedziakow/a/i, czyli X zl, Y sr, Z mdz — potwierdza przeliczniki; wariant 'nie ma wiekszej wartosci'"
   },
   "kantor": {
-   "status": "niemierzalny kwotowo — potwierdzone: zero kwot w kontekstach 'zdenominuj' (81 ech)",
+   "status": "pelnoprawne zdarzenie kroniki — niemierzalne kwotowo (potwierdzone: zero kwot w kontekstach 'zdenominuj', 81 ech), ale timestampowane i lokalizowane",
    "linie": [
     "Twoje pieniadze zostaly zdenominowane. (61x)",
     "Twoje pieniadze juz sa maksymalnie zdenominowane. (20x)"
    ],
-   "prowizja": "Za kazda transakcje pobieramy tylko 8 procent prowizji. (tabliczki kantorow)",
+   "zdarzenie": "{timestamp (log-time w backfillu albo czas live), lokacja, wynik: wykonana | maksymalnie_zdenominowane}",
+   "lokalizacja": "live: GMCP room.info; backfill: nazwa pokoju z logu",
+   "pokoje_korpusowe": [
+    "Kantor banku w Daevon.",
+    "Kantorek Vimme Vivaldiego.",
+    "Posterunek celny i kantor wymiany walut.",
+    "Niewielki kantorek.",
+    "Kantor."
+   ],
+   "statystyki": "lacznie, per kantor, per postac, per sesja; filtry globalne (zakresy dat + typy zdarzen) obejmuja kantor jak kazde zdarzenie",
+   "prowizja": "Za kazda transakcje pobieramy tylko 8 procent prowizji. (tabliczki kantorow) — poza bilansowaniem, ale zdarzenie zostaje w kronice",
    "menu": [
     "zamienic miedz i srebro na zloto",
     "zamienic 1 mithrylowa monete na miedziane monety",
