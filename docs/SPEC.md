@@ -50,8 +50,9 @@ Maszyna stanów przeniesiona z modułu `analizator` repo arkadia-python-toolkit
 |---|---|---|
 | Odbiór paczki | `<NPC> przekazuje ci jakas paczke.` (NPC anonimowy lub nazwany) | kod + korpus (17 wariantów) |
 | Lista ofert (cel, nagroda, limit czasu) | `packageLineRegex` (miasto + zł/sr/mdz + czas); ciężkie przesyłki oznaczone `*` (`Symbolem * oznaczono przesylki ciezkie.`); komenda `wybierz paczke N` | kod + korpus |
-| Etykieta paczki | `Wypisano na niej duzymi literami: <IMIĘ>, <PROFESJA>, <MIASTO>.` (np. `LULECK, CZELADNIK KOWALSKI, KREUTZHOFEN`) + opcjonalna linia `Ponizej zas odczytujesz drobniejsze pismo:` | korpus (format szerszy niż w kodzie klienta: nie samo miasto) |
-| Dostawa | `^Oddajesz pocztowa paczke <opis adresata w dopełniaczu>\.$` + wypłata (patrz niżej) | kod + korpus (16+ wariantów opisów) |
+| Etykieta paczki | `Wypisano na niej duzymi literami: <...>` w trzech strukturach: 3-członowa `NAZWA, PROFESJA, MIASTO` (121 próbek, nazwa 1–3 słowa), 2-członowa `NAZWA, MIASTO` (9, np. `ANTONIO, CAMPOGROTTA.`), 1-członowa paczka do samej poczty `POCZTA W <MIEŚCIE>` / `POCZTA MIASTA <MIASTO>` (5); sufiks pilności ` - PILNE!` (24) jako flaga metadanych; opcjonalna linia `Ponizej zas odczytujesz drobniejsze pismo:` | korpus |
+| Cudzy odbiór (flavor) | `<NPC> przekazuje <komuś innemu> jakas paczke.` — ignorowane; odbiór własny kotwiczony na `przekazuje ci` | korpus |
+| Dostawa | `^Oddajesz pocztowa paczke <opis adresata w dopełniaczu>\.$` + wypłata (patrz niżej); łańcuch potwierdzony kontekstami: `Odkladasz plecak` → `Bierzesz pocztowa paczke...` → `Oddajesz pocztowa paczke X.` → `X wyplaca ci ...` | kod + korpus (16+ wariantów opisów) |
 | Zwrot | `^Zwracasz pocztowa paczke` (brak wypłaty) | kod (PackageHelper + tjurczyk); **zero wystąpień w korpusie** — ścieżka rzadka, pattern bez potwierdzenia korpusowego |
 | Spóźnienie | `Dostarczyles przesylke po terminie` (flaga na otwartej paczce) | kod (toolkit); **zero wystąpień w korpusie** — jw. |
 | Wypłata | `wyplaca ci <waluta>` (waluta wymagana; multi-nominał ze spójnikiem `i`, końcówki `moneta/monety/monet`) LUB `otrzymujesz <waluta>` w oknie ≤ 2 linie od dostawy, bez frazy ` od <kogoś>` | kod + korpus (15 wystąpień; dominuje 4 sr 2 mdz, występują 3-nominałowe) |
@@ -85,6 +86,7 @@ Przeliczniki (dwa niezależne źródła: Towarzysz `coins.ts` i toolkit `denomin
 | Łup / kasa otrzymana | `^Bierzesz ...`, `^Dostajesz (.+)\.$`, `^Otrzymujesz (.+)\.$`, `wyplaca ci (.+)` | kod (Towarzysz LOOT_PATTERNS) + korpus |
 | Wydatek | `^Kupujesz `, `^Placisz ` (obejmuje przejazdy: `Placisz <komu> <kwota>` oraz wariant bez kwoty `Placisz woznicy i wspinasz sie...`), `zgarnia ... monet` (z dowolnym wtrętem, np. `drapieznym ruchem zgarnia`), `odbiera od ciebie ... monet ... w zamian za zakupion` | kod (Towarzysz SPEND_PATTERNS) + korpus |
 | Wydatek z resztą | `Placisz <kwota> i dostajesz <kwota> reszty.` — wydatek netto = zapłacone − reszta; reszta potrafi zawierać mithryl (`Placisz 1 mithrylowa monete i dostajesz 64 zlote, 47 srebrnych i 27 miedzianych monet reszty.`) | korpus |
+| Usługa: naprawa | `Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.` — oddanie ubioru krawcowi (Novigrad, Campogrotta, Nuln) lub oreża/zbroi kowalowi do naprawy; wydatek kategorii „usługa", nie zakup | korpus + wiedza domenowa |
 | Reszta od NPC | `<NPC> <wtręt dowolny> wrecza ci <kwota>( reszty)?\.` (np. `z ogromna niechecia wrecza ci 20 miedzianych monet.`) — regex przepuszcza dowolny wtręt między podmiotem a czasownikiem | korpus |
 | Transfer gracz→gracz | `<Gracz> daje ci <moneta>.` (wielka litera imienia, brak tagu `(NPC)`) — przychód oznaczany jako transfer od gracza | korpus (Gwenn, Ulik) |
 | Sprzedaż | `^Sprzedajesz ` + zapłata osobną linią przychodu | kod (Towarzysz SELL_PATTERNS) + korpus |
@@ -140,13 +142,24 @@ Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
 | Oferta | `.+? \S+ do [^:]+: Tak, mam pewne pilne zamowienie na ([^.]+)\. Potrzebuje (?:jeszcze )?([^.,]+?)(?:, przynajmniej ([^.]+) jakosci)?\.` | kod |
 | Termin | `.+? \S+ do [^:]+: Na realizacje zamowienia mam ... (dni/dzien/godzin/godziny/godzine), pozniej zapewne bede potrzebowac czego innego\.` | kod |
 | Brak zlecenia | `.+? \S+ do [^:]+: Nie, w tej chwili niczego mi nie trzeba\. Zajrzyj moze za jakis czas\.` (zamyka kontekst, czyści kontrakty lokacji) | kod |
-| Realizacja | kontekst: pokój aktywnego zlecenia + kasa-przychód **bez dowodu sprzedaży** (patrz reguła §4); korpus: wypłaty `wyplaca ci 4 srebrne i 2 miedziane monety` (50 mdz) od nazwanych NPC-zleceniodawców z Tilei (Lucciano, Valenzo, Thomas, Garvazzo, Nazario, Georgio, Daniel/Paolo, Nanetta, Don/Rovigo, Boreg, Luleck) — zgodne z profilem zapłaty za świeży towar | projekt + korpus |
-| Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.` | korpus (Benito, Aubert, Naula/Rudolf) |
+| Realizacja | kontekst: pokój aktywnego zlecenia + kasa-przychód **bez dowodu sprzedaży** (patrz reguła §4). Dokładna linia oddania towaru bez próbki korpusowej (w korpusie nie ma realizacji) — domknięcie na trybie capture | projekt |
+| Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.`, `Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.` | korpus (Lucciano, Benito, Aubert, Naula/Rudolf) |
+| Oferta (warianty korpusowe) | towar na wagę: `Potrzebuje trzydziestu jeden kilogramow miesa z sarny. Dobrze zaplace!`; z jakością: `Potrzebuje osmiu tarcz, przynajmniej sredniej jakosci. Dobrze zaplace za kazda sztuke.`; z rozmiarem/typem: `dziesieciu srednich ryb slodkowodnych`; sufiksy `Dobrze zaplace!` / `Dobrze zaplace za kazda sztuke.` | korpus (Anatol, Ferdinand, Mortimer, Ghaadrav) |
+| Cudze oferty | oferty kierowane do innych graczy (`mowi do <ktoś>:` zamiast `mowi do ciebie:`) — ignorowane | korpus |
 | Tablica bounty | `| Zleceniodawca | Scigana osoba | Data` | korpus |
 
-**Kolizja kategorii (korpus):** `Pracownik poczty mowi: Mam (calkiem) nowe zlecenia.`
-to ogłoszenie o **paczkach**, nie kontrakt. Słowo „zlecenie" bez kontekstu nadawcy jest
-dwuznaczne — na poczcie oznacza oferty paczek.
+**Kolizje kategorii (korpus):**
+1. `Pracownik poczty mowi: Mam (calkiem) nowe zlecenia.` to ogłoszenie o **paczkach**,
+   nie kontrakt — słowo „zlecenie" bez kontekstu nadawcy jest dwuznaczne.
+2. **Zleceniodawcy są jednocześnie adresatami paczek** (etykiety: `LUCCIANO,
+   HANDLARZ, EBINO`; `RUDOLF KARCZMARZ, NULN`; `BENITO SANGIOVESI, RESTAURATOR,
+   KREUTZHOFEN`; `AUBERT GRIBAUX, RZEZNIK, QUENELLES`). Wypłaty `wyplaca ci` od tych
+   NPC w korpusie to wypłaty za **paczki** (dowód: konteksty `Oddajesz pocztowa
+   paczke X.` → `X wyplaca ci ...`). Wniosek: klasyfikacja kasy wyłącznie po dowodzie
+   (linia `Sprzedajesz` w oknie), nigdy po samym NPC czy kwocie.
+3. `odbierz zamowienie` / `zloz zamowienie` to **zamówienia rzemieślnicze** (wytwórcy:
+   `Przyjdz tedy i 'odbierz zamowienie'.`, `Przeciez nie skladales zadnego
+   zamowienia!`) — odrębna mechanika, nie mieszać ze zleceniami.
 
 Premium: odczyt storage klienta klucz `contracts` (aktywne zlecenia z `locationId`,
 przedmiotem, liczbą, jakością i deadline). Fallback: własne śledzenie tymi samymi
@@ -156,8 +169,16 @@ patternami.
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Zabójstwo własne | `^[ >]*Zabil(?<v>es|as) (?<name>...)\.$` | kod (klient: kill.ts); **brak próbek korpusowych** (postać korpusu nie walczyła — 0 linii w 3,86 mln) |
-| Zabójstwo drużyny | `^[ >]*(?<player>...) zabil(?<v>a?) (?<name>...)\.$` | kod (kill.ts); brak próbek korpusowych, jw. |
+| Zabójstwo własne | forma surowa (live, z kodu): `^[ >]*Zabil(?<v>es|as) (?<name>...)\.$`; **forma w logach HTML (backfill): klient przepisuje linię — `[ ZABILES ] Zabiles <name>. (<n> / <m>)`** | kod (kill.ts) + korpus (241 wyst., 103 unikalne) |
+| Zabójstwo drużyny | forma surowa: `^[ >]*(?<player>...) zabil(?<v>a?) (?<name>...)\.$`; w logach: `[ ZABIL ] <ktoś> zabil <name>. (n / m)`, `[ ZABILA ] <ktoś> zabila <name>. (n / m)` | kod (kill.ts) + korpus (174+150 wyst., 81+77 unikalnych) |
+| Suffix licznika | ` (n / m)` na końcu przepisanej linii — liczniki klienta; metadane gratis, parser toleruje i wykorzystuje | korpus |
+
+**Uwaga korpusowa (zabici):** surowa forma `Zabiles X.` w logach HTML **nie występuje**
+— klient przepisuje linię przed zapisem (prefix `[ ZABILES ]` / `[ ZABIL ]` /
+`[ ZABILA ]`, suffix licznika). Parser backfillu kotwiczy na przepisanej formie.
+Szum do odfiltrowania: plotki NPC (`mowi: A wczoraj to... zabil`), opisy lokacji
+(`kosciotrup`, trupy), nazwy własne (Trupa Trupi Trup). Linie walki otoczenia noszą
+tagi `[1/6]`, `[par]`, `[unk]`.
 | Premium live | eventy API `kill` {killer: ME/TEAM/OTHER} i `enemyKilled` {objNum, killer, hasBody} | kod (plugin-types) |
 | Premium historia | IndexedDB `ArkadiaKillsDB` (indeks `character`) | kod |
 
@@ -233,6 +254,8 @@ Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
   direction}.
 - Komendy gracza: event `command` — statystyki aktywności, kontekst odczytów
   (`cechy`, `postepy`, `depozyt`, `zdenominuj`).
+- Drużyna: przekazanie prowadzenia `[ DRUZYNA ] <ktoś> przekazuje ci prowadzenie
+  druzyny.` (prefix klienta; korpus: 25 wyst.) + eventy `teamChange`.
 
 ---
 
@@ -406,24 +429,26 @@ Popup pluginu (registerPersistentPopup + addPopupMenuEntry), zakładki:
 
 ## 10. Otwarte kwestie
 
-Domknięte na korpusie 2026-09-16 (3,86 mln linii, 576 sesji HTML):
-1. ~~Dokładne linie realizacji zlecenia~~ — linia oddania towaru nie wystąpiła
-   w kontekstach, ale wypłaty `wyplaca ci 4 sr 2 mdz` od nazwanych NPC-zleceniodawców
-   potwierdzają regułę §4 (kasa bez dowodu sprzedaży = zapłata za zlecenie); zasada
-   zostaje, ewentualne doprecyzowanie linii oddania na trybie capture (§8).
-2. ~~Potwierdzenie formy linii zwrotu paczki~~ — **zero** `Zwracasz pocztowa paczke`
+Domknięte na korpusie 2026-09-16 (3,86 mln linii, 576 sesji HTML; dwa przeloty —
+drugi z poprawionymi filtrami):
+1. ~~Potwierdzenie formy linii zwrotu paczki~~ — **zero** `Zwracasz pocztowa paczke`
    i **zero** `po terminie` w korpusie; statusy „zwrócona"/„spóźniona" zostają
    w katalogu (patterny z kodu), oznaczone jako ścieżki rzadkie bez potwierdzenia
    korpusowego.
-3. Weryfikacja korpusowa katalogu: paczki, postępy, cechy, śmierci, bank, kantor,
-   poczta, czas — potwierdzone (szczegóły w tabelach §2); zabójstwa — patrz niżej.
+2. ~~Zabójstwa: próbki korpusowe~~ — domknięte drugim przelotem: klient przepisuje
+   linię zabójstwa (`[ ZABILES ]` / `[ ZABIL ]` / `[ ZABILA ]` + suffix `(n / m)`),
+   565 wystąpień, 261 unikalnych próbek; surowa forma w logach nie występuje.
+3. Weryfikacja korpusowa katalogu: paczki (z etykietami 1/2/3-członowymi
+   i ` - PILNE!`), postępy, cechy, śmierci, bank, kantor, poczta, czas, zabici —
+   potwierdzone (szczegóły w tabelach §2).
 
 Nadal otwarte:
 1. Zbiór wartości pola `type` wpisów `ArkadiaMessagesDB` (rozróżnienie strukturalne
    komend/linii walki) — korpus pochodził z plików HTML, nie z IndexedDB.
-2. Zabójstwa: zero próbek korpusowych (postać korpusu nie walczyła). Patterny z kodu
-   kill.ts są wiarygodne; plan: testy na danych syntetycznych z kill.ts + opcjonalny
-   przelot korpusu na postaci walczącej przy okazji.
+2. Dokładna linia realizacji zlecenia (oddanie towaru): w korpusie brak realizacji;
+   wypłaty od nazwanych NPC okazały się wypłatami za paczki (dowód: konteksty).
+   Plan: celowe greppowanie surowych logów lub tryb capture przy pierwszym realnym
+   zleceniu (§8).
 3. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
 
@@ -448,6 +473,12 @@ Podjęte:
   (`[ POCZTA ] `, `[N] `, `[unk] `, `[x/y]`).
 - (2026-09-16, korpus) „Zlecenia" na poczcie = paczki (kolizja kategorii rozstrzygana
   po nadawcy/kontekście).
+- (2026-09-16, korpus II) Backfill zabójstw kotwiczy na formie przepisanej przez
+  klienta (`[ ZABIL(ES|A|) ] ... (n / m)`); surowa forma w logach nie występuje.
+- (2026-09-16, korpus II) Klasyfikacja kasy nigdy po NPC/kwocie: zleceniodawcy są
+  adresatami paczek, a ich `wyplaca ci` to wypłaty paczkowe (dowód: konteksty).
+- (2026-09-16, korpus II) `Oddajesz ... ze stojka, placac ...` = usługa naprawy
+  (krawcy/kowale), osobna kategoria wydatku, nie zakup.
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
