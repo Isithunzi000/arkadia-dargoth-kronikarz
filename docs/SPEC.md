@@ -1,7 +1,8 @@
 # Kronikarz — specyfikacja produktu
 
-Status: **planowanie** (analiza i zbieranie danych zakończone, implementacja nie rozpoczęta).
-Data sporządzenia: 2026-09-16.
+Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
+Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-16 (analiza korpusu:
+576 plików HTML klienta Dargoth, 3 865 554 linii, 13 kategorii patternów).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -35,8 +36,9 @@ dzięki architekturze, ale poza zakresem tego dokumentu.
 ## 2. Katalog zdarzeń
 
 Legenda kolumny „weryfikacja": **kod** = pattern potwierdzony w kodzie klienta,
-skryptów tjurczyka, Towarzysza lub python-toolkit; **korpus** = pattern do potwierdzenia
-na rzeczywistych logach gracza; **GMCP** = kanał czysto GMCP (brak backfillu z logów).
+skryptów tjurczyka, Towarzysza lub python-toolkit; **korpus** = pattern potwierdzony
+na rzeczywistych logach gracza (korpus 2026-09-16: 3,86 mln linii); **GMCP** = kanał
+czysto GMCP (brak backfillu z logów).
 
 ### 2.1 Paczki pocztowe
 
@@ -46,13 +48,16 @@ Maszyna stanów przeniesiona z modułu `analizator` repo arkadia-python-toolkit
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Odbiór paczki | `... przekazuje ci jakas paczke.` | kod (klient: PackageHelper, tjurczyk: assistant) |
-| Lista ofert (cel, nagroda, limit czasu) | `packageLineRegex` (miasto + zł/sr/mdz + czas), etykieta `Wypisano na niej duzymi literami: <MIASTO>` | kod (klient: PackageHelper) |
-| Dostawa | `^Oddajesz pocztowa paczke` + wypłata (patrz niżej) | kod |
-| Zwrot | `^Zwracasz pocztowa paczke` (brak wypłaty) | kod (PackageHelper + tjurczyk) |
-| Spóźnienie | `Dostarczyles przesylke po terminie` (flaga na otwartej paczce) | kod (toolkit) |
-| Wypłata | `wyplaca ci <waluta>` (waluta wymagana) LUB `otrzymujesz <waluta>` w oknie ≤ 2 linie od dostawy, bez frazy ` od <kogoś>` | kod + łatki własne |
-| Odmowa odbioru | `Ty juz dla nas dostatecznie ciezko zapracowales`, `Nie ufam ci na tyle, aby powierzyc ci dostarczenie tej przesylki`, `Cos ci sie chyba pomylilo, nie ma takiej oferty`, `nie widzisz tu nikogo, od kogo mozna by wziac zlecenie` | kod (tjurczyk) |
+| Odbiór paczki | `<NPC> przekazuje ci jakas paczke.` (NPC anonimowy lub nazwany) | kod + korpus (17 wariantów) |
+| Lista ofert (cel, nagroda, limit czasu) | `packageLineRegex` (miasto + zł/sr/mdz + czas); ciężkie przesyłki oznaczone `*` (`Symbolem * oznaczono przesylki ciezkie.`); komenda `wybierz paczke N` | kod + korpus |
+| Etykieta paczki | `Wypisano na niej duzymi literami: <IMIĘ>, <PROFESJA>, <MIASTO>.` (np. `LULECK, CZELADNIK KOWALSKI, KREUTZHOFEN`) + opcjonalna linia `Ponizej zas odczytujesz drobniejsze pismo:` | korpus (format szerszy niż w kodzie klienta: nie samo miasto) |
+| Dostawa | `^Oddajesz pocztowa paczke <opis adresata w dopełniaczu>\.$` + wypłata (patrz niżej) | kod + korpus (16+ wariantów opisów) |
+| Zwrot | `^Zwracasz pocztowa paczke` (brak wypłaty) | kod (PackageHelper + tjurczyk); **zero wystąpień w korpusie** — ścieżka rzadka, pattern bez potwierdzenia korpusowego |
+| Spóźnienie | `Dostarczyles przesylke po terminie` (flaga na otwartej paczce) | kod (toolkit); **zero wystąpień w korpusie** — jw. |
+| Wypłata | `wyplaca ci <waluta>` (waluta wymagana; multi-nominał ze spójnikiem `i`, końcówki `moneta/monety/monet`) LUB `otrzymujesz <waluta>` w oknie ≤ 2 linie od dostawy, bez frazy ` od <kogoś>` | kod + korpus (15 wystąpień; dominuje 4 sr 2 mdz, występują 3-nominałowe) |
+| Nieudany odbiór | `Pocztowa paczka jest zbyt ciezka.`, `Lista przesylek zmienila sie i ta, ktora chcesz podjac byc moze nie jest juz ta, ktora widziales w spisie...` | korpus (15× / 34×) |
+| Kamień milowy zaufania | `Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac.`, `Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke.` | korpus (14× / 45×) |
+| Odmowa odbioru | `Ty juz dla nas dostatecznie ciezko zapracowales`, `Nie ufam ci na tyle, aby powierzyc ci dostarczenie tej przesylki`, `Cos ci sie chyba pomylilo, nie ma takiej oferty`, `nie widzisz tu nikogo, od kogo mozna by wziac zlecenie`; filtrowanie cudzych odmów: liczą się tylko linie `mowi do ciebie`, nie `mowi do <inny gracz>` | kod (tjurczyk) + korpus |
 | Nieoddana | paczka otwarta bez domknięcia; persystowana między sesjami, widoczna w raporcie jako „w toku" | projekt |
 
 Statusy paczki: **dostarczona, spóźniona, zwrócona, nieoddana** — wszystkie obsługiwane.
@@ -77,20 +82,39 @@ Przeliczniki (dwa niezależne źródła: Towarzysz `coins.ts` i toolkit `denomin
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Łup / kasa otrzymana | `^Bierzesz ...`, `^Dostajesz (.+)\.$`, `wyplaca ci (.+) monet` | kod (Towarzysz LOOT_PATTERNS) |
-| Wydatek | `^Kupujesz `, `^Placisz ` (obejmuje przejazdy), `zgarnia ... monet`, `odbiera od ciebie ... monet ... w zamian za zakupion` | kod (Towarzysz SPEND_PATTERNS) |
-| Sprzedaż | `^Sprzedajesz ` + zapłata osobną linią przychodu | kod (Towarzysz SELL_PATTERNS) |
-| Liczby słowne | mapowanie liczebników polskich (Towarzysz `polishNumbers`, klient `contracts.ts` POLISH_NUMBERS) | kod |
-| Wartość ekwipunku | `Wydaje ci sie, ze (jest/sa) wart... mied` i warianty | kod (klient: priceEvaluation) |
+| Łup / kasa otrzymana | `^Bierzesz ...`, `^Dostajesz (.+)\.$`, `^Otrzymujesz (.+)\.$`, `wyplaca ci (.+)` | kod (Towarzysz LOOT_PATTERNS) + korpus |
+| Wydatek | `^Kupujesz `, `^Placisz ` (obejmuje przejazdy: `Placisz <komu> <kwota>` oraz wariant bez kwoty `Placisz woznicy i wspinasz sie...`), `zgarnia ... monet` (z dowolnym wtrętem, np. `drapieznym ruchem zgarnia`), `odbiera od ciebie ... monet ... w zamian za zakupion` | kod (Towarzysz SPEND_PATTERNS) + korpus |
+| Wydatek z resztą | `Placisz <kwota> i dostajesz <kwota> reszty.` — wydatek netto = zapłacone − reszta; reszta potrafi zawierać mithryl (`Placisz 1 mithrylowa monete i dostajesz 64 zlote, 47 srebrnych i 27 miedzianych monet reszty.`) | korpus |
+| Reszta od NPC | `<NPC> <wtręt dowolny> wrecza ci <kwota>( reszty)?\.` (np. `z ogromna niechecia wrecza ci 20 miedzianych monet.`) — regex przepuszcza dowolny wtręt między podmiotem a czasownikiem | korpus |
+| Transfer gracz→gracz | `<Gracz> daje ci <moneta>.` (wielka litera imienia, brak tagu `(NPC)`) — przychód oznaczany jako transfer od gracza | korpus (Gwenn, Ulik) |
+| Sprzedaż | `^Sprzedajesz ` + zapłata osobną linią przychodu | kod (Towarzysz SELL_PATTERNS) + korpus |
+| Liczby słowne | mapowanie liczebników polskich (Towarzysz `polishNumbers`, klient `contracts.ts` POLISH_NUMBERS); **listy mieszane**: słownie i cyfry w jednej linii (`szesc srebrnych monet, 76 zlotych monet i siedem miedzianych monet`) | kod + korpus |
+| Wartość ekwipunku | `Wydaje ci sie, ze (jest/sa) wart... mied` i warianty (w tym `nie ma wiekszej wartosci`); niezależne potwierdzenie przeliczników (170 mdz = 14 sr 2 mdz; 4600 mdz = 19 zł 3 sr 4 mdz) | kod (klient: priceEvaluation) + korpus |
 
 **Twarda zasada:** linia bez jawnego nominału (`monet` + liczba/liczebnik) nie ma wpływu
 na księgę. Frazy `daje ci / wrecza ci / przekazuje ci` bez waluty dotyczą rzeczy lub
-paczek, nie pieniędzy.
+paczek, nie pieniędzy. Zakup bez kwoty (`Kupujesz butelke oleju.`) — zero wpływu,
+zdarzenie ewentualnie jako statystyka.
 
-**Wykluczone jako niemierzalne:** denominacja w kantorze (komenda `zdenominuj` nie
-drukuje kwot; wykrycie wymagałoby porównania ekwipunku przed/po). Konsekwencja
-księgowa znikoma — wymiana nie zmienia majątku poza prowizją 3–8%, która pozostaje
-niewidzialnym mikrowydatkiem. Świadomie poza zakresem.
+**Reguły parsera kwot (dowody z korpusu):**
+1. Multi-nominał ze spójnikiem `i` i przecinkami; odmiana `moneta/monety/monet` zależna
+   od liczby.
+2. Potoczne nazwy denominacji: `miedziaki` (= mdz), `srebrniki` (= sr) — występują
+   w liniach `Kupujesz ..., placac N miedziakow/srebrnikow`.
+3. Mithryl w obiegu codziennym (wypłaty reszty, przelewy graczy, depozyty).
+4. Kwoty **nieznormalizowane** istnieją (`Dostajesz 15 srebrnych i 78 miedzianych
+   monet`) — parser nie zakłada, że mdz < 12 ani sr < 20.
+5. Zdanie może ciągnąć się po kwocie (`Placisz wlascicielce dwanascie srebrnych i szesc
+   miedzianych monet i zamawiasz wybrany smakolyk.`) — kotwica na kwocie, nie na
+   końcu linii.
+
+**Kantor — zdarzenie bez kwoty (dowód korpusowy):** komenda `zdenominuj` (81 ech)
+drukuje wyłącznie `Twoje pieniadze zostaly zdenominowane.` (61×) lub `Twoje pieniadze
+juz sa maksymalnie zdenominowane.` (20×); w kontekstach ±3 linie zero kwot. Zapisujemy
+zdarzenie denominacji (fakt, timestamp, lokacja), bez wpływu na księgę. Z tabliczek
+kantorów: `Za kazda transakcje pobieramy tylko 8 procent prowizji.` — prowizja 8%
+pozostaje niewidzialnym mikrowydatkiem (wymiana nie zmienia majątku poza prowizją).
+Świadomie poza bilansowaniem.
 
 **Nie istnieje w grze:** kradzież/okradzenie — poza katalogiem.
 
@@ -98,8 +122,9 @@ niewidzialnym mikrowydatkiem. Świadomie poza zakresem.
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Odczyt depozytu | `Twoj depozyt zawiera ...`, `Twoj depozyt jest pusty`, `Nie posiadasz wykupionego...` | kod (klient: deposits.ts) |
-| Wpłata / wypłata | triggery kontekstowe na lokacji z bindem `depozyt` (lista referencyjna, §5) | kod + mapa |
+| Odczyt depozytu | `Twoj depozyt zawiera ...` (monety w liście — słownie i cyframi mieszanie), `Twoj depozyt jest pusty`, `Nie posiadasz wykupionego...` | kod (klient: deposits.ts) + korpus |
+| Wpłata / wypłata | triggery kontekstowe na lokacji z bindem `depozyt` (lista referencyjna, §5); linie `Wkladasz/Bierzesz <coś> do/z otwartej skrzynki depozytowej.` (w tym monety: `Wkladasz dwie mithrylowe monety do otwartej skrzynki depozytowej.`) | kod + mapa + korpus |
+| Cudze operacje | `<Gracz> bierze ... ze swojej otwartej skrzynki depozytowej.` — marker `swojej` = odfiltrować (nie nasz depozyt) | korpus |
 | Stan konta per bank | premium: odczyt storage klienta klucz `deposits` (characterStorage) | kod |
 
 **Zasada księgowa:** wpłata i wypłata to **transfer** (przesunięcie gotówka ↔ bank),
@@ -115,7 +140,13 @@ Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
 | Oferta | `.+? \S+ do [^:]+: Tak, mam pewne pilne zamowienie na ([^.]+)\. Potrzebuje (?:jeszcze )?([^.,]+?)(?:, przynajmniej ([^.]+) jakosci)?\.` | kod |
 | Termin | `.+? \S+ do [^:]+: Na realizacje zamowienia mam ... (dni/dzien/godzin/godziny/godzine), pozniej zapewne bede potrzebowac czego innego\.` | kod |
 | Brak zlecenia | `.+? \S+ do [^:]+: Nie, w tej chwili niczego mi nie trzeba\. Zajrzyj moze za jakis czas\.` (zamyka kontekst, czyści kontrakty lokacji) | kod |
-| Realizacja | kontekst: pokój aktywnego zlecenia + kasa-przychód **bez dowodu sprzedaży** (patrz reguła §4) | projekt + korpus (dokładne linie oddania) |
+| Realizacja | kontekst: pokój aktywnego zlecenia + kasa-przychód **bez dowodu sprzedaży** (patrz reguła §4); korpus: wypłaty `wyplaca ci 4 srebrne i 2 miedziane monety` (50 mdz) od nazwanych NPC-zleceniodawców z Tilei (Lucciano, Valenzo, Thomas, Garvazzo, Nazario, Georgio, Daniel/Paolo, Nanetta, Don/Rovigo, Boreg, Luleck) — zgodne z profilem zapłaty za świeży towar | projekt + korpus |
+| Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.` | korpus (Benito, Aubert, Naula/Rudolf) |
+| Tablica bounty | `| Zleceniodawca | Scigana osoba | Data` | korpus |
+
+**Kolizja kategorii (korpus):** `Pracownik poczty mowi: Mam (calkiem) nowe zlecenia.`
+to ogłoszenie o **paczkach**, nie kontrakt. Słowo „zlecenie" bez kontekstu nadawcy jest
+dwuznaczne — na poczcie oznacza oferty paczek.
 
 Premium: odczyt storage klienta klucz `contracts` (aktywne zlecenia z `locationId`,
 przedmiotem, liczbą, jakością i deadline). Fallback: własne śledzenie tymi samymi
@@ -125,8 +156,8 @@ patternami.
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Zabójstwo własne | `^[ >]*Zabil(?<v>es|as) (?<name>...)\.$` | kod (klient: kill.ts) |
-| Zabójstwo drużyny | `^[ >]*(?<player>...) zabil(?<v>a?) (?<name>...)\.$` | kod (kill.ts) |
+| Zabójstwo własne | `^[ >]*Zabil(?<v>es|as) (?<name>...)\.$` | kod (klient: kill.ts); **brak próbek korpusowych** (postać korpusu nie walczyła — 0 linii w 3,86 mln) |
+| Zabójstwo drużyny | `^[ >]*(?<player>...) zabil(?<v>a?) (?<name>...)\.$` | kod (kill.ts); brak próbek korpusowych, jw. |
 | Premium live | eventy API `kill` {killer: ME/TEAM/OTHER} i `enemyKilled` {objNum, killer, hasBody} | kod (plugin-types) |
 | Premium historia | IndexedDB `ArkadiaKillsDB` (indeks `character`) | kod |
 
@@ -135,12 +166,14 @@ patternami.
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
 | Wbicie postępu (live) | GMCP `char.state.improve` (0–15; 16 stanów) | kod (klient improveCounter, tjurczyk gmcp_handler_improvement, Towarzysz) |
-| Linia tekstowa | `Poczynil(?:es|as) (.*) postepy, od momentu kiedy .* gry\.$` + wariant `Nie poczynil(?:es|as) zadnych postepow...` | kod (Ralandil/arkatt, piwa87/arkadia-user-plugins) |
-| Skala | 16 poziomów: minimalne … niebotyczne = 1:1 `IMPROVE_STATES` klienta | kod + wiki |
+| Linia tekstowa (sesyjna) | `Poczynil(?:es|as) (.*) postepy, od momentu kiedy .* gry\.$` + wariant bez „momentu": `..., od kiedy wszedles do gry.` + zerowy `Nie poczynil(?:es|as) zadnych postepow...` | kod + korpus (197 wyst. przy 9 echach — **linia jest spontanicznym pushem gry**, nie tylko odpowiedzią na komendę) |
+| Linia eksploracji | `Masz wrazenie, iz ostatnimi czasy poczynil(?:es|as) (.*) postepy w poznawaniu swiata.` (+ wariant zerowy) | korpus (155 wyst.) |
+| Linia nauki | `Wydaje ci sie, ze poczynil(?:es|as) (.*) postepy w nauce.` | korpus (18 wyst.) |
+| Skala | 16 poziomów: minimalne, nieznaczne, bardzo małe, małe, nieduże, zadowalające, spore, znaczne, dość duże, duże, bardzo duże, ogromne, wspaniałe, imponujące, niebotyczne, gigantyczne = 1:1 `IMPROVE_STATES` klienta | kod + wiki + korpus (wszystkie 16 gradacji obecne) |
 
-Linia tekstowa jest odpowiedzią na komendę `postepy` — w backfillu daje migawki
-(echo `→ postepy` + odpowiedź), na żywo służy jako koroboracja. Licznik postępów
-resetuje się przy wylogowaniu — naturalnie sesyjny.
+Linia tekstowa pojawia się samoistnie (push) — **pełny backfill historii postępów
+z samych logów jest możliwy**, bez zależności od ech `→ postepy`. Na żywo służy jako
+koroboracja GMCP. Licznik postępów resetuje się przy wylogowaniu — naturalnie sesyjny.
 
 ### 2.7 Cechy
 
@@ -149,36 +182,44 @@ zweryfikowanych patternów (klient: lvlCalc.ts):
 
 - `Jestes <opis> i <ile> ci brakuje, zebys mogla? wyzej ocenic sw(a|oj) <cecze>.` z opcjonalnym suffiksem modyfikatora `( +cos )`,
 - `Twoja/Twoj <cecha> osiagnela/al nadludzki poziom.`,
-- linia zamykająca `Obecnie do waznych cech zaliczasz...`,
+- linia zamykająca `Obecnie do waznych cech zaliczasz...` z **opcjonalnym sufiksem** ` Mozesz to zmienic podczas medytacji w gildii podrozniczej.` (oba warianty w korpusie),
 - `Twoje cechy sa oslabione po ostatniej smierci.` (snapshot oznaczany jako osłabiony).
 
 Odczyt z modyfikatorem (sprzęt/zioła) jest odrzucany — nie zapisuje się fałszywej
-wartości. Detekcja odczytu: event `command` = `cechy` + własny parsing linii.
+wartości. Detekcja odczytu: event `command` = `cechy` + własny parsing linii (istnieje
+też subkomenda `cechy um`).
 Premium: storage klienta klucz `cechy_history` (historia zmian i koszt w postępach).
-Backfill: echo `→ cechy` + odczyt w logach.
+Backfill: echo `→ cechy` + odczyt w logach. **Uwaga korpusowa:** logi HTML zawierają
+linie cech w wersji **wzbogaconej przez klienta** — `[18] Jestes krzepki [4/10] i
+niewiele [3/5] ci brakuje, zebys mogl wyzej ocenic swa sile.` — parser backfillu musi
+tolerować prefiks `[N]` i wstawki `[x/y]` (bonus: wartości liczbowe dostępne wprost).
 
 ### 2.8 Śmierć
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Śmierć własna | `^Umierasz\.$` (następna linia `Oddalasz sie.` to odejście duszy — ignorowana) | kod (Towarzysz DEATH_PATTERNS) |
-| Osłabienie po śmierci | `Twoje cechy sa oslabione po ostatniej smierci\.` (+ wariant z liczbą postępów do odbudowy) | kod (klient: afterDeathProgress, lvlCalc) |
+| Śmierć własna | `^Umierasz\.$` (następna linia `Oddalasz sie.` to odejście duszy — ignorowana); przyczyna bywa środowiskowa, nie tylko walka (korpus: upadek — `Odpadasz od sciany i lecisz w dol...`) | kod (Towarzysz DEATH_PATTERNS) + korpus |
+| Osłabienie po śmierci | `Twoje cechy sa oslabione po ostatniej smierci\.` + **6 gradacji** wymaganych postępów: minimalne / bardzo małe / nieduże / nieznaczne / małe / zadowalające | kod (klient: afterDeathProgress, lvlCalc) + korpus (143 odczyty przy 10 śmierciach) |
 | Śmierć członka drużyny | możliwa wyłącznie live: GMCP `objects.data` flaga `living` przy `team: true` | kod (klient: TeamManager) — **odłożone** |
 
 ### 2.9 Poczta (listy)
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Nowy list | `^Masz nowa poczte od [A-Za-z]+\.$` | kod (Towarzysz MAIL_PATTERN) |
+| Nowy list | `^Masz nowa poczte od [A-Za-z]+\.$`; w logach HTML linia występuje z **prefiksem klienta** `[ POCZTA ] ` — parser backfillu akceptuje opcjonalny prefiks | kod (Towarzysz MAIL_PATTERN) + korpus (21 nadawców) |
 
 ### 2.10 Apokalipsa i czas IG
 
 Patterny przeniesione z toolkitu (moduły `apokalipsa`, `analizator_czasu`), działające
 na echu komendy `→ system` / `→ czas` + oknie odpowiedzi:
 
-- `Swiat odrodzil sie : <dzien> <miesiąc rzymski> <rok>, <hh:mm:ss>` — apokalipsa jako
-  zdarzenie kroniki i twarda granica kontekstu sesji w backfillu;
-- `Swiat istnieje : ...` — uptime; `<n>% swiata zostalo opanowane` — ciemność;
+- `Swiat odrodzil sie : <dzień tygodnia>, <dzien> <miesiąc rzymski> <rok>, <hh:mm:ss>`
+  (korpus: `Swiat odrodzil sie : Pt, 19 XII 2025, 07:27:33` — **z dniem tygodnia**,
+  czego nie łapał regex toolkitu) — apokalipsa jako zdarzenie kroniki i twarda granica
+  kontekstu sesji w backfillu;
+- `Swiat istnieje : ...` — uptime z pełną odmianą (dzień/dni, godzina/godziny/godzin,
+  minuta/minuty/minut, sekunda/sekundy/sekund) i wariantem bez dni (`6 godzin 30 minut
+  8 sekund`); `<n>% swiata zostalo opanowane` — ciemność;
 - `Nadchodzi Czas Apokalipsy ... poprosil ... przyspieszenie` — apokalipsa wymuszona;
 - `Jest w przyblizeniu <godzina słownie> ...` — kotwice czasu IG; konwersja RL↔IG
   per sesja; kalendary Imperium/Ishtar zweryfikowane 1:1 z pluginami kalendarzowymi.
@@ -280,10 +321,24 @@ Trzy adaptery do wspólnego formatu `{tekst, timestamp_ms, typ?}`:
 2. **JSON eksportu klienta** (`LogExportData` v1) — ten sam kształt wpisów.
 3. **Pliki HTML** (opcjonalnie) — format toolkitu; DOMParser zamiast BeautifulSoup.
 
-**Echo komend** (`→ czas`, `→ system`, `→ postepy`, `→ cechy`, `→ depozyt`) otwiera
-okna atrybucji w backfillu: migawki postępów, historia cech, historia banków,
-apokalipsy, kotwice czasu IG. Pole `type` wpisu (dokładny zbiór wartości do
-zweryfikowania na korpusie) może rozróżniać komendy/linie walki strukturalnie.
+**Echo komend** (`→ czas`, `→ system`, `→ postepy`, `→ cechy`, `→ depozyt`,
+`→ zdenominuj`, `→ wybierz paczke N`, `→ oddaj paczke`, `→ wloz/wez monety ...`)
+otwiera okna atrybucji w backfillu: migawki postępów, historia cech, historia banków,
+apokalipsy, kotwice czasu IG, maszyna paczek, markery intencji transferu monet.
+Pole `type` wpisu (dokładny zbiór wartości do zweryfikowania na danych IndexedDB)
+może rozróżniać komendy/linie walki strukturalnie.
+
+**Prefixy klienta w logach (korpus):** zalogowana linia bywa wersją **przepisaną
+przez klienta**, nie surowym tekstem gry — parser backfillu toleruje: `[ POCZTA ] `
+(poczta), `[N] ` (licznik przy liniach cech i przybyciach), `[unk] ` (linie walki bez
+rozpoznanego typu), wstawki `[x/y]` w liniach cech. W szeptach pomocy poczty komendy
+są osadzone jako klikalne elementy i w spłaszczonym tekście znikają — nie traktować
+takich linii jako dowodu braku komendy.
+
+**Echo transferów monet:** `→ wloz monety do swojej sakiewki/plecaka`, `→ wez monety
+ze swojej sakiewki/plecaka`, `→ wez <denominacja> monety z N. ciala` — transfery
+między pojemnikami i looting monet z ciał; nie są przychodem/wydatkiem (loot z ciała
+księguje się z linii `Bierzesz/Dostajesz`), ale są markerami kontekstu.
 
 **Dedup po treści** (hash linii + czas), nie po nazwie sesji — ta sama sesja może
 wejść z IndexedDB i z JSON-a.
@@ -349,13 +404,27 @@ Popup pluginu (registerPersistentPopup + addPopupMenuEntry), zakładki:
 
 ---
 
-## 10. Otwarte kwestie (do domknięcia na korpusie)
+## 10. Otwarte kwestie
 
-1. Dokładne linie realizacji zlecenia (oddanie towaru + zapłata/dialog zamknięcia).
-2. Zbiór wartości pola `type` wpisów `ArkadiaMessagesDB` (rozróżnienie strukturalne
-   komend/linii walki).
-3. Potwierdzenie formy linii zwrotu paczki i jej wariantów na rzeczywistych logach.
-4. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
+Domknięte na korpusie 2026-09-16 (3,86 mln linii, 576 sesji HTML):
+1. ~~Dokładne linie realizacji zlecenia~~ — linia oddania towaru nie wystąpiła
+   w kontekstach, ale wypłaty `wyplaca ci 4 sr 2 mdz` od nazwanych NPC-zleceniodawców
+   potwierdzają regułę §4 (kasa bez dowodu sprzedaży = zapłata za zlecenie); zasada
+   zostaje, ewentualne doprecyzowanie linii oddania na trybie capture (§8).
+2. ~~Potwierdzenie formy linii zwrotu paczki~~ — **zero** `Zwracasz pocztowa paczke`
+   i **zero** `po terminie` w korpusie; statusy „zwrócona"/„spóźniona" zostają
+   w katalogu (patterny z kodu), oznaczone jako ścieżki rzadkie bez potwierdzenia
+   korpusowego.
+3. Weryfikacja korpusowa katalogu: paczki, postępy, cechy, śmierci, bank, kantor,
+   poczta, czas — potwierdzone (szczegóły w tabelach §2); zabójstwa — patrz niżej.
+
+Nadal otwarte:
+1. Zbiór wartości pola `type` wpisów `ArkadiaMessagesDB` (rozróżnienie strukturalne
+   komend/linii walki) — korpus pochodził z plików HTML, nie z IndexedDB.
+2. Zabójstwa: zero próbek korpusowych (postać korpusu nie walczyła). Patterny z kodu
+   kill.ts są wiarygodne; plan: testy na danych syntetycznych z kill.ts + opcjonalny
+   przelot korpusu na postaci walczącej przy okazji.
+3. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
 
 ---
@@ -368,10 +437,23 @@ Podjęte:
 - Sesja = login→logout; zdarzenia zawsze z timestampem; baza globalna + pole character.
 - Rdzeń pure TS z DI; jeden plik index.ts; IndexedDB jako storage pluginu.
 - Backfill jako obywatel pierwszej klasy (3 adaptery + echo komend).
+- (2026-09-16, korpus) Linia postępu traktowana jako spontaniczny push — backfill
+  postępów z samych logów, GMCP live jako koroboracja.
+- (2026-09-16, korpus) Parser monet: multi-nominał, miedziaki/srebrniki, mithryl,
+  liczby mieszane (słownie+cyfry), kwoty nieznormalizowane, kotwica na kwocie nie na
+  końcu linii, wtręty dowolne przy `wrecza/zgarnia`.
+- (2026-09-16, korpus) Reszta jako osobna gałąź księgowa: wydatek netto = zapłacone
+  − reszta; reszta potrafi zawierać mithryl.
+- (2026-09-16, korpus) Parser backfillu toleruje prefixy/wstawki klienta
+  (`[ POCZTA ] `, `[N] `, `[unk] `, `[x/y]`).
+- (2026-09-16, korpus) „Zlecenia" na poczcie = paczki (kolizja kategorii rozstrzygana
+  po nadawcy/kontekście).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
-- Denominacja w kantorze — niemierzalna bez porównania ekwipunku; wpływ znikomy.
+- Denominacja w kantorze — niemierzalna bez porównania ekwipunku (potwierdzone na
+  korpusie: zero kwot w kontekstach `zdenominuj`); zapisujemy samo zdarzenie; prowizja
+  8% (tabliczki kantorów) poza bilansowaniem.
 - Śmierć członka drużyny — możliwa tylko live (GMCP `living`), odłożona.
 - Twardy gate lokalizacji — fałszywe negatywy + unicestwia backfill.
 
