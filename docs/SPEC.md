@@ -54,7 +54,7 @@ Maszyna stanów przeniesiona z modułu `analizator` repo arkadia-python-toolkit
 | Cudzy odbiór (flavor) | `<NPC> przekazuje <komuś innemu> jakas paczke.` — ignorowane; odbiór własny kotwiczony na `przekazuje ci` | korpus |
 | Dostawa | `^Oddajesz pocztowa paczke <opis adresata w dopełniaczu>\.$` + wypłata (patrz niżej); łańcuch potwierdzony kontekstami: `Odkladasz plecak` → `Bierzesz pocztowa paczke...` → `Oddajesz pocztowa paczke X.` → `X wyplaca ci ...` | kod + korpus (16+ wariantów opisów) |
 | Zwrot | `^Zwracasz pocztowa paczke` (brak wypłaty) | kod (PackageHelper + tjurczyk); **zero wystąpień w korpusie** — ścieżka rzadka, pattern bez potwierdzenia korpusowego |
-| Spóźnienie | `Dostarczyles przesylke po terminie` (flaga na otwartej paczce) | kod (toolkit); **zero wystąpień w korpusie** — jw. |
+| Spóźnienie | `<NPC> mowi do ciebie: Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.` — dostawa po terminie, **wypłata pomniejszona**; dotychczasowa flaga `Dostarczyles przesylke po terminie` z toolkitu zostaje jako wariant | kod (toolkit) + **korpus III** (łowisko 2026-09-17: 4+ wystąpień; NPC: Luter/Andolf, Guy/Gautier, Lit, anonimowy) |
 | Wypłata | `wyplaca ci <waluta>` (waluta wymagana; multi-nominał ze spójnikiem `i`, końcówki `moneta/monety/monet`) LUB `otrzymujesz <waluta>` w oknie ≤ 2 linie od dostawy, bez frazy ` od <kogoś>` | kod + korpus (15 wystąpień; dominuje 4 sr 2 mdz, występują 3-nominałowe) |
 | Nieudany odbiór | `Pocztowa paczka jest zbyt ciezka.`, `Lista przesylek zmienila sie i ta, ktora chcesz podjac byc moze nie jest juz ta, ktora widziales w spisie...` | korpus (15× / 34×) |
 | Kamień milowy zaufania | `Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac.`, `Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke.` | korpus (14× / 45×) |
@@ -87,7 +87,8 @@ Przeliczniki (dwa niezależne źródła: Towarzysz `coins.ts` i toolkit `denomin
 | Wydatek | `^Kupujesz `, `^Placisz ` (obejmuje przejazdy: `Placisz <komu> <kwota>` oraz wariant bez kwoty `Placisz woznicy i wspinasz sie...`), `zgarnia ... monet` (z dowolnym wtrętem, np. `drapieznym ruchem zgarnia`), `odbiera od ciebie ... monet ... w zamian za zakupion` | kod (Towarzysz SPEND_PATTERNS) + korpus |
 | Wydatek z resztą | `Placisz <kwota> i dostajesz <kwota> reszty.` — wydatek netto = zapłacone − reszta; reszta potrafi zawierać mithryl (`Placisz 1 mithrylowa monete i dostajesz 64 zlote, 47 srebrnych i 27 miedzianych monet reszty.`) | korpus |
 | Usługa: naprawa | `Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.` — oddanie ubioru krawcowi (Novigrad, Campogrotta, Nuln) lub oreża/zbroi kowalowi do naprawy; wydatek kategorii „usługa", nie zakup | korpus + wiedza domenowa |
-| Reszta od NPC | `<NPC> <wtręt dowolny> wrecza ci <kwota>( reszty)?\.` (np. `z ogromna niechecia wrecza ci 20 miedzianych monet.`) — regex przepuszcza dowolny wtręt między podmiotem a czasownikiem | korpus |
+| Reszta od NPC | `<NPC> <wtręt dowolny> wrecza ci <kwota>( reszty)?\.` — regex przepuszcza dowolny wtręt między podmiotem a czasownikiem. **Reguła:** obecność słowa `reszty` = reszta od nadpłaty przy zakupie (koszt = zapłacone − reszta); brak słowa `reszty` = niejednoznaczne (reszta albo zapłata za sprzedaż) — klasyfikacja po parze/kontekście | korpus (flavory: `ze sztucznym usmiechem`, `kryjac usmiech`, `z ogromna niechecia`) |
+| Kupno u flavor-sklepikarzy | para/trójka linii: `<NPC> drapieznym ruchem zgarnia <kwota>.` (pobranie zapłaty — wydatek) + `<NPC> kryjac usmiech wrecza ci <towar>.` (wydanie towaru — **bez wpływu na księgę**) + opcjonalnie `... wrecza ci <kwota> reszty.` | korpus (Salithrandir, Zykkis, Adipatus, Myrrhis) |
 | Transfer gracz→gracz | `<Gracz> daje ci <moneta>.` (wielka litera imienia, brak tagu `(NPC)`) — przychód oznaczany jako transfer od gracza | korpus (Gwenn, Ulik) |
 | Sprzedaż | `^Sprzedajesz ` + zapłata osobną linią przychodu | kod (Towarzysz SELL_PATTERNS) + korpus |
 | Liczby słowne | mapowanie liczebników polskich (Towarzysz `polishNumbers`, klient `contracts.ts` POLISH_NUMBERS); **listy mieszane**: słownie i cyfry w jednej linii (`szesc srebrnych monet, 76 zlotych monet i siedem miedzianych monet`) | kod + korpus |
@@ -147,13 +148,22 @@ Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
 | Oferta | `.+? \S+ do [^:]+: Tak, mam pewne pilne zamowienie na ([^.]+)\. Potrzebuje (?:jeszcze )?([^.,]+?)(?:, przynajmniej ([^.]+) jakosci)?\.` | kod |
 | Termin | `.+? \S+ do [^:]+: Na realizacje zamowienia mam ... (dni/dzien/godzin/godziny/godzine), pozniej zapewne bede potrzebowac czego innego\.` | kod |
 | Brak zlecenia | `.+? \S+ do [^:]+: Nie, w tej chwili niczego mi nie trzeba\. Zajrzyj moze za jakis czas\.` (zamyka kontekst, czyści kontrakty lokacji) | kod |
-| Realizacja | kontekst: pokój aktywnego zlecenia + kasa-przychód **bez dowodu sprzedaży** (patrz reguła §4). Dokładna linia oddania towaru bez próbki korpusowej (grepy 2026-09-17: zero realizacji standardowych zleceń w 3,86 mln linii) — domknięcie na trybie capture | projekt |
+| Realizacja | `<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.` — jednoliniowa (towar+kwota); **dostawy częściowe możliwe** (kolejne linie tego samego NPC z tym samym towarem). Dowód: oferta „czterech kilogramow miesa z zajaca" (00:32:07) → 41 s później dwie linie realizacji od `Wysoki zwinny mezczyzna` (4 zł 8 sr 4 mdz + 4 zł 13 sr). Samo `odbiera od ciebie` jest **trójznaczne** (blok niżej) — kotwica na pełnej formie z `i wrecza ci`; reguła §4 (kolizja ze sprzedażą) bez zmian | korpus III (łowisko 2026-09-17) |
 | Realizacja give-based (bounty) | `Dajesz/Oddajesz <NPC> <przedmiot>.` + okno: `<NPC> mowi do ciebie: ... daje <kwote> ... .` i/lub `<NPC> wrecza ci monety.` (kwota w komentarzu NPC, linia wręczenia bez kwoty — łączyć w oknie). Potwierdzone: Adler, ciała szczurów | korpus (grepy 2026-09-17) |
 | Odmowa dawania | `<NPC> mowi do ciebie: A po co mi to dajesz?` — nieudana próba `daj` (NPC nie chce towaru), osobne zdarzenie | korpus (6× Adler) |
 | Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.`, `Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.` | korpus (Lucciano, Benito, Aubert, Naula/Rudolf) |
 | Oferta (warianty korpusowe) | towar na wagę: `Potrzebuje trzydziestu jeden kilogramow miesa z sarny. Dobrze zaplace!`; z jakością: `Potrzebuje osmiu tarcz, przynajmniej sredniej jakosci. Dobrze zaplace za kazda sztuke.`; z rozmiarem/typem: `dziesieciu srednich ryb slodkowodnych`; sufiksy `Dobrze zaplace!` / `Dobrze zaplace za kazda sztuke.` | korpus (Anatol, Ferdinand, Mortimer, Ghaadrav) |
 | Cudze oferty | oferty kierowane do innych graczy (`mowi do <ktoś>:` zamiast `mowi do ciebie:`) — ignorowane | korpus |
 | Tablica bounty | `| Zleceniodawca | Scigana osoba | Data` | korpus |
+| Ogłoszenie bounty (przekrzyk) | `<NPC> krzyczy po bretonsku, ale udaje ci sie zrozumiec tylko czesc: ...` — ogłoszenie bounty na potwory czytane na głos w niektórych miastach (ekwiwalent listu gończego); tekst **urwany**, kwota niewiarygodna → kategoria informacyjna, nie zdarzenie finansowe | korpus III |
+
+**Trójznaczność `odbiera od ciebie` (korpus III):**
+1. `<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.` — **realizacja zlecenia**
+   (towar+kasa w jednej linii).
+2. `<NPC> odbiera od ciebie <przedmiot>.` — **sprzedaż sklepowa** (NPC przejmuje
+   sprzedany przedmiot, bez kasy w linii; sklepikarze: Antonietta, Olof, Ernest).
+3. `<NPC> odbiera od ciebie <kwota> w zamian za zakupiony towar.` — **zakup** (NPC
+   pobiera zapłatę od gracza; §2.2).
 
 **Kolizje kategorii (korpus):**
 1. `Pracownik poczty mowi: Mam (calkiem) nowe zlecenia.` to ogłoszenie o **paczkach**,
@@ -168,14 +178,23 @@ Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
    `Przyjdz tedy i 'odbierz zamowienie'.`, `Przeciez nie skladales zadnego
    zamowienia!`) — odrębna mechanika, nie mieszać ze zleceniami.
 
-**Bounty za ciała szczurów (korpus + deklaracja gracza 2026-09-17):** mechanika
-młodego expa — zabijasz szczury (zabójstwo liczone **normalnie** w statystykach
-zabitych, jak każde inne), a ciała oddajesz za kasę szczurolapom. Sekwencja:
-`daj <szczura> <NPC>` → `Adler mowi do ciebie: Dorodny okaz! Za takiego slicznego
-szczurka daje trzy srebrne monety.` → `Adler wrecza ci monety.` Klasyfikacja kasy:
+**Bounty za ciała szczurów (korpus III 2026-09-17):** mechanika młodego expa —
+zabijasz szczury (zabójstwo liczone **normalnie** w statystykach zabitych, jak każde
+inne), a ciała oddajesz za kasę szczurolapom. Pełna sekwencja: `daj <ciała> <NPC>`
+→ `<NPC> oglada uwaznie cialo.` (lub `... sterte szczatkow szczura.`) → `<NPC> mowi
+do ciebie: Dorodny okaz! Za takiego slicznego szczurka daje trzy srebrne monety.`
+→ `<NPC> wrecza ci monety.` → `<NPC> usmiecha sie z zadowoleniem.` Cennik: szczur
+3 sr, **mysz 8 pensów** (`Adler mowi: ... mysz - osiem pensow`). Klasyfikacja kasy:
 przychód **bounty „zapłata za szczury"**, NIE realizacja zlecenia towarowego.
-Lokalizacje (deklaracja gracza, do potwierdzenia tagiem `(... NPC)` w surowych
-logach): **Adler → Nuln**, **szczurolap → Novigrad**.
+NPC-e: **Adler Winck → Nuln** (potwierdzone korpusem: who-lista `Adler Winck, Nuln`,
+opis `Koscisty wysoki mezczyzna (Adler NPC)`, pokój `Biuro szczurolapa.`) i **Ratan**
+(`Obdarty brudny mezczyzna (Ratan NPC)`; szept do gracza: `zapytaj szczurolapa o
+prace`). Wykluczenia szumu: „Szczurolap" to także **tytuł zawodowy graczy** na who
+(`Szczurolap, halfling`, `Doswiadczony Szczurolap` — 419×/187×, np. Krux Wald, Dove
+Livett) — nie mylić z NPC; `szczury ladowe` to obelga żeglarska; maskotka `szary
+szmaciany szczur` (prezenty dla graczy) — separacja od ciał potwierdzona oknem
+kasowym (9 dań graczom, zero kasy w 90 s). Surowa forma linii dawania ciał (liczba
+mnoga?) — §10 pkt otwarty.
 
 **Katalog wykluczeń dla linii `Dajesz/Oddajesz` (korpus, grepy 2026-09-17):**
 1. `Oddajesz pocztowa paczke ...` — paczki (§2.1).
@@ -382,8 +401,12 @@ Trzy adaptery do wspólnego formatu `{tekst, timestamp_ms, typ?}`:
 `→ zdenominuj`, `→ wybierz paczke N`, `→ oddaj paczke`, `→ wloz/wez monety ...`)
 otwiera okna atrybucji w backfillu: migawki postępów, historia cech, historia banków,
 apokalipsy, kotwice czasu IG, maszyna paczek, markery intencji transferu monet.
-Pole `type` wpisu (dokładny zbiór wartości do zweryfikowania na danych IndexedDB)
-może rozróżniać komendy/linie walki strukturalnie.
+Pole `type` wpisu — zbiór wartości **potwierdzony** na eksporcie JSON klienta
+(LogExportData v1, 1892 wpisy, 2026-09-17): `script`, `trigger-echo`, `echo`, `mud`,
+`other`, `prompt`, `info`, `room.short`, `room.exits`, `room.contents.living`,
+`comm`. Umożliwia **strukturalny backfill** nazw pokoi (`room.short`), NPC w pokoju
+(`room.contents.living`) i mowy NPC (`comm`) zamiast heurystyk; większa próbka
+potwierdzi kompletność zbioru.
 
 **Prefixy klienta w logach (korpus):** zalogowana linia bywa wersją **przepisaną
 przez klienta**, nie surowym tekstem gry — parser backfillu toleruje: `[ POCZTA ] `
@@ -471,9 +494,9 @@ Popup pluginu (registerPersistentPopup + addPopupMenuEntry), zakładki:
 Domknięte na korpusie 2026-09-16 (3,86 mln linii, 576 sesji HTML; dwa przeloty —
 drugi z poprawionymi filtrami):
 1. ~~Potwierdzenie formy linii zwrotu paczki~~ — **zero** `Zwracasz pocztowa paczke`
-   i **zero** `po terminie` w korpusie; statusy „zwrócona"/„spóźniona" zostają
-   w katalogu (patterny z kodu), oznaczone jako ścieżki rzadkie bez potwierdzenia
-   korpusowego.
+   w korpusie; status „zwrócona" zostaje w katalogu (pattern z kodu) jako ścieżka
+   rzadka bez potwierdzenia korpusowego. (ERRATA korpus III: `po terminie` jednak
+   występuje — patrz pkt 4 niżej.)
 2. ~~Zabójstwa: próbki korpusowe~~ — domknięte drugim przelotem: klient przepisuje
    linię zabójstwa (`[ ZABILES ]` / `[ ZABIL ]` / `[ ZABILA ]` + suffix `(n / m)`),
    565 wystąpień, 261 unikalnych próbek; surowa forma w logach nie występuje.
@@ -481,16 +504,27 @@ drugi z poprawionymi filtrami):
    i ` - PILNE!`), postępy, cechy, śmierci, bank, kantor, poczta, czas, zabici —
    potwierdzone (szczegóły w tabelach §2).
 
+Domknięte na łowisku low_zlecen 2026-09-17 (korpus III, sekcje A–K, 576 sesji):
+4. ~~Status paczki „spóźniona"~~ — potwierdzony: `<NPC> mowi do ciebie: Niestety,
+   ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko
+   tyle.` (4+ wystąpień, różni NPC) — wypłata pomniejszona (§2.1).
+5. ~~Dokładna linia realizacji standardowego zlecenia~~ — `<NPC> odbiera od ciebie
+   <towar> i wrecza ci <kwota>.`; dowód: oferta (mięso z zająca) → 41 s → dwie
+   dostawy częściowe tego samego NPC; rozróżnione 3 warianty `odbiera od ciebie`
+   (§2.4).
+6. ~~Adler → Nuln~~ — potwierdzone korpusem (who-lista `Adler Winck, Nuln`, opis
+   `(Adler NPC)`, pokój `Biuro szczurolapa.`); drugi szczurolap: Ratan; cennik:
+   szczur 3 sr, mysz 8 pensów (§2.4).
+7. ~~Zbiór wartości pola `type`~~ — wstępnie domknięte: 11 wartości z eksportu JSON
+   klienta (LogExportData v1, 1892 wpisy) — strukturalny backfill pokoi/NPC/mowy
+   (§6.2); większa próbka potwierdzi kompletność.
+
 Nadal otwarte:
-1. Zbiór wartości pola `type` wpisów `ArkadiaMessagesDB` (rozróżnienie strukturalne
-   komend/linii walki) — korpus pochodził z plików HTML, nie z IndexedDB.
-2. Dokładna linia realizacji **standardowego** zlecenia towarowego (skóry/ryby/
-   mięso/broń/tarcze): grepy 2026-09-17 (czasownik + rzeczownik oraz sam czasownik,
-   3,86 mln linii) — **zero realizacji**; gracz w okresie logowania żadnego nie
-   ukończył. Potwierdzony jest natomiast wzorzec give-based dla bounty (Adler,
-   §2.4). Plan: tryb capture przy pierwszym realnym zleceniu (§8) lub celowe
-   wykonanie zlecenia na logu. Do potwierdzenia tagiem NPC: Adler → Nuln,
-   szczurolap → Novigrad.
+1. Surowa forma linii dawania ciał szczurolapowi (liczba mnoga `oddaj ciala`?) —
+   łowisko v2, sekcja E10 (`Dajesz/Oddajesz ... cial*` bez kotwicy „szczur").
+2. Znacznik linii zabójstwa z twardą spacją (`&nbsp;` w `[ ZABILES ]`) — podejrzenie
+   przyczyny anomalii E1=0 (mechanizm porażki starego regexu potwierdzony testem);
+   diagnostyka łowiska v2 (licznik wszystkich `[ ZABIL* ]` + surowe próbki).
 3. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
 
@@ -531,10 +565,31 @@ Podjęte:
 - (2026-09-17, korpus + deklaracja gracza) Szczury: zabójstwo = normalna statystyka
   zabitych; kasa za oddanie ciała = przychód bounty „zapłata za szczury" (wzorzec
   give-and-pay: komentarz NPC z kwotą + `wrecza ci monety`), nie realizacja zlecenia.
-  Adler → Nuln, szczurolap → Novigrad (do potwierdzenia tagiem NPC).
+  Adler → Nuln, szczurolap → Novigrad (deklaracja).
+- (2026-09-17, korpus III) Adler → Nuln **potwierdzone korpusem** (who-lista `Adler
+  Winck, Nuln`, pokój `Biuro szczurolapa.`); Ratan drugi szczurolap; myszy 8 pensów;
+  sekwencja bounty rozszerzona do 4 linii (oglądanie → komentarz → wręczenie →
+  uśmiech); „Szczurolap" tytuł zawodowy graczy (who), `szczury ladowe` obelga,
+  maskotka oddzielona od ciał (okno kasowe).
 - (2026-09-17, korpus) Linie `Dajesz/Oddajesz`: pełny katalog wykluczeń (paczka,
   naprawa, gracz, bilet transportowy, „nie dajesz rady"); odmowa NPC `A po co mi to
   dajesz?` jako osobne zdarzenie nieudanej próby.
+- (2026-09-17, korpus III) Realizacja zlecenia = `<NPC> odbiera od ciebie <towar>
+  i wrecza ci <kwota>.` (dostawy częściowe możliwe); `odbiera od ciebie` jest
+  trójznaczne (realizacja / sprzedaż sklepowa / zakup „w zamian za towar") — parser
+  kotwiczy na pełnej formie (§2.4).
+- (2026-09-17, korpus III) Paczka spóźniona potwierdzona: `Niestety, ale
+  dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.`
+  — wypłata pomniejszona (§2.1).
+- (2026-09-17, korpus III) Reszta od NPC: kotwica na słowie `reszty` (nadpłata przy
+  zakupie; koszt = zapłacone − reszta); `wrecza ci <kwota>` bez `reszty`
+  klasyfikowane po parze/kontekście; flavor kupna: `drapieznym ruchem zgarnia` +
+  `kryjac usmiech wrecza ci <towar>` (§2.2).
+- (2026-09-17, korpus III) Przekrzyki bretońskie = ogłoszenia bounty czytane na głos
+  (ekwiwalent listu gończego); kwota urwana/niewiarygodna — kategoria informacyjna,
+  nie zdarzenie finansowe (§2.4).
+- (2026-09-17, korpus III) Pole `type` eksportu JSON (LogExportData v1): potwierdzony
+  zbiór 11 wartości — strukturalny backfill pokoi/NPC/mowy (§6.2).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
@@ -543,6 +598,14 @@ Odrzucone / poza zakresem (z uzasadnieniem):
   (§2.2); prowizja 8% (tabliczki kantorów) poza bilansowaniem.
 - Śmierć członka drużyny — możliwa tylko live (GMCP `living`), odłożona.
 - Twardy gate lokalizacji — fałszywe negatywy + unicestwia backfill.
+- Zamówienia rzemieślnicze (torby/plecaki/zbroje/miecze na zamówienie u wytwórców) —
+  decyzja gracza 2026-09-17: poza katalogiem; sekcja F łowiska zostaje wyłącznie jako
+  filtr szumu.
+- Zwroty książek do biblioteki (`Oddajesz ksiazke Kerii...`) — decyzja gracza
+  2026-09-17: poza katalogiem.
+- Trening i drużyna jako kategorie kroniki — odłożone; mechanika odnotowana
+  (`trenuj` / `trenuj intensywnie` u mistrzów zawodu; komenda `um` = umiejętności
+  + modyfikatory chwilowe; tag `[   DRUZYNA   ]`, składy, przekazanie prowadzenia).
 
 ---
 
