@@ -679,7 +679,7 @@
     "patterny": {
       "dostarczona": "^(Oddajesz) pocztowa paczke + wyplata (wyplaca ci+waluta / otrzymujesz+waluta <=2 linie, zahartowane)",
       "spozniona": "<NPC> mowi do ciebie: Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle. — wyplata pomniejszona; POTWIERDZONE korpus III (lowisko 2026-09-17, 4+ wystapien; NPC: Luter/Andolf, Guy/Gautier, Lit, anonimowy mlody zwinny mezczyzna). Wariant z toolkitu: flaga 'Dostarczyles przesylke po terminie' na otwartej paczce",
-      "zwrocona": "^(Zwracasz) pocztowa paczke — nowy wariant (PackageHelper.ts + tjurczyk assistant.lua); brak wyplaty",
+      "zwrocona": "kotwica na echu komendy '-> zwroc paczke' (korpus III: 4x, konteksty 359/439/457/491) + linia wynikowa '^Zwracasz pocztowa paczke' w trybie capture (korpus N=0 w 3,86 mln linii); mechanika wiki: zwrot w urzedzie zrodlowym, niewielki spadek reputacji; helpery klienckie traktuja zwrot jak dostawe (PackageHelper '^(Oddajesz|Zwracasz)') — Kronikarz rozroznia; brak wyplaty",
       "nieoddana": "paczka otwarta bez dostawy/zwrotu; persystowana cross-session, widoczna w raporcie jako 'w toku'"
     },
     "odmowa_odbioru": [
@@ -688,14 +688,33 @@
       "Cos ci sie chyba pomylilo, nie ma takiej oferty",
       "Niestety, nie widzisz tu nikogo, od kogo mozna by wziac zlecenie"
     ],
-    "lista_ofert": "PackageHelper packageLineRegex: miasto + zloto/srebro/miedz + limit czasu; etykieta 'Wypisano na niej duzymi literami: <IMIĘ>, <PROFESJA>, <MIASTO>' (korpus 2026-09-16: np. 'LULECK, CZELADNIK KOWALSKI, KREUTZHOFEN' — format szerszy niz samo miasto); ciezkie przesylki oznaczone '*' — cel i nagroda znane przy odbiorze (plan vs wykonanie)",
+    "lista_ofert": "PackageHelper packageLineRegex: miasto + zloto/srebro/miedz + limit czasu ('N' lub 'nieogr.'); regex niekotwiczony do konca linii — toleruje kolumne 'Dystans' i linie '> dystans: N' wstrzykiwane przez klienta w logach HTML (12/12 ofert testowych, low_zlecen 651-672); komendy wyboru: 'wybierz paczke N' + wariant 'wybierz przesylke N' (wiki); odliczanie limitu w kliencie startuje od pokazania tablicy (PackageHelper listTime) — Kronikarz kotwiczy na odbiorze; etykieta 'Wypisano na niej duzymi literami: <IMIĘ>, <PROFESJA>, <MIASTO>' (korpus 2026-09-16: np. 'LULECK, CZELADNIK KOWALSKI, KREUTZHOFEN' — format szerszy niz samo miasto); parser etykiety klienta lapie tylko 1. czlon — Kronikarz parsuje wszystkie 3 struktury + sufiks ' - PILNE!'; ciezkie przesylki oznaczone '*' — cel i nagroda znane przy odbiorze (plan vs wykonanie)",
     "kanaly_premium": {
       "packageStatus_event": "{recipient, seconds?, location(room id)} — countdown do deadline co 1 s (plugin API)",
       "npc_event_i_npcStore": "baza NPC {name, loc}: remote https://delwing.github.io/arkadia-mapa/data/npc.json (TTL 24h) + lokalne douczone przy dostawie do nieznanego adresata",
       "leadTo_mapPath": "klient rysuje trase do adresata; eventy leadTo/mapPath daja zaplanowana trase",
       "ArkadiaDeliveryStats_IDB": "historia klienta: {timestamp, late, gold, silver, copper} per postac — backfill premium (bez surowych linii)"
     },
-    "luki_klienta_do_przeskoczenia": "klient nie rejestruje zwrotow i nieoddanych; parsePayment tylko cyfry (bez liczb slownych); tylko delivered/late"
+    "luki_klienta_do_przeskoczenia": "klient nie rejestruje zwrotow (traktuje jak dostawe) i nieoddanych; parsePayment (deliveryStats) tylko cyfry i zl/sr/mie — bez mithrylu, bez liczb slownych, bez fallbacku 'otrzymujesz'; triggery one-time bez timeoutu; statystyki tylko delivered/late",
+    "reputacja_pocztowa": {
+      "zrodlo": "wiki 'Pocztylioni' (analiza 2026-09-17)",
+      "model": "licznik heurystyczny per rewir: dostawa +1, spoznienie -1, zwrot -1 (niewielki), zagubienie = blokada nowych ofert ~24h",
+      "kalibracja": "komenda 'sprawdz swoja reputacje' — linia wynikowa nieznana (0 wystapien w korpusie), tryb capture",
+      "mechaniki": {
+        "progi_cenowe": "lokalne ~1 zl, blizsze 2-4, dalsze 5-9, najdalsze 10-12, wszystkie do 45 zl — skala z reputacja",
+        "ciezar_limit": "~50 kg (blokada: 'Pocztowa paczka jest zbyt ciezka.', korpus 15x)",
+        "wylogowanie": "paczka znika 6h po wylogowaniu (liczone od pobrania)",
+        "zagubienie": "blokada nowych ofert ~24h",
+        "licencja": "licencja pocztowa (Tilea) poza katalogiem — brak kotwic korpusowych"
+      },
+      "kotwice_korpusowe": "kamienie milowe zaufania (14x/45x) = posredni sygnal progu reputacji"
+    },
+    "npc_zrodla": {
+      "remote": "https://delwing.github.io/arkadia-mapa/data/npc.json — 637 rekordow {name, loc}, TTL 24h (npcStore), merge remote+local, dedupe po 'name-loc'",
+      "local": "wpisy douczane przy dostawie do nieznanego adresata (PackageHelper addLocalNpc)",
+      "pokrycie_korpusu": "111/111 adresatow-osob z korpusu obecnych w remote (0 brakow) — douczanie potrzebne tylko dla nowych NPC",
+      "etykiety_pocztowe": "5 etykiet 1-czlonowych ('POCZTA W X' / 'POCZTA MIASTA X') celowo poza baza NPC — mapowane na lokacje poczt (poczta + poczta_nienazwane_symbol_P), nie na osoby"
+    }
   },
   "zlecenia_klasyfikacja": "KOREKTA 2026-09-16: lokacja zleceniodawcy to tez sklep/tawerna — sprzedaz TAM jest mozliwa. Regula: kasa-przychod na lokacji aktywnego zlecenia z linia 'Sprzedajesz' w oknie = SPRZEDAZ; kasa-przychod bez dowodu sprzedazy = ZAPLATA ZA ZLECENIE. Klasyfikacja po dowodzie sprzedazy, nie po samej lokacji. Oba przypadki audytowalne (surowa linia + confidence).",
   "korpus_2026_09_16": {
