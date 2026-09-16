@@ -842,6 +842,49 @@
    "druzyna": "[ DRUZYNA ] X przekazuje ci prowadzenie druzyny. (25x) — nowy typ zdarzenia sesyjnego",
    "naprawa": "'Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.' = naprawa u krawca (Novigrad/Campogrotta/Nuln) lub kowala; wydatek-usługa, nie zakup",
    "lancuch_dostawy": "Odkladasz plecak -> Bierzesz paczke -> Oddajesz paczke X. -> X wyplaca ci ... (okno <=2 linie potwierdzone)"
+  },
+  "korpus_III_grepy_2026_09_17": {
+   "meta": "grepy gracza na surowych logach 2026-09-17: (1) czasownik+rzeczownik (skor/ryb/mies/bron/tarcz): 40 unikalnych/45 wystapien — 2 realne trafienia, reszta szum (zdajesz/wydajesz bez granic slowa + 'mies' wewnatrz wyrazow); (2) sam czasownik: 40 unikalnych — 100% szumu (opisy pokoi)",
+   "wynik_glowny": "ZERO realizacji standardowego zlecenia towarowego w 3,86 mln linii — gracz zadnego nie ukonczyl w okresie logowania; linia realizacji nadal bez probki (tryb capture)",
+   "bounty_szczury": {
+    "sekwencja": "daj <szczura> <NPC> -> 'Adler mowi do ciebie: Dorodny okaz! Za takiego slicznego szczurka daje trzy srebrne monety.' -> 'Adler wrecza ci monety.'",
+    "kwota": "w komentarzu NPC; linia wreczenia bez kwoty — laczyc w oknie",
+    "klasyfikacja": "przychod bounty 'zaplata za szczury', NIE realizacja zlecenia towarowego; zabojstwo szczura liczone normalnie w statystykach zabitych",
+    "lokalizacje_deklaracja_gracza": {
+     "Adler": "Nuln",
+     "szczurolap": "Novigrad"
+    },
+    "potwierdzenie": "tagiem '(Adler NPC)' w surowych logach; posrednie: wiedza 'Dostarczyles cialo skavena szczurolapowi z Nuln' + wpis na tablicy 'Kruczowlosy ponury szczurolap'"
+   },
+   "odmowa_dawania": "'<NPC> mowi do ciebie: A po co mi to dajesz?' (6x Adler) — nieudana proba daj, osobne zdarzenie",
+   "wykluczenia_dajesz_oddajesz": [
+    "Oddajesz pocztowa paczke ... — paczki",
+    "Oddajesz ... ze stojka, placac ... — naprawa (krawcy/kowale)",
+    "odbiorca = imie wlasne / tag GP — transfer gracz->gracz (np. 'Dajesz elfi chleb Gwenn.'; echa 'daj szczura/wianek/jedzenie elfce' = Gwenn, gracz-elfka)",
+    "bilety transportowe: 'Dajesz zatluszczony czerwony bilet starszemu spokojnemu mezczyznie.', 'Dajesz niewielki szary bilet ciemnowlosemu przyjacielskiemu mezczyznie.' — osobna kategoria: odprawa transportu",
+    "'Nie dajesz rady ...' — negacja-zdolnosc, twardy filtr"
+   ],
+   "anomalia_tagow": "formule oferty 'Mam zlecenie na swieze ...' wyglaszaja tez postacie z tagiem GP (Anatol, Ghaadrav) — parser kotwiczy wylacznie na tagu NPC, GP do przegladu",
+   "korelacje_miejsc_zlecen": {
+    "Lucciano": "skory — Ebino (etykieta paczki LUCCIANO HANDLARZ EBINO)",
+    "Benito": "ryby — Kreutzhofen (BENITO SANGIOVESI RESTAURATOR KREUTZHOFEN)",
+    "Rudolf/Naula": "Nuln (RUDOLF KARCZMARZ NULN)",
+    "Aubert": "Quenelles (AUBERT GRIBAUX RZEZNIK QUENELLES — rzeznik <-> mieso)",
+    "Adler": "Nuln (deklaracja gracza)",
+    "szczurolap": "Novigrad (deklaracja gracza)",
+    "Oferon": "ryby — lokalizacja nieznana; mozliwy zwiazek z linia 'Dajesz chlopakowi zlota monete, ten gryzie ja w...' (hipoteza)",
+    "bez_korelacji": [
+     "Zedar",
+     "Frael (bobolak)",
+     "Gualtiero",
+     "Georg",
+     "Szczuroslaw",
+     "Helmut/Hellmut",
+     "Caraes",
+     "Raul/Herman",
+     "2 nienazwanych"
+    ]
+   }
   }
  }
 }
