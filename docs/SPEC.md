@@ -924,8 +924,9 @@ Nadal otwarte:
 1. ~~Wzrost wiedzy jako osobne zdarzenie kroniki~~ — decyzja 2026-09-18: TAK
    (§2.12, §11); kanal, 14 dziedzin, bazy zrodlowe (ksiazki/biblioteki/eksploracja)
    i poziomy domkniete na wiki + kod x2 + korpus + JSON Delwinga + API ethel.pl.
-2. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
-   — po stronie mapy, nieblokujące.
+2. ~~Zgłoszenie upstream do arkadia-mapa~~ — odrzucone decyzją gracza
+   2026-09-18: suplement lokalny (klucz `suplement_depozyty`, pokój 10416
+   Ard Skellig) wystarczy na stałe (§2.3, §5).
 3. ~~Linia wynikowa komendy `sprawdz swoja reputacje`~~ — domkniete na pelnym
    korpusie: skala 6 gradacji odpowiedzi pracownika poczty (§2.1, §10: 46).
 4. Stawka prowizji kantoru Eysenlaan — tabliczka nieznana (wiki milczy) — tryb
