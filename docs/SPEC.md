@@ -412,17 +412,39 @@ Mechanika poziomów (kod Dargotha improveCounter + Mudlet + wiki „Doświadczen
 ### 2.7 Cechy
 
 Klient przechwytuje komendę `cechy` i parsuje odczyt; Kronikarz używa tych samych
-zweryfikowanych patternów (klient: lvlCalc.ts):
+zweryfikowanych patternów (klient: lvlCalc.ts; Mudlet lvl_calc.lua — tablice 1:1):
 
-- `Jestes <opis> i <ile> ci brakuje, zebys mogla? wyzej ocenic sw(a|oj) <cecze>.` z opcjonalnym suffiksem modyfikatora `( +cos )`,
+- `Jestes <opis> i <ile> ci brakuje, zebys mogla? wyzej ocenic sw(a|oj) <cecze>.` z opcjonalnym suffiksem modyfikatora `( +N )`,
 - `Twoja/Twoj <cecha> osiagnela/al nadludzki poziom.`,
 - linia zamykająca `Obecnie do waznych cech zaliczasz...` z **opcjonalnym sufiksem** ` Mozesz to zmienic podczas medytacji w gildii podrozniczej.` (oba warianty w korpusie),
-- `Twoje cechy sa oslabione po ostatniej smierci.` (snapshot oznaczany jako osłabiony).
+- `Twoje cechy sa oslabione po ostatniej smierci.` (snapshot oznaczany jako osłabiony; grace 500 ms po linii zamykającej — kod).
+
+**Tablice kanoniczne** (kod ×2 + wiki „Cechy"):
+
+- 5 cech × 9 poziomów + `nadludzki` = 10; anomalia: kod ×2 ma „thorzliwy" przy
+  odwadze 1, wiki „tchórzliwy" — korpus N=0, parser akceptuje obie formy
+  (otwarte 19);
+- kroki do następnego poziomu: bardzo duzo=0, duzo=1, troche=2, niewiele=3,
+  bardzo niewiele=4; suma cechy = (poziom−1)×5 + krok;
+- progi poziomu postaci: LEVEL_THRESHOLDS 58–190 (12 progów, 13 etykiet od
+  „ktos niedoswiadczony" do „osoba owiana legenda"); rzeczownik `intelekt`
+  mapowany na inteligencję;
+- komenda `poziomy` (pomoc gry) = referencja opisów poziomów — walidator skal;
+  output nieznany (otwarte 20).
 
 Odczyt z modyfikatorem (sprzęt/zioła) jest odrzucany — nie zapisuje się fałszywej
-wartości. Detekcja odczytu: event `command` = `cechy` + własny parsing linii (istnieje
-też subkomenda `cechy um`).
-Premium: storage klienta klucz `cechy_history` (historia zmian i koszt w postępach).
+wartości; gate: `gmcp.char.options.state_modifiers===1` (wiki „Opcje": `opcje
+modyfikatory wlacz`). Detekcja odczytu: event `command` = `cechy` + własny parsing
+linii; komenda `cechy` jest **bezargumentowa** (pomoc gry) — subkomenda `cechy um`
+nie istnieje (echo w korpusie = literówka gracza, §10: 39). Linia `Twoj aktualny
+poziom to ...` w logach = generowana przez klienta (calculateLvl), nie przez grę
+(korpus N=0 zgodne z kodem).
+Premium: kanał live `cechy.read` (snapshot: odczyty/suma/poziom/osłabienie) +
+storage klienta `cechy_history` (MAX 500 wpisów, tylko zmiany, null per cecha
+zmodyfikowana, flaga estimated; pole `postepy` = lifetime postępów przy odczycie,
+czyli koszt zmiany cechy wyrażony w postępach). Rozszerzona linia osłabienia:
+`...By je odbudowac potrzebujesz zdobyc jeszcze <gradacja> postepy.` (16 gradacji
++ `zadnych`).
 Backfill: echo `→ cechy` + odczyt w logach. **Uwaga korpusowa:** logi HTML zawierają
 linie cech w wersji **wzbogaconej przez klienta** — `[18] Jestes krzepki [4/10] i
 niewiele [3/5] ci brakuje, zebys mogl wyzej ocenic swa sile.` — parser backfillu musi
@@ -916,6 +938,28 @@ Towarzysz (brak modułu) + wiki „Doświadczenie" + korpus 576 sesji (digesty))
     catch-up, zero duplikatów) vs `record`; spadek przy fresh login = absorb między
     sesjami, reset poziomu bazowego (§2.6); spadek mid-session → otwarte 14–15.
 
+Domknięte na analizie źródeł cech 2026-09-18 (Dargoth lvlCalc.ts w całości +
+cechyHistory.ts + afterDeathProgress.ts + Mudlet misc/lvl_calc.lua (tablice 1:1)
++ wiki „Cechy" i „Opcje" + pomoc arkadia.rpg.pl/help/command/cechy + korpus 576
+sesji):
+38. ~~Tablice kanoniczne cech~~ — 5 cech × 9 poziomów + nadludzki (10); kroki
+    bardzo duzo…bardzo niewiele = 0–4; suma cechy = (poziom−1)×5 + krok; progi
+    poziomu postaci 58–190 (12 progów, 13 etykiet) (§2.7).
+39. ~~Subkomenda `cechy um`~~ — **nie istnieje**: pomoc gry definiuje `cechy`
+    jako komendę bezargumentową; echo w korpusie to literówka gracza (§2.7).
+40. ~~Linia `Twoj aktualny poziom to ...`~~ — generowana przez klienta
+    (calculateLvl), nie przez grę; korpus N=0 zgodne z kodem (§2.7).
+41. ~~Gate modyfikatorów cech~~ — odczyt z suffixem `( +N )` odrzucany tylko
+    przy włączonych modyfikatorach (`gmcp.char.options.state_modifiers===1`;
+    wiki „Opcje") (§2.7).
+
+Nadal otwarte (cechy):
+19. Forma przy odwadze 1: `thorzliwy` (kod ×2) vs `tchorzliwy` (wiki) — korpus
+    N=0 → re-check pełny korpus (skrypt ekstrakcyjny pkt 5); parser akceptuje
+    obie formy (§2.7).
+20. Output komendy `poziomy` (referencja opisów poziomów) — nieznany → capture
+    / skrypt ekstrakcyjny pkt 7a (§2.7).
+
 ---
 
 ## 11. Rejestr decyzji
@@ -1005,6 +1049,11 @@ Podjęte:
   decyzją, nigdy dla wpisów-zdarzeń. Ograniczenia: zakres sesyjny, snapshot =
   my+team, docięcie na absorb między sesjami, alarm wyłączony przy poziomie 15
   do rozstrzygnięcia otwartego 14, brak działania na backfillu (§2.6, §10: 17).
+- (2026-09-18, kod ×2 + wiki + pomoc gry) Cechy: tablice kanoniczne przyjęte
+  z kodu klienta ×2 (zgodne z wiki poza formą „tchórzliwy" — otwarte 19);
+  kanał premium live `cechy.read` + historia `cechy_history`; koszt zmiany
+  cechy wyrażany w postępach (pole lifetime przy odczycie); `cechy um` nie
+  istnieje (pomoc) — echo korpusu to literówka gracza (§2.7, §10: 38–41).
 - (2026-09-17, korpus III) Paczka spóźniona potwierdzona: `Niestety, ale
   dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.`
   — wypłata pomniejszona (§2.1).
