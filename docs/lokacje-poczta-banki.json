@@ -1378,5 +1378,149 @@
   "skala_jezykow": "= skala wiedzy (10: znikoma...pelna); Dargoth languageLevels = Mudlet knowledge_desc",
   "jezyki_20": "14 Imperium + 6 Ishtar (wiki 'Jezyki'); nauka od graczy / z pochodzenia; Mroczna Mowa = mutacja; storage klienta language_max_levels = koroboracja",
   "koszt_treningu_decyzja": "wydatek 'usluga/trening' — wylacznie laczna kwota, bez atrybucji per umiejetnosc; trening jako kategoria kroniki odrzucony (SPEC 2.13, 11)"
+ },
+ "korpus_pelny_2026_09_18": {
+  "zakres": "Skrypty ekstrakcyjne v1-v5 na pelnym korpusie 576 sesji HTML (3 865 554 linii), 2026-09-18. Piec przelotow tematycznych; domkniecia §10: 46-58, errata §10:40.",
+  "reputacja_pocztowa": {
+   "komenda": "sprawdz swoja reputacje",
+   "bledne_warianty_z_podpowiedzia_gry": [
+    "reputacja -> Slucham?",
+    "zapytaj pracownika poczty o reputacje -> Chyba chcesz sie zapytac _o_ cos?",
+    "sprawdz reputacje -> Sprawdz swoja reputacje?"
+   ],
+   "gradacje_odpowiedzi": [
+    "Nie znam cie wcale.",
+    "Moge ci powierzyc jedynie przesylki lokalne i do najblizszych miasteczek.",
+    "Nie powierze ci zadnej dalszej przesylki, ale ufam na tyle, aby dac jakas blizsza.",
+    "Tak, ufam ci na tyle, aby powierzyc ci nawet te dalsze przesylki.",
+    "Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac. (+ dopisek: przystapienie do pocztylionow Ziem Imperialnych)",
+    "Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke. (forma 3-os, wariant per NPC)"
+   ],
+   "uwaga": "Kolejnosc dwoch najwyzszych gradacji (kazda vs prawie kazda) niepewna; forma 3-os wystepuje u nazwanego NPC (Barylkowaty wysoki mezczyzna)."
+  },
+  "sale_bankowe_korpus": {
+   "lista": [
+    "Przedsionek banku.",
+    "Glowna sala banku.",
+    "Bank w Quenelles.",
+    "Bank w gildii kupieckiej.",
+    "Bank w Parravon.",
+    "Bank.",
+    "Bank w Oxenfurcie.",
+    "Kantor banku w Daevon.",
+    "Bank krasnoludzki w Karak Varn.",
+    "Filia Banku Remanskiego.",
+    "Bank mariborski.",
+    "Przed bankiem.",
+    "Niewielki bank.",
+    "Bank rodziny Farinellich.",
+    "Centralny Bank Krasnoludzki.",
+    "Bank Giancardich.",
+    "Glowny bank Skellige.",
+    "Bank kupiecki."
+   ],
+   "szum_odfiltrowany": [
+    "banki powietrza (opisy wody)",
+    "linie flavor bankiera (przelicza monety, wyplaca komus, podpisuje weksle)",
+    "room.contents z bankierem",
+    "Wyfiokowany zadufany panek poprawia falbanki zabotu (falbanki!)"
+   ],
+   "uwaga": "Przed bankiem. = pokoj zewnetrzny w kontekscie bankowym."
+  },
+  "liczebnik_50_warianty": {
+   "piecdziesiat": 734,
+   "piecdziesieciu": 696,
+   "piecdziesiata": 59,
+   "piecdziesiecioma": 12,
+   "piescdziesiat": 1,
+   "uwagi": "piescdziesiat = literowka gracza w mowie (Anayensen, kanal comm), poza parserem kwot; typo-formy contracts.ts (piedziesiat, pieedziesieciu) N=0 = martwe klucze."
+  },
+  "komendy_bankowe_legacy": {
+   "wplac": 0,
+   "wyplac": 0,
+   "przelej": 32,
+   "przelej_semantyka": "przelewanie plynow: Napelniasz/Dopelniasz <naczynie> <plynem> z <naczynia>; komunikaty: 'Przelej co? Moze zawartosc <czego> do <dokad>?', 'Mozesz przelac zawartosc tylko czegos co masz przy sobie.'",
+   "wniosek": "wplac/wyplac martwe legacy po 2011 (poza katalogiem); przelej NIGDY bankowe - twardy filtr kolizji."
+  },
+  "tabliczki_prowizji": {
+   "8_procent_slownie": 47,
+   "5_procent_slownie": 36,
+   "3_procent_slownie": 25,
+   "5_procent_cyfra_druga_forma": 14,
+   "druga_forma_wzor": "W naszym banku tanim sposobem mozesz pozbyc sie uciazliwie ciezkich monet. Za kazda transakcje pobieramy tylko 5% prowizji.",
+   "szum": "Isil mowi: ... 10% prowizji ... = mowa gracza (wycena), nie tabliczka."
+  },
+  "zabojstwa": {
+   "linii_ogolem": 1796,
+   "z_tagiem_NPC_przy_ofierze": 0
+  },
+  "linia_wbicia_klienta": {
+   "wystapienia": 273,
+   "sesje": 56,
+   "wzor": "Wlasnie wbiles postepy: <stan> (czas: m:ss)",
+   "dowod_delta_gt_1": "sekwencje gigantyczne (czas: X) -> niebotyczne (czas: 0:00)",
+   "wniosek": "println klienta jest logowany; MUD nie drukuje wlasnej linii wbicia (kanal czysto GMCP)."
+  },
+  "cechy": {
+   "tchorzliwy": 10,
+   "thorzliwy": 0,
+   "poziomy_output": "35 list opisow poziomow + skala cech zrodlem gry (sila: slabiutki, watly, slaby, krzepki, silny, mocny, potezny, mocarny, epicko silny)",
+   "modyfikator_wiersz_cech_lub_um": 0,
+   "wstawka_delta_sumy": "(±N) przy prefiksie [N] po smierci (np. [19] (-4), [23] (+1))",
+   "linia_poziomu_klienta": "Twoj aktualny poziom to ... - WYSTEPUJE w logach (println klienta logowany); errata §10:40"
+  },
+  "oslabienie_po_smierci": {
+   "linia": "Twoje cechy sa oslabione po ostatniej smierci. By je odbudowac potrzebujesz zdobyc jeszcze <gradacja> postepy.",
+   "gradacje_counter_jednoslowowy": {
+    "minimalne": 55,
+    "nieduze": 25,
+    "nieznaczne": 22,
+    "male": 12,
+    "zadowalajace": 2
+   },
+   "gradacja_dwuslowowa": {
+    "bardzo male": "14+ (w blokach; regex jednoslowowy jej nie liczyl)"
+   },
+   "smierci_z_blokiem": 11,
+   "wniosek": "wszystkie 6 gradacji tabeli §2.8 obecne - tabela potwierdzona 1:1; zaswiaty = flavor, nie ksiega."
+  },
+  "umiejetnosci": {
+   "echo_umiejetnosci_typ": 0,
+   "tabela_um_wystapienia": 623,
+   "um_maksymalne_echa": 5,
+   "um_maksymalne_format": "surowa tabela dwukolumnowa 38 pozycji BEZ wstawek [N/10]",
+   "diff_migawka_dowod": "topory: ledwo -> troche miedzy migawkami w 5 minut; brak linii push"
+  },
+  "jezyki": {
+   "linia_negatywna": {
+    "tekst": "Nie znasz zadnych jezykow obcych.",
+    "wystapienia": 297
+   },
+   "pasek_klienta": "[#---------] / [#-----] - zmienna dlugosc skalowana do poziomu maksymalnego jezyka",
+   "jezyki_maksymalne": "wiersze <jezyk>: <poziom> BEZ paskow (starsza mowa: dobra, tileanski: pelna, reikspiel: pelna)",
+   "pomoc_jezyki": "Dostepne jezyki: ... = lista 14 jezykow Imperium zrodlem gry"
+  },
+  "wiedza_fragment": {
+   "wystapienia": 266,
+   "sesje": 68,
+   "promocja": "pelne zdarzenie kroniki (decyzja §11)"
+  },
+  "trening": {
+   "echa": 10,
+   "cennik_naglowek": "Oto umiejetnosci, w jakich mozesz sie szkolic:",
+   "cennik_format": "Umiejetnosc: / Koszt sesji treningowej: - kwoty slownie per umiejetnosc",
+   "linia_szkolenia": "Przechodzisz szkolenie w <opis>.",
+   "limit_mistrza": "Obawiam sie, ze w tej dziedzinie nie naucze cie juz nic nowego. Moze jednak uda ci sie znalezc innego mistrza...",
+   "linia_kasowa_przy_pobraniu": 0,
+   "wniosek": "koszt = liczba sesji szkoleniowych x stawka z ostatniego cennika lokacji"
+  },
+  "eysenlaan": {
+   "wizyty_w_kantorze": 0,
+   "uwaga": "30 linii korpusowych = opisy traktow/tablice pocztowe/festyn; stawka prowizji i depozyt - capture"
+  },
+  "kaucja_woz_wynajmujesz": 0,
+  "linia_wykupienia_depositu": 0,
+  "sto_plus_w_depositach_i_kasie": 0,
+  "niebotyczne_wystapienia": 5
  }
 }
