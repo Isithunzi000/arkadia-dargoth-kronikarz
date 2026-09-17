@@ -1324,9 +1324,13 @@
     "poziomy": "10 gradacji gry: znikoma/niewielka/czesciowa/niezla/dosc dobra/dobra/bardzo dobra/doskonala/prawie pelna/pelna (wiki + Mudlet knowledge_desc 1/10-10/10); Dargoth 11 etykiet (dodaje 'brak' idx 0); tick NIE mowi typu — wpis = dziedzina + timestamp",
     "format_wpisu": "12:03:44 — Wzrost wiedzy: goblinoidy. ; backfill z logow (push); koroboracja z migawki 'wiedza'",
     "smierc_druzynowa": {
-      "korekta_living": "flaga living w objects.data NIE jest flaga smierci — spec forum t=740: 'living - BOOLEAN, czy obiekt to istota zywa, na te chwile zawsze tak'; oba klienty uzywaja jako filtra istot (Mudlet team/core.lua:63, enemy_eq), zadne nie wykrywa smierci druzynowego",
-      "linia_tekstowa": "korpus N=0 (digesty: zero linii smierci osob; 'Umierasz.' tylko wlasna)",
-      "kanal": "NIEZWERYFIKOWANY — capture live: objects.data/objects.nums/hp przy realnej smierci (otwarte 18)",
+      "kto": "ROZSTRZYGNIETE kodem: diff objects.nums (przed->po) + akumulowane objects.data (id -> {desc, team, hp}); Dargoth accumulatedObjectsData + Mudlet ateam.objs akumuluja identycznie; identyfikacja ubylego druzynowego w 100%",
+      "dlaczego": "CAPTURE (otwarte 18): dyskryminator smierci vs wyjscie/quit/teleport = brak linii odejscia + pojawienie sie ciala w pokoju; nieznane: forma ciala gracza, hp przy zgonie, powrot ducha (ten sam id?); 1 obserwacja live domyka",
+      "mechanika_wiki": "wiki 'Smierc': cialo postaci zostaje w pokoju z calym dobytkiem; duch na kilka minut w zaswiatach (brak interakcji); odrodzenie: lokacja startowa najblizsza zgonu albo siedziba stowarzyszenia (opcje start przy ciele/neutralna)",
+      "korekta_living": "flaga living NIE jest flaga smierci — spec forum t=740: 'living - BOOLEAN, czy obiekt to istota zywa, na te chwile zawsze tak'; w GMCP wystepuje 3x zawsze jako typ obiektu (objects.data param, room.contents.living, living.long); oba klienty uzywaja jako filtra istot, zadne nie wykrywa smierci druzynowego",
+      "korpus": "N=0 smierci druzynowych w 576 sesjach (digesty: zero 'duch <imie>', zero cial druzynowych, 'Umierasz.' tylko wlasna) — backfill nie istnieje",
+      "zasieg": "tylko ta sama lokacja — GMCP milczy o innych pokojach; smierc podzielonej druzyny poza zasiegiem (jawne ograniczenie)",
+      "protokol_capture": "surowe snapshoty objects.nums+objects.data przed/w trakcie/po + pelny tekst pokoju ±30 s + timestampy; mozliwa smierc wymuszona z druga postacia; opcja: ring buffer surowego GMCP (tryb diagnostyczny) = capture samoczynny",
       "nazwa_widoku": "Zmarli czlonkowie druzyny (decyzja 2026-09-18); live-only, brak backfillu"
     },
     "decyzje": "1 wzrost wiedzy TAK; 2 smierc druzynowa TAK (z capture kanalu); 3 trening+druzyna jako kategorie ODRZUCONE"
