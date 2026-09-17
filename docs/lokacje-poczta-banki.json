@@ -1089,5 +1089,40 @@
         ]
       }
     }
+  },
+  "bank_depozyty_2026_09_17": {
+    "zrodla": "Dargoth deposits.ts + prettyContainers.parseItems + Mudlet boxes.lua + tjurczyk boxes.lua (ta sama rodzina) + wiki 'Skrytki'/'Pieniadze' + korpus-probka 33 logi + mapa sync 430 + spec GMCP t=740; Towarzysz: brak modulu depozytow",
+    "linie_odczytu": [
+      "Twoj depozyt zawiera <lista>. (migawka na zadanie, NIE zdarzenie ksiegowe; w logach bywa zawinieta w srodku fraz — sklejanie §6.2 SPEC)",
+      "Twoj depozyt jest pusty.",
+      "Nie posiadasz wykupionego depozytu."
+    ],
+    "transfery": "Wkladasz/Bierzesz <cos> do/z otwartej skrzynki depozytowej. — transfer, nigdy przychod/wydatek; cudze: bierze/wklada ... ze/do SWOJEJ otwartej skrzynki depozytowej. — marker 'swojej' odfiltrowuje",
+    "skrytki": {
+      "koszty": "podstawa 50 zlotych; poziomy rozbudowy 2/5/10/20 mithryli (wiki 'Skrytki')",
+      "trwalosc": "do konca gry postacia (zero odnawiania); smierc = utrata depozytu",
+      "limit": "25 przedmiotow niezaleznie od rozbudowy; stos jednego rodzaju = 1 przedmiot (notka Mistrza Rafgarta, tablica w korpusie: '10: Zmiany w depozytach')",
+      "linia_wykupienia": "NIEZNANA (zadnen z trzech klientow nie triggeruje, korpusy nie pokazaly) + komenda pomocy '?depozyt' — tryb capture",
+      "wydatek": "kategoria 'usluga bankowa' (wykupienie i kazda rozbudowa)"
+    },
+    "komendy_zarzadzania": [
+      "przejrzyj [pobieznie] <co> [z czego] (filtry: uszkodzone/naprawialne/typy)",
+      "wybierz <co>",
+      "?depozyt (pomoc)"
+    ],
+    "komendy_status_nieznany": "wplac/wyplac/przelej — gra je zna (walidator asystenta Dargotha 'Komenda operuje na pieniadzach'; lista test_commands Mudleta), ale konta procentowe zlikwidowano 2011 (wiki 'Pieniadze') — legacy albo zywe (przelew gracz->gracz przez bank?); capture przy banku + pelny korpus",
+    "historia": "konta bankowe z prowizja procentowa od wplaty/wyplaty (pre-2011) — zastapione skrzynkami depozytowymi; NIE ISTNIEJE",
+    "zakaz": "zakaz posredniego i bezposredniego przekazywania pieniedzy miedzy wlasnymi postaciami gracza (wiki 'Pieniadze')",
+    "parse_notes": "klient: 'wiele' -> pseudo-count 'wie' poza suma miedzi (zgodne z regula null); konwerter klienta konczy na 99 — lista z 'sto+' slownie nie sparsuje sie klientowi (ich bug storage), unia Kronikarza pokrywa (Towarzysz); czestotliwosc 'sto+' slownie w depozytach — re-check pelny korpus",
+    "tabela_klienta_w_logach": "pretty-print DEPOZYT po linii gry (naglowek '| DEPOZYT |', kategorie, markery *...*, licznosci cyframi) — redundantny, backfill rozpoznaje po ramce i pomija; analogicznie tabele pojemnikow",
+    "pokoje_nazwy_gry": {
+      "znane": [
+        "Glowna sala banku."
+      ],
+      "uwaga": "nazwy w grze != nazwy mapy (mapa: 'Bank w Daevon'); lista rosnie z korpusu/capture — atrybucja backfill"
+    },
+    "lokalizacje_rozjazd": "wiki 'Skrytki' podaje 13 miejsc (nieaktualna), wiki 'Pieniadze' 15, rzeczywistosc 17 (mapa+klienci: +Val'Kare, +Brugge 10 pokoi; Ard Skellig = suplement 10416); valid_banks Mudleta 16/16 zgodne z naszymi danymi",
+    "eysenlaan_depozyt": "NIEZNANY — 'Kantor, Bank, Sklep, Eysenlaan' (banki_bez_binda); wiki milczy — capture",
+    "premium_storage": "characterStorage klucz 'deposits' per (postać): Record<roomId, {name, items}> — gate isBankRoom = bind 'depozyt' w userData pokoju; warstwa defensywna (fallback na wlasne triggery)"
   }
 }
