@@ -402,9 +402,9 @@ Mechanika poziomów (kod Dargotha improveCounter + Mudlet + wiki „Doświadczen
 - **Linia kliencka wbicia**: klient drukuje własny komunikat (tab +
   `Wlasnie wbiles postepy: <stan> (czas: m:ss)`) — to NIE jest linia gry; digest
   korpusu N=0, re-check na pełnym korpusie → otwarte 16 (§10).
-- **Kontekst wpisu**: licznik zapisuje przy każdym wbiciu czas od poprzedniego
-  (m:ss) i snapshot zabójstw — czy trafia do formatu wpisu: decyzja odłożona
-  → otwarte 17 (§10).
+- **Kontekst wpisu — decyzja 2026-09-18**: wpis prosty (stan + timestamp);
+  czas od poprzedniego wbicia (m:ss) i snapshot zabójstw (my+team) trafiają do
+  **metadanych audytowych** zdarzenia i zasilają weryfikator krzyżowy (§11).
 - Technikalia klienta (referencja): aliasy `/postepy*` (10), storage
   `improve_counter` / `improve_counter_lifetime` (per `rrrr/m/d`), eventBus
   `postepy.updated` / `postepy2.updated`.
@@ -813,8 +813,10 @@ Nadal otwarte (uzupełnienie):
 16. Linia kliencka wbicia `Wlasnie wbiles postepy: ... (czas: m:ss)` — digest
     korpusu N=0; do potwierdzenia, że MUD nie drukuje własnej linii przy wbiciu
     (kanał czysto GMCP) — re-check pełny korpus.
-17. Format wpisu postępu: czy wpis zawiera czas od poprzedniego wbicia i licznik
-    zabójstw między wbiciami (licznik klienta zapisuje oba) — decyzja odłożona.
+17. ~~Format wpisu postępu~~ — decyzja 2026-09-18: wpis prosty (stan +
+    timestamp); czas od poprzedniego wbicia i snapshot zabójstw = metadane
+    audytowe zdarzenia zasilające weryfikator krzyżowy; polityka rozbieżności:
+    flaga + diagnoza, zero auto-korekty (§11).
 
 Domknięte na analizie źródeł zleceń 2026-09-17 (Dargoth contracts.ts +
 deliveryStats.ts + polishNumberConverter + Mudlet/tjurczyk/Towarzysz (brak modułu
@@ -926,6 +928,19 @@ Podjęte:
 - (2026-09-18, kod) Skok `improve` o delta > 1 = osobny wpis per poziom pośredni
   (jak `record` w pętli klienta), każdy z własnym timestampem; nigdy wpis
   zbiorczy (§2.6).
+- (2026-09-18, decyzja) Postępy — format wpisu i audyt: wpis prosty (stan +
+  timestamp, wierny GMCP); czas od poprzedniego wbicia (m:ss) i snapshot
+  zabójstw (my+team) = **metadane audytowe** zdarzenia, poza tekstem wpisu.
+  Weryfikator krzyżowy (live, w obrębie sesji): delta snapshotów między wbiciami
+  vs liczba wpisów zabójstw (własne+drużyna) kroniki oraz czas klienta vs
+  różnica timestampów kroniki. Rozbieżność (delta != 0): NIGDY auto-korekta
+  (wpisy kroniki = dowód, licznik klienta = metadany); wpis audytowy + znacznik
+  sesji „pokrycie niepełne"; statystyki pokazują obie wartości z flagą; capture
+  diagnostyczny surowych linii ±20 wokół wbicia (paliwo red→green); korekta
+  statystyk wg klienta dla klasy przypadków dopiero po danych z flag, osobną
+  decyzją, nigdy dla wpisów-zdarzeń. Ograniczenia: zakres sesyjny, snapshot =
+  my+team, docięcie na absorb między sesjami, alarm wyłączony przy poziomie 15
+  do rozstrzygnięcia otwartego 14, brak działania na backfillu (§2.6, §10: 17).
 - (2026-09-17, korpus III) Paczka spóźniona potwierdzona: `Niestety, ale
   dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.`
   — wypłata pomniejszona (§2.1).
