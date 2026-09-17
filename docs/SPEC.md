@@ -231,16 +231,16 @@ potencjalny status legacy komend `wplac`/`wyplac`.
 |---|---|---|
 | Zapytanie | `^Pytasz .+ o zlecenie\.$` (otwiera kontekst; klient zapisuje `locationId` pokoju) | kod (klient: contracts.ts) |
 | Oferta | `.+? \S+ do [^:]+: Tak, mam pewne pilne zamowienie na ([^.]+)\. Potrzebuje (?:jeszcze )?([^.,]+?)(?:, przynajmniej ([^.]+) jakosci)?\.` | kod |
-| Termin | `.+? \S+ do [^:]+: Na realizacje zamowienia mam ... (dni/dzien/godzin/godziny/godzine), pozniej zapewne bede potrzebowac czego innego\.` | kod |
+| Termin | `.+? \S+ do [^:]+: Na realizacje zamowienia mam ... (dni/dzien/godzin/godziny/godzine), pozniej zapewne bede potrzebowac czego innego\.` Konwersja: **1 dzień IG = 48 minut realnych** (kod: ONE_INGAME_DAY_MS), godzina IG = 2 min RL; `kilka godzin` = 0,5 dnia (korpus 2×), brak liczebnika (`mam dzien`) = 1 dzień; deadline kotwiczony na czasie nadania oferty | kod + korpus |
 | Brak zlecenia | `.+? \S+ do [^:]+: Nie, w tej chwili niczego mi nie trzeba\. Zajrzyj moze za jakis czas\.` (zamyka kontekst, czyści kontrakty lokacji) | kod |
-| Realizacja | **Sekwencja (konteksty łowiska v2):** echo komendy `→ daj <towaru> <NPC>` (dopełniacz partitywny, np. `→ daj miesiwa mezczyznie`) → **para linii na każdą sztukę**: `<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostała ilość>.` (tracker postępu, warianty: „dwoch kilogramow", „ponad kilogram") + `<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.` **Brak linii `Dajesz/Oddajesz` po stronie gracza** — dowód to echo + linie NPC. Jedna komenda `daj` może dać N dostaw. Dowód: oferta „czterech kilogramow miesa z zajaca" (00:32:07) → 41 s później dwie pary postęp+zapłata od `Wysoki zwinny mezczyzna` (4 zł 8 sr 4 mdz + 4 zł 13 sr; zlecenie nieukończone w logach — linia finalizacji nieznana, tryb capture). Samo `odbiera od ciebie` jest **trójznaczne** (blok niżej) — kotwica na pełnej formie z `i wrecza ci`; reguła §4 (kolizja ze sprzedażą) bez zmian. Lokalizacja dowodu: Parravon | korpus III + łowisko v2 (2026-09-17) |
+| Realizacja | **Sekwencja (konteksty łowiska v2):** echo komendy `→ daj <towaru> <NPC>` (dopełniacz partitywny, np. `→ daj miesiwa mezczyznie`) → **para linii na każdą sztukę**: `<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostała ilość>.` (tracker postępu, warianty: „dwoch kilogramow", „ponad kilogram") + `<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.` **Brak linii `Dajesz/Oddajesz` po stronie gracza** — dowód to echo + linie NPC. Jedna komenda `daj` może dać N dostaw. Dowód: oferta „czterech kilogramow miesa z zajaca" (00:32:07) → 41 s później dwie pary postęp+zapłata od `Wysoki zwinny mezczyzna` (4 zł 8 sr 4 mdz + 4 zł 13 sr). **Płatność pro-rata (decyzja 2026-09-17):** kasa przychodzi z każdą dostawą osobno, niezależnie od stopnia ukończenia — zdarzenie finansowe = para linii na każdą sztukę/kilogram; osobnej linii finansowej „finalizacji" nie ma i nie trzeba jej capture'ować dla księgi (ewentualny tekst po ostatniej dostawie to co najwyżej informacja). Samo `odbiera od ciebie` jest **trójznaczne** (blok niżej) — kotwica na pełnej formie z `i wrecza ci`; reguła §4 (kolizja ze sprzedażą) bez zmian. Lokalizacja dowodu: Parravon | korpus III + łowisko v2 (2026-09-17) |
 | Realizacja give-based (bounty) | `Dajesz/Oddajesz <NPC> <przedmiot>.` + okno: `<NPC> mowi do ciebie: ... daje <kwote> ... .` i/lub `<NPC> wrecza ci monety.` (kwota w komentarzu NPC, linia wręczenia bez kwoty — łączyć w oknie). Potwierdzone: Adler, ciała szczurów | korpus (grepy 2026-09-17) |
 | Odmowa dawania | `<NPC> mowi do ciebie: A po co mi to dajesz?` — nieudana próba `daj` (NPC nie chce towaru), osobne zdarzenie | korpus (6× Adler) |
-| Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.`, `Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.` | korpus (Lucciano, Benito, Aubert, Naula/Rudolf) |
+| Reklama kontraktu myśliwskiego | `Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace.`, `Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.` | korpus (Lucciano, Benito, Aubert, Naula/Rudolf, Szczuroslaw 10×, Fuats 6×) |
 | Oferta (warianty korpusowe) | towar na wagę: `Potrzebuje trzydziestu jeden kilogramow miesa z sarny. Dobrze zaplace!`; z jakością: `Potrzebuje osmiu tarcz, przynajmniej sredniej jakosci. Dobrze zaplace za kazda sztuke.`; z rozmiarem/typem: `dziesieciu srednich ryb slodkowodnych`; sufiksy `Dobrze zaplace!` / `Dobrze zaplace za kazda sztuke.` | korpus (Anatol, Ferdinand, Mortimer, Ghaadrav) |
 | Cudze oferty | oferty kierowane do innych graczy (`mowi do <ktoś>:` zamiast `mowi do ciebie:`) — ignorowane | korpus |
 | Tablica bounty | `| Zleceniodawca | Scigana osoba | Data` | korpus |
-| Ogłoszenie bounty (przekrzyk) | `<NPC> krzyczy po bretonsku, ale udaje ci sie zrozumiec tylko czesc: ...` — ogłoszenie bounty na potwory czytane na głos w niektórych miastach (ekwiwalent listu gończego); tekst **urwany**, kwota niewiarygodna → kategoria informacyjna, nie zdarzenie finansowe | korpus III |
+| Ogłoszenie bounty (przekrzyk) | `<NPC> krzyczy (z oddali )?po bretonsku, ale udaje ci sie zrozumiec tylko czesc: ...` — ogłoszenie bounty na potwory czytane na głos w niektórych miastach (ekwiwalent listu gończego); tekst **urwany**, kwota niewiarygodna → kategoria informacyjna, nie zdarzenie finansowe. Warianty podmiotu: `Jakis mezczyzna krzyczy z oddali ...`, `Szczuply ryzy mezczyzna krzyczy ...` | korpus III |
 
 **Trójznaczność `odbiera od ciebie` (korpus III):**
 1. `<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.` — **realizacja zlecenia**
@@ -249,6 +249,16 @@ potencjalny status legacy komend `wplac`/`wyplac`.
    sprzedany przedmiot, bez kasy w linii; sklepikarze: Antonietta, Olof, Ernest).
 3. `<NPC> odbiera od ciebie <kwota> w zamian za zakupiony towar.` — **zakup** (NPC
    pobiera zapłatę od gracza; §2.2).
+
+**Liczebniki i ilości w ofertach (korpus + kod, 2026-09-17):** parser zleceń
+Kronikarza stoi na **unii liczebników** (§2.2 reguła 7), NIE na tabeli contracts.ts
+— tamtejsza POLISH_NUMBERS kończy się na 50, a korpus ma ofertę `siedemdziesieciu
+dwoch kilogramow miesa z dzika` (72 kg; Dargoth sparsowałby count:1). Unia pokrywa
+60–90 z złożeniami (osobny konwerter klienta). Oferty bywają też **cyfrowe ≥100**:
+`110 kilogramow miesa z losia` — parser musi łykać czyste cyfry. Typy towarów
+korpusowe: ryby (sztuki + rozmiar + typ), mieso (kg, zwierzę), zbroje (sztuki,
+jakość opcjonalna), **skóry** (`dwunastu skor susla`). Zleceniodawcą może być NPC
+z gołym imieniem bez opisu (korpus: `Petyr`).
 
 **Kolizje kategorii (korpus):**
 1. `Pracownik poczty mowi: Mam (calkiem) nowe zlecenia.` to ogłoszenie o **paczkach**,
@@ -261,7 +271,9 @@ potencjalny status legacy komend `wplac`/`wyplac`.
    (linia `Sprzedajesz` w oknie), nigdy po samym NPC czy kwocie.
 3. `odbierz zamowienie` / `zloz zamowienie` to **zamówienia rzemieślnicze** (wytwórcy:
    `Przyjdz tedy i 'odbierz zamowienie'.`, `Przeciez nie skladales zadnego
-   zamowienia!`) — odrębna mechanika, nie mieszać ze zleceniami.
+   zamowienia!`) — odrębna mechanika, nie mieszać ze zleceniami. Ich linia kasowa:
+   `Placisz <NPC> <kwota> i skladasz zamowienie.` (korpus 4×) — wydatek
+   „zamówienie rzemieślnicze", nie zlecenie i nie zakup sklepowy.
 
 **Bounty za ciała szczurów (korpus III 2026-09-17):** mechanika młodego expa —
 zabijasz szczury (zabójstwo liczone **normalnie** w statystykach zabitych, jak każde
@@ -269,7 +281,10 @@ inne), a ciała oddajesz za kasę szczurolapom. Pełna sekwencja: `daj <ciała> 
 → `<NPC> oglada uwaznie cialo.` (lub `... sterte szczatkow szczura.`) → `<NPC> mowi
 do ciebie: Dorodny okaz! Za takiego slicznego szczurka daje trzy srebrne monety.`
 → `<NPC> wrecza ci monety.` → `<NPC> usmiecha sie z zadowoleniem.` Cennik: szczur
-3 sr, **mysz 8 pensów** (`Adler mowi: ... mysz - osiem pensow`). Klasyfikacja kasy:
+3 sr, **mysz 8 pensów** (`Adler mowi: ... mysz - osiem pensow`). Potoczne nazwy
+monet w cennikach: **szyling = srebrna moneta** (`Ratan mowi: Kazdy martwy szczur
+wart trzy srebrne szylingi.` = 3 sr), **pens = miedziana moneta** (8 pensów za
+mysz, taniej niż szczur). Klasyfikacja kasy:
 przychód **bounty „zapłata za szczury"**, NIE realizacja zlecenia towarowego.
 NPC-e: **Adler Winck → Nuln** (potwierdzone korpusem: who-lista `Adler Winck, Nuln`,
 opis `Koscisty wysoki mezczyzna (Adler NPC)`, pokój `Biuro szczurolapa.`) i **Ratan**
@@ -690,33 +705,29 @@ pieniężnych):
 19. ~~Pokrycie tabeli prowizji~~ — luka domknięta: Zakon Sigmara 8% (wiki) =
     „Bank, Zamek Sigmara" (mapa, Averland); „Toscania" w tabeli wiki to literówka
     — gra/mapa: Toskania (nasze dane poprawne); kantor Eysenlaan spoza wiki —
-    stawka nieznana → otwarte 6 (§2.2).
+    stawka nieznana → otwarte 4 (§2.2).
 20. ~~Wynajem wozu + kaucja~~ — osobny typ zdarzenia: dwie kwoty (najem = wydatek,
     kaucja = depozyt zwrotny), pełna kaucja do 6h (kod carriage.ts); NIE przejazd
     (§2.2).
 21. ~~Unia liczebników vs kod Dargotha~~ — konwerter Dargotha bez setek/tysięcy
     (pokrywa Towarzysz); formy `dwu`- i `jednego/jednej`-złożenia tylko w contracts;
-    zbiorowe skatalogowane; typo-formy `piedziesiat/pieedziesieciu` → otwarte 7
+    zbiorowe skatalogowane; typo-formy `piedziesiat/pieedziesieciu` → otwarte 5
     (§2.2 reguła 7).
 22. ~~GMCP a gotówka~~ — definitywnie: oficjalna specyfikacja (forum t=740) nie ma
     modułu/pola pieniężnego; księga zawsze tekstowa (§2.2).
 
 Nadal otwarte:
-1. Linia finalizacji zlecenia (po ostatniej dostawie — w korpusie zlecenie nie
-   zostało ukończone: wciąż „potrzebuje jeszcze ponad kilogram") — tryb capture.
-2. Rola NPC-ów Szczuroslaw (`Niski korpulentny mezczyzna`) i Fuats (`Lysiejacy
-   szczurkowaty mezczyzna`) — niezidentyfikowani, bez kotwic finansowych.
-3. Wzrost wiedzy (`twoja wiedza o <kategorii> wzrosla ...`) jako osobne zdarzenie
+1. Wzrost wiedzy (`twoja wiedza o <kategorii> wzrosla ...`) jako osobne zdarzenie
    kroniki — decyzja odłożona.
-4. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
+2. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
-5. Linia wynikowa komendy `sprawdz swoja reputacje` — nieznana (komenda nieużywana
+3. Linia wynikowa komendy `sprawdz swoja reputacje` — nieznana (komenda nieużywana
    w korpusie) — tryb capture; reputacja śledzona heurystycznie per rewir (§2.1).
-6. Stawka prowizji kantoru Eysenlaan — tabliczka nieznana (wiki milczy) — tryb
+4. Stawka prowizji kantoru Eysenlaan — tabliczka nieznana (wiki milczy) — tryb
    capture.
-7. Typo-formy `piedziesiat/pieedziesieciu` (contracts.ts) — martwe klucze albo
+5. Typo-formy `piedziesiat/pieedziesieciu` (contracts.ts) — martwe klucze albo
    literówki gry; próbka N=0 — re-check na pełnym korpusie 576 sesji.
-8. Linia refundacji kaucji wozu — format nieznany z kodu (klient nie triggeruje);
+6. Linia refundacji kaucji wozu — format nieznany z kodu (klient nie triggeruje);
    `Wynajmujesz` w próbce korpusu N=0 — capture lub pełny korpus.
 
 Domknięte na analizie źródeł banków 2026-09-17 (Dargoth deposits.ts + pretty-
@@ -725,7 +736,7 @@ Towarzysz: brak modułu) + wiki „Skrytki" i „Pieniądze" + korpus-próbka 33
 (realna sesja bankowa) + mapa/JSON (bindem 24 + suplement + anomalie) + GMCP):
 23. ~~Koszty skrzynek depozytowych~~ — 50 zł podstawa + poziomy 2/5/10/20 mithryli,
     do końca gry postacią, limit 25 przedmiotów (stos = 1); wydatek „usługa
-    bankowa" (§2.3); linia gry → otwarte 9.
+    bankowa" (§2.3); linia gry → otwarte 7.
 24. ~~Pokrycie lokalizacji depozytów~~ — trzy źródła zgodne: valid_banks Mudleta
     16/16 = nasze dane (15 z bindem + skellige suplement), wiki 15/15, ponad to
     Brugge (10 pokoi) i Val'Kare; wiki „Skrytki" nieaktualna (13 miejsc) — dane
@@ -735,18 +746,36 @@ Towarzysz: brak modułu) + wiki „Skrytki" i „Pieniądze" + korpus-próbka 33
 26. ~~Tabela DEPOZYT klienta w logach~~ — pretty-print po linii gry, redundantny;
     akapit „prefixy" rozszerzony do „modyfikacje klienta" (§6.2).
 27. ~~Komendy `wplac`/`wyplac`/`przelej`~~ — gra je zna (walidator Dargotha +
-    lista Mudleta), status rozstrzygnięty jako nieznany → otwarte 10 (§2.3).
+    lista Mudleta), status rozstrzygnięty jako nieznany → otwarte 8 (§2.3).
 
 Nadal otwarte (uzupełnienie):
-9. Linia wykupienia/rozbudowy skrzynki depozytowej + wyjście `?depozyt` — format
+7. Linia wykupienia/rozbudowy skrzynki depozytowej + wyjście `?depozyt` — format
    nieznany (żaden klient nie triggeruje) — tryb capture.
-10. Status komend `wplac`/`wyplac`/`przelej` — legacy czy żywe (konta zlikwidowane
+8. Status komend `wplac`/`wyplac`/`przelej` — legacy czy żywe (konta zlikwidowane
     2011) — capture przy banku + re-check pełny korpus.
-11. Korpusowe nazwy sal bankowych (gra: `Glowna sala banku.` ≠ mapa: `Bank w
+9. Korpusowe nazwy sal bankowych (gra: `Glowna sala banku.` ≠ mapa: `Bank w
     Daevon`) — lista do backfill-atrybucji — pełny korpus / capture.
-12. `sto+` słownie w listach depozytu — konwerter klienta ślepy (1–99), unia
+10. `sto+` słownie w listach depozytu — konwerter klienta ślepy (1–99), unia
     Kronikarza pokrywa; częstotliwość nieznana — re-check pełny korpus.
-13. Eysenlaan: czy „Kantor, Bank, Sklep" oferuje depozyt (wiki milczy) — capture.
+11. Eysenlaan: czy „Kantor, Bank, Sklep" oferuje depozyt (wiki milczy) — capture.
+
+Domknięte na analizie źródeł zleceń 2026-09-17 (Dargoth contracts.ts +
+deliveryStats.ts + polishNumberConverter + Mudlet/tjurczyk/Towarzysz (brak modułu
+zleceń) + wiki (brak strony o systemie zleceń) + korpus-łowisko 576 sesji (oferty
+22, pytania 30, odmowy „niczego mi nie trzeba" 4) + korpus-próbka 33 logi):
+28. ~~Linia finalizacji zlecenia~~ — nie istnieje jako osobne zdarzenie kasowe:
+    płatność pro-rata z każdą dostawą (para postęp+zapłata na sztukę/kg, dowód
+    łowiska v2: 2 kg dostarczone z 4 kg zamówionych, dwie wypłaty) — księga
+    pokrywa 100% kasy zleceń liniami par; ewentualny tekst po ostatniej dostawie
+    to informacja, nie kasa (§2.4 Realizacja).
+29. ~~Rola Szczuroslawa i Fuatsa~~ — reklamodawcy kontraktów myśliwskich
+    (`Mam zlecenie na swieze (ryby/mieso), chetnie za nie zaplace.`, Szczuroslaw
+    10×, Fuats 6×) — ta sama kategoria co Lucciano/Benito/Aubert (§2.4 Reklama
+    kontraktu).
+30. ~~Skala liczebników w ofertach~~ — oferty przekraczają 50 słownie
+    (`siedemdziesieciu dwoch kilogramow` = 72 kg) i 100 cyframi (`110
+    kilogramow`); tabela contracts.ts ślepa powyżej 50 — parser Kronikarza na
+    unii liczebników + cyfry (§2.4 blok liczebników).
 
 ---
 
@@ -798,6 +827,10 @@ Podjęte:
   i wrecza ci <kwota>.` (dostawy częściowe możliwe); `odbiera od ciebie` jest
   trójznaczne (realizacja / sprzedaż sklepowa / zakup „w zamian za towar") — parser
   kotwiczy na pełnej formie (§2.4).
+- (2026-09-17, decyzja) Zlecenia rozliczane **pro-rata**: kasa przychodzi z każdą
+  dostawą osobno (para postęp+zapłata na sztukę/kg), bez osobnego zdarzenia
+  finansowego „finalizacji" — księga zleceń kompletna na liniach par; dawna
+  kwestia „linii finalizacji" domknięta jako nieistniejąca kasowo (§2.4, §10: 28).
 - (2026-09-17, korpus III) Paczka spóźniona potwierdzona: `Niestety, ale
   dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.`
   — wypłata pomniejszona (§2.1).
