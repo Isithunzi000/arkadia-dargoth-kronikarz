@@ -1,1338 +1,1350 @@
 {
-  "meta": {
-    "mapa": "Arkadia",
-    "map_sync_version": "430",
-    "map_version": "0.220.0",
-    "zrodlo": "gałąź mapa, arkadia-web_standalone-arkmap_studio",
-    "wygenerowano": "2026-09-16"
+ "meta": {
+  "mapa": "Arkadia",
+  "map_sync_version": "430",
+  "map_version": "0.220.0",
+  "zrodlo": "gałąź mapa, arkadia-web_standalone-arkmap_studio",
+  "wygenerowano": "2026-09-16"
+ },
+ "poczta": [
+  {
+   "id": 339,
+   "nazwa": "Poczta w Wyzimie",
+   "obszar": "Wyzima"
   },
-  "poczta": [
-    {
-      "id": 339,
-      "nazwa": "Poczta w Wyzimie",
-      "obszar": "Wyzima"
-    },
-    {
-      "id": 3765,
-      "nazwa": "Poczta, Anchor",
-      "obszar": "Wyzima"
-    },
-    {
-      "id": 2599,
-      "nazwa": "Poczta w Pianie",
-      "obszar": "Poludniowa Redania"
-    },
-    {
-      "id": 1608,
-      "nazwa": "Poczta w Mons Arx",
-      "obszar": "Poludniowy Mahakam"
-    },
-    {
-      "id": 176,
-      "nazwa": "Poczta w Mariborze",
-      "obszar": "Poludniowa Temeria"
-    },
-    {
-      "id": 543,
-      "nazwa": "Poczta w Bialym Kle",
-      "obszar": "Brugge"
-    },
-    {
-      "id": 3025,
-      "nazwa": "Poczta, Wioska Bobolakow",
-      "obszar": "Brugge"
-    },
-    {
-      "id": 853,
-      "nazwa": "Poczta, Oxenfurt",
-      "obszar": "Oxenfurt"
-    },
-    {
-      "id": 841,
-      "nazwa": "Poczta w Novigradzie",
-      "obszar": "Novigrad"
-    },
-    {
-      "id": 911,
-      "nazwa": "Poczta w Scala",
-      "obszar": "Scala"
-    },
-    {
-      "id": 10495,
-      "nazwa": "Poczta, Craag Ros",
-      "obszar": "Wschodni Mahakam"
-    },
-    {
-      "id": 1364,
-      "nazwa": "Poczta w Fandall",
-      "obszar": "Zachodni Mahakam"
-    },
-    {
-      "id": 1476,
-      "nazwa": "Poczta, Twierdza pod Gora Carbon",
-      "obszar": "Twierdza pod Gora Carbon"
-    },
-    {
-      "id": 10013,
-      "nazwa": "Poczta, Hagge",
-      "obszar": "Hagge"
-    },
-    {
-      "id": 1994,
-      "nazwa": "Poczta w Rinde",
-      "obszar": "Wschodnia Redania"
-    },
-    {
-      "id": 3160,
-      "nazwa": "Poczta w Twierdzy Bodrog",
-      "obszar": "Verden"
-    },
-    {
-      "id": 4035,
-      "nazwa": "Poczta w Blaviken",
-      "obszar": "Polnocna Redania"
-    },
-    {
-      "id": 4533,
-      "nazwa": "Poczta w Gelibolu",
-      "obszar": "Polnocna Redania"
-    },
-    {
-      "id": 4370,
-      "nazwa": "Poczta w Gornej posadzie",
-      "obszar": "Aedirn"
-    },
-    {
-      "id": 8032,
-      "nazwa": "Poczta, Guleta",
-      "obszar": "Aedirn"
-    },
-    {
-      "id": 22948,
-      "nazwa": "Poczta w Eysenlaan",
-      "obszar": "Aedirn"
-    },
-    {
-      "id": 10251,
-      "nazwa": "Poczta w Eldar",
-      "obszar": "Ard Carraigh"
-    },
-    {
-      "id": 10046,
-      "nazwa": "Poczta w Daevon",
-      "obszar": "Daevon"
-    },
-    {
-      "id": 4737,
-      "nazwa": "Poczta, Quenelles",
-      "obszar": "Quenelles"
-    },
-    {
-      "id": 4913,
-      "nazwa": "Poczta, Salignac La Rouge",
-      "obszar": "Salignac"
-    },
-    {
-      "id": 5182,
-      "nazwa": "Poczta w Kreutzhofen",
-      "obszar": "Wissenland"
-    },
-    {
-      "id": 5263,
-      "nazwa": "Poczta, Toskania",
-      "obszar": "Polnocna Tilea"
-    },
-    {
-      "id": 5988,
-      "nazwa": "Poczta, Varieno",
-      "obszar": "Polnocna Tilea"
-    },
-    {
-      "id": 11145,
-      "nazwa": "Poczta, Ebino",
-      "obszar": "Ebino"
-    },
-    {
-      "id": 5469,
-      "nazwa": "Poczta, Campogrotta",
-      "obszar": "Campogrotta"
-    },
-    {
-      "id": 5877,
-      "nazwa": "Poczta, Urbimo",
-      "obszar": "Urbimo"
-    },
-    {
-      "id": 6527,
-      "nazwa": "Poczta w Averheim",
-      "obszar": "Averland"
-    },
-    {
-      "id": 11215,
-      "nazwa": "Poczta w Krainie Zgromadzenia",
-      "obszar": "Kraina Zgromadzenia"
-    },
-    {
-      "id": 7304,
-      "nazwa": "Poczta u Gladiatorow, Nuln",
-      "obszar": "Nuln"
-    },
-    {
-      "id": 7335,
-      "nazwa": "Poczta, Nuln",
-      "obszar": "Nuln"
-    },
-    {
-      "id": 7468,
-      "nazwa": "Poczta, Ubersreik",
-      "obszar": "Reikland"
-    },
-    {
-      "id": 7543,
-      "nazwa": "Poczta, Bogenhafen",
-      "obszar": "Reikland"
-    },
-    {
-      "id": 7612,
-      "nazwa": "Poczta, Jaskare",
-      "obszar": "Reikland"
-    },
-    {
-      "id": 7653,
-      "nazwa": "Poczta w Jouinard",
-      "obszar": "Parravon"
-    },
-    {
-      "id": 26644,
-      "nazwa": "Poczta, Parravon",
-      "obszar": "Parravon"
-    },
-    {
-      "id": 9788,
-      "nazwa": "Poczta, Baccala",
-      "obszar": "Baccala"
-    },
-    {
-      "id": 11342,
-      "nazwa": "Poczta w Karak Varn",
-      "obszar": "Karak Varn"
-    },
-    {
-      "id": 15485,
-      "nazwa": "Poczta w Karak Varn",
-      "obszar": "Karak Varn"
-    },
-    {
-      "id": 14987,
-      "nazwa": "Poczta w Karak Kadrin",
-      "obszar": "Karak Kadrin"
-    },
-    {
-      "id": 20194,
-      "nazwa": "Poczta w Val'kare",
-      "obszar": "Val'kare"
-    },
-    {
-      "id": 23667,
-      "nazwa": "Poczta w Faroe",
-      "obszar": "Pozostale wyspy Skellige"
-    },
-    {
-      "id": 24104,
-      "nazwa": "Poczta, Athel Loren",
-      "obszar": "Athel Loren"
-    }
-  ],
-  "banki_z_bindem": [
-    {
-      "id": 316,
-      "nazwa": "Bank, Wyzima",
-      "obszar": "Wyzima",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 22755,
-      "nazwa": "22755",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22756,
-      "nazwa": "22756",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22757,
-      "nazwa": "22757",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22758,
-      "nazwa": "22758",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22759,
-      "nazwa": "22759",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22761,
-      "nazwa": "22761",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22762,
-      "nazwa": "22762",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22763,
-      "nazwa": "22763",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22764,
-      "nazwa": "22764",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 22765,
-      "nazwa": "22765",
-      "obszar": "Brugge",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
-    },
-    {
-      "id": 2687,
-      "nazwa": "Bank, Novigrad",
-      "obszar": "Novigrad",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 893,
-      "nazwa": "893",
-      "obszar": "Scala",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 1467,
-      "nazwa": "Bank, Twierdza pod Gora Carbon",
-      "obszar": "Twierdza pod Gora Carbon",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 1999,
-      "nazwa": "Bank, Rinde",
-      "obszar": "Wschodnia Redania",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 8059,
-      "nazwa": "Sklep, Guleta",
-      "obszar": "Aedirn",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 4574,
-      "nazwa": "Bank w Daevon",
-      "obszar": "Daevon",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 4661,
-      "nazwa": "Bank, Quenelles",
-      "obszar": "Quenelles",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 5364,
-      "nazwa": "Bank, Ebino",
-      "obszar": "Ebino",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 6739,
-      "nazwa": "Bank, Kraina Zgromadzenia",
-      "obszar": "Kraina Zgromadzenia",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 7334,
-      "nazwa": "Bank, Nuln",
-      "obszar": "Nuln",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 26630,
-      "nazwa": "Bank, Parravon",
-      "obszar": "Parravon",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 9776,
-      "nazwa": "Bank, Baccala",
-      "obszar": "Baccala",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 15395,
-      "nazwa": "Bank, Karak Varn",
-      "obszar": "Karak Varn",
-      "bind": "/depozyt",
-      "depozyt_wiki": "TAK (wiki)"
-    },
-    {
-      "id": 20164,
-      "nazwa": "20164",
-      "obszar": "Val'kare",
-      "bind": "przejrzyj depozyt",
-      "depozyt_wiki": "TAK (mapa: pokój $ z bindem; wiki nieaktualna)"
-    }
-  ],
-  "banki_bez_binda": [
-    {
-      "id": 10550,
-      "nazwa": "Bank w Mons Arx",
-      "obszar": "Poludniowy Mahakam",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 480,
-      "nazwa": "Bank, Maribor",
-      "obszar": "Poludniowa Temeria",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 2569,
-      "nazwa": "Bank, Oxenfurt",
-      "obszar": "Oxenfurt",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 10554,
-      "nazwa": "Bank, Craag Ros",
-      "obszar": "Wschodni Mahakam",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 10027,
-      "nazwa": "Bank, Hagge",
-      "obszar": "Hagge",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 22947,
-      "nazwa": "Kantor, Bank, Sklep, Eysenlaan",
-      "obszar": "Aedirn",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 5196,
-      "nazwa": "Bank, Kreutzhofen",
-      "obszar": "Wissenland",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 5277,
-      "nazwa": "Bank, Toskania",
-      "obszar": "Polnocna Tilea",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 6035,
-      "nazwa": "Bank, Varieno",
-      "obszar": "Polnocna Tilea",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 5519,
-      "nazwa": "Bank, Campogrotta",
-      "obszar": "Campogrotta",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 6457,
-      "nazwa": "Bank, Zamek Sigmara",
-      "obszar": "Averland",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 6528,
-      "nazwa": "Bank, Averheim",
-      "obszar": "Averland",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 7482,
-      "nazwa": "Bank, Ubersreik",
-      "obszar": "Reikland",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    },
-    {
-      "id": 24105,
-      "nazwa": "Bank, Athel Loren",
-      "obszar": "Athel Loren",
-      "depozyt_wiki": "brak depozytu (wiki) / nieznane"
-    }
-  ],
-  "wiki": {
-    "zrodlo": "wikipedia.arkadia.rpg.pl/view/Pieni%C4%85dze (akt. 2026-05-27) + /view/Skrytki",
-    "depozyt_TAK_imperium": [
-      "Ebino",
-      "Karak Varn",
-      "Kraina Zgromadzenia",
-      "Nuln",
-      "Parravon",
-      "Quenelles"
-    ],
-    "depozyt_TAK_ishtar": [
-      "Ard Skellige",
-      "Baccala",
-      "Carbon",
-      "Daevon",
-      "Guleta",
-      "Novigrad",
-      "Rinde",
-      "Scala",
-      "Wyzima"
-    ],
-    "anomalie": "patrz anomalie_rozwiazane"
+  {
+   "id": 3765,
+   "nazwa": "Poczta, Anchor",
+   "obszar": "Wyzima"
   },
-  "anomalie_rozwiazane": [
-    {
-      "lokacja": "Brugge (11 pokoi 22755-22765 + korytarz 22754)",
-      "status": "POTWIERDZONE: piętro skrytek depozytowych przy Zajeździe Biały Kieł (sklep 540/546, kowal 1084, poczta 543 obok). Bind /depozyt łapie. Wiki nieaktualna."
-    },
-    {
-      "lokacja": "Val'kare (pokój 20164)",
-      "status": "POTWIERDZONE: okienko depozytowe — symbol $, bind \"przejrzyj depozyt\". Brak pokoju \"Bank\". Bind łapie. Wiki nieaktualna."
-    },
-    {
-      "lokacja": "Ard Skellig (pokój 10416)",
-      "status": "ROZWIĄZANE: bank istnieje na mapie (symbol $, env 295), brak binda = luka mappera (cały obszar Ard Skellig: 438 pokoi bez nazw). Suplement w danych pluginu + zgłoszenie upstream do Delwing/arkadia-mapa."
-    }
-  ],
-  "suplement_depozyty": {
-    "mapa_sync": "430",
-    "dodatkowe_id": [
-      10416
-    ],
-    "komentarz": "Ard Skellig — bank bez binda; usunąć po dodaniu binda upstream"
+  {
+   "id": 2599,
+   "nazwa": "Poczta w Pianie",
+   "obszar": "Poludniowa Redania"
   },
-  "symbol_dolar": {
-    "pokoi": 29,
-    "wniosek": "$ dostają zarówno banki z depozytem jak i kantory — nie nadaje się na gate"
+  {
+   "id": 1608,
+   "nazwa": "Poczta w Mons Arx",
+   "obszar": "Poludniowy Mahakam"
   },
-  "poczta_nienazwane_symbol_P": [
-    {
-      "id": 25542,
-      "obszar": "Poludniowy Mahakam",
-      "env": 202,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 21487,
-      "obszar": "Poludniowa Temeria",
-      "env": 269,
-      "status": "potwierdzona (wiki/kontekst)",
-      "identyfikacja": "Kociepole / Gildia Osadników (kontekst + wiki)"
-    },
-    {
-      "id": 25444,
-      "obszar": "Novigrad",
-      "env": 296,
-      "status": "potwierdzona (wiki/kontekst)",
-      "identyfikacja": "SKN Novigrad — kurier (kontekst)"
-    },
-    {
-      "id": 24553,
-      "obszar": "Ard Carraigh",
-      "env": 813,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 16015,
-      "obszar": "Wissenland",
-      "env": 260,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 6472,
-      "obszar": "Averland",
-      "env": 269,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 24778,
-      "obszar": "Gory Sine",
-      "env": 269,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 10412,
-      "obszar": "Ard Skellig",
-      "env": 269,
-      "status": "potwierdzona (wiki/kontekst)",
-      "identyfikacja": "główna poczta Ard Skellige (wiki)"
-    },
-    {
-      "id": 11164,
-      "obszar": "Wyspa Slubow",
-      "env": 295,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 19942,
-      "obszar": "Gory Kranca Swiata",
-      "env": 269,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 20901,
-      "obszar": "Ziemie Czaszki",
-      "env": 269,
-      "status": "prawdopodobna - do weryfikacji w grze",
-      "identyfikacja": ""
-    },
-    {
-      "id": 26796,
-      "obszar": "Sterowiec SGW",
-      "env": 269,
-      "status": "potwierdzona (wiki/kontekst)",
-      "identyfikacja": "poczta pokładowa sterowca SGW (kontekst)"
-    }
-  ],
-  "poczta_wyjatki": [
-    {
-      "lokacja": "Jaskare (7612)",
-      "status": "poczta TAK, paczki NIE (wiki) — wykluczona z gate'a paczek"
-    },
-    {
-      "lokacja": "Faroe (23667)",
-      "status": "prawdopodobnie tylko paczki lokalne (wiki)"
-    },
-    {
-      "lokacja": "Biały Most",
-      "status": "brak poczty (wiki)"
-    }
-  ],
-  "poczta_wnioski": {
-    "symbol_P_razem": 59,
-    "zasada": "gate odbioru paczki: lista ID (59) LUB nazwa ^poczt, minus wykluczenia; symbol P tylko offline do generowania listy (GMCP nie niesie symbolu)",
-    "zasada_gate_a": "GATE MIEKKI (decyzja 2026-09-16): lokalizacja NIGDY nie wyklucza zdarzenia paczki. Odbior i dostawa rejestrowane zawsze, niezaleznie od pokoju. Lista 59 ID + nazwy ^poczt (minus Jaskare) sluzy wylacznie jako: (1) metadane zdarzenia (skad/dokad, statystyki tras), (2) flaga confidence (znana/nieznana lokalizacja odbioru), (3) czujnik odkrywania nowych poczt (mapa-sync lag) — odbior poza lista trafia na liste 'do weryfikacji', nie jest odrzucany. Uzasadnienie: maszyna stanow z python-toolkit osiaga ~100% trafnosci na logach bez zadnej lokalizacji, bo lancuch fraz jest samowalidujacy; twarde wykluczanie daloby falszywe negatywy przy nowych/zmienionych pocztach."
+  {
+   "id": 176,
+   "nazwa": "Poczta w Mariborze",
+   "obszar": "Poludniowa Temeria"
   },
-  "paczki_hardening_wypłaty": {
-    "testy_adwersarialne_2026-09-16": [
-      "KOLIZJA 'wyplaca ci': galaz 'wyplaca ci' w toolkit NIE wymaga waluty — karczmarz/handlarz wyplacajacy cos tuz po dostawie ZAMYKA paczke z kwota 0 i pochlania prawdziwa wyplate. Kronikarz: galaz 'wyplaca ci' MUSI wymagac waluty w linii (paritet z galazia 'otrzymujesz').",
-      "KOLIZJA 'otrzymujesz od X': podzial lupu / przelew od gracza w oknie <=2 linii od dostawy zostaje zaksiegowany jako wyplata za paczke. Lokalizacja tego NIE naprawia (druzyna moze stac na poczcie). Kronikarz: galaz 'otrzymujesz' odrzuca linie z ' od <kims>' + flaga confidence.",
-      "KWOTY SLOWNIE: 'wyplaca ci kilka miedzianych monet' parsuje sie na 0. Kronikarz: parser liczb slownych (pattern polishNumbers z Towarzysza).",
-      "PACZKA QUESTOWA: fraza 'przekazuje ci jakas paczke' poza poczta tworzy wiszaca paczke — nieszkodliwa dla kasy (brak wyplaty), trafia do 'nierozliczone', audytowalna po surowej linii."
-    ],
-    "zasada_nadrzedna": "kazde zdarzenie audytowalne (surowa linia + zrodlo + confidence); paczki w toku/nierozliczone widoczne w raporcie, nie pochlaniane cicho",
-    "cross_session": "paczka w toku persystowana w storage przez relogin (odpowiednik _merge_cross_session z toolkit)"
+  {
+   "id": 543,
+   "nazwa": "Poczta w Bialym Kle",
+   "obszar": "Brugge"
   },
-  "paczki_statusy": {
-    "model": [
-      "dostarczona",
-      "spozniona",
-      "nieoddana",
-      "zwrocona"
-    ],
-    "patterny": {
-      "dostarczona": "^(Oddajesz) pocztowa paczke + wyplata (wyplaca ci+waluta / otrzymujesz+waluta <=2 linie, zahartowane)",
-      "spozniona": "<NPC> mowi do ciebie: Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle. — wyplata pomniejszona; POTWIERDZONE korpus III (lowisko 2026-09-17, 4+ wystapien; NPC: Luter/Andolf, Guy/Gautier, Lit, anonimowy mlody zwinny mezczyzna). Wariant z toolkitu: flaga 'Dostarczyles przesylke po terminie' na otwartej paczce",
-      "zwrocona": "kotwica na echu komendy '-> zwroc paczke' (korpus III: 4x, konteksty 359/439/457/491) + linia wynikowa '^Zwracasz pocztowa paczke' w trybie capture (korpus N=0 w 3,86 mln linii); mechanika wiki: zwrot w urzedzie zrodlowym, niewielki spadek reputacji; helpery klienckie traktuja zwrot jak dostawe (PackageHelper '^(Oddajesz|Zwracasz)') — Kronikarz rozroznia; brak wyplaty",
-      "nieoddana": "paczka otwarta bez dostawy/zwrotu; persystowana cross-session, widoczna w raporcie jako 'w toku'"
-    },
-    "odmowa_odbioru": [
-      "Ty juz dla nas dostatecznie ciezko zapracowales",
-      "Nie ufam ci na tyle, aby powierzyc ci dostarczenie tej przesylki",
-      "Cos ci sie chyba pomylilo, nie ma takiej oferty",
-      "Niestety, nie widzisz tu nikogo, od kogo mozna by wziac zlecenie"
-    ],
-    "lista_ofert": "PackageHelper packageLineRegex: miasto + zloto/srebro/miedz + limit czasu ('N' lub 'nieogr.'); regex niekotwiczony do konca linii — toleruje kolumne 'Dystans' i linie '> dystans: N' wstrzykiwane przez klienta w logach HTML (12/12 ofert testowych, low_zlecen 651-672); komendy wyboru: 'wybierz paczke N' + wariant 'wybierz przesylke N' (wiki); odliczanie limitu w kliencie startuje od pokazania tablicy (PackageHelper listTime) — Kronikarz kotwiczy na odbiorze; etykieta 'Wypisano na niej duzymi literami: <IMIĘ>, <PROFESJA>, <MIASTO>' (korpus 2026-09-16: np. 'LULECK, CZELADNIK KOWALSKI, KREUTZHOFEN' — format szerszy niz samo miasto); parser etykiety klienta lapie tylko 1. czlon — Kronikarz parsuje wszystkie 3 struktury + sufiks ' - PILNE!'; ciezkie przesylki oznaczone '*' — cel i nagroda znane przy odbiorze (plan vs wykonanie)",
-    "kanaly_premium": {
-      "packageStatus_event": "{recipient, seconds?, location(room id)} — countdown do deadline co 1 s (plugin API)",
-      "npc_event_i_npcStore": "baza NPC {name, loc}: remote https://delwing.github.io/arkadia-mapa/data/npc.json (TTL 24h) + lokalne douczone przy dostawie do nieznanego adresata",
-      "leadTo_mapPath": "klient rysuje trase do adresata; eventy leadTo/mapPath daja zaplanowana trase",
-      "ArkadiaDeliveryStats_IDB": "historia klienta: {timestamp, late, gold, silver, copper} per postac — backfill premium (bez surowych linii)"
-    },
-    "luki_klienta_do_przeskoczenia": "klient nie rejestruje zwrotow (traktuje jak dostawe) i nieoddanych; parsePayment (deliveryStats) tylko cyfry i zl/sr/mie — bez mithrylu, bez liczb slownych, bez fallbacku 'otrzymujesz'; triggery one-time bez timeoutu; statystyki tylko delivered/late",
-    "reputacja_pocztowa": {
-      "zrodlo": "wiki 'Pocztylioni' (analiza 2026-09-17)",
-      "model": "licznik heurystyczny per rewir: dostawa +1, spoznienie -1, zwrot -1 (niewielki), zagubienie = blokada nowych ofert ~24h",
-      "kalibracja": "komenda 'sprawdz swoja reputacje' — linia wynikowa nieznana (0 wystapien w korpusie), tryb capture",
-      "mechaniki": {
-        "progi_cenowe": "lokalne ~1 zl, blizsze 2-4, dalsze 5-9, najdalsze 10-12, wszystkie do 45 zl — skala z reputacja",
-        "ciezar_limit": "~50 kg (blokada: 'Pocztowa paczka jest zbyt ciezka.', korpus 15x)",
-        "wylogowanie": "paczka znika 6h po wylogowaniu (liczone od pobrania)",
-        "zagubienie": "blokada nowych ofert ~24h",
-        "licencja": "licencja pocztowa (Tilea) poza katalogiem — brak kotwic korpusowych"
-      },
-      "kotwice_korpusowe": "kamienie milowe zaufania (14x/45x) = posredni sygnal progu reputacji"
-    },
-    "npc_zrodla": {
-      "remote": "https://delwing.github.io/arkadia-mapa/data/npc.json — 637 rekordow {name, loc}, TTL 24h (npcStore), merge remote+local, dedupe po 'name-loc'",
-      "local": "wpisy douczane przy dostawie do nieznanego adresata (PackageHelper addLocalNpc)",
-      "pokrycie_korpusu": "111/111 adresatow-osob z korpusu obecnych w remote (0 brakow) — douczanie potrzebne tylko dla nowych NPC",
-      "etykiety_pocztowe": "5 etykiet 1-czlonowych ('POCZTA W X' / 'POCZTA MIASTA X') celowo poza baza NPC — mapowane na lokacje poczt (poczta + poczta_nienazwane_symbol_P), nie na osoby"
-    }
+  {
+   "id": 3025,
+   "nazwa": "Poczta, Wioska Bobolakow",
+   "obszar": "Brugge"
   },
-  "zlecenia_klasyfikacja": "KOREKTA 2026-09-16: lokacja zleceniodawcy to tez sklep/tawerna — sprzedaz TAM jest mozliwa. Regula: kasa-przychod na lokacji aktywnego zlecenia z linia 'Sprzedajesz' w oknie = SPRZEDAZ; kasa-przychod bez dowodu sprzedazy = ZAPLATA ZA ZLECENIE. Klasyfikacja po dowodzie sprzedazy, nie po samej lokacji. Oba przypadki audytowalne (surowa linia + confidence).",
-  "korpus_2026_09_16": {
-    "meta": "576 plikow HTML klienta Dargoth, 3 865 554 linii, postac kurier/handlowiec; skrypt kronikarz_korpus.py, 13 kategorii",
-    "paczki": {
-      "odbior": "<NPC> przekazuje ci jakas paczke. (17 wariantow, takze nazwane NPC)",
-      "etykieta": "Wypisano na niej duzymi literami: IMIĘ, PROFESJA, MIASTO. + opcjonalnie 'Ponizej zas odczytujesz drobniejsze pismo:'",
-      "dostawa": "Oddajesz pocztowa paczke <opis adresata w dopelniaczu>. (16+ wariantow); bind 'oddaj paczke'",
-      "wyplata": "wyplaca ci <kwota> — 15 wystapien; dominuje 4 sr 2 mdz (50 mdz); wystepuja 3-nominalowe (15 zl 9 sr 4 mdz)",
-      "nieudany_odbior": [
-        "Pocztowa paczka jest zbyt ciezka. (15x)",
-        "Lista przesylek zmienila sie i ta, ktora chcesz podjac... (34x)"
-      ],
-      "zaufanie": [
-        "Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac. (14x)",
-        "Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke. (45x)"
-      ],
-      "zero_wystapien": [
-        "Zwracasz pocztowa paczke",
-        "Dostarczyles przesylke po terminie"
-      ],
-      "odmowy_cudze": "odmowy 'mowi do ciebie' liczone; 'mowi do <inny gracz>' odfiltrowane"
-    },
-    "pieniadze": {
-      "przychod": [
-        "Dostajesz/Otrzymujesz <kwota cyframi> (bez 'od'); kwoty nieznormalizowane (78 mdz)",
-        "<Gracz> daje ci <moneta> — transfer gracz->gracz",
-        "<NPC> <wtret> wrecza ci <kwota>( reszty) — wtret dowolny"
-      ],
-      "wydatek": [
-        "Kupujesz X, placac N miedziakow/srebrnikow (potoczne denominacje)",
-        "Placisz <kwota> i dostajesz <kwota> reszty — netto = zaplacone - reszta; reszta bywa w mithrylu",
-        "Placisz <komu> <kwota> (transport); 'Placisz woznicy...' bez kwoty; 'Kupujesz X.' bez kwoty = zero wplywu",
-        "<NPC> drapieznym ruchem zgarnia <kwota> (wtret przed czasownikiem)",
-        "odbiera od ciebie <kwota slownie> w zamian za zakupiony towar"
-      ],
-      "parser": "multi-nominal ze spojnikiem 'i'; moneta/monety/monet; liczby mieszane slownie+cyfry w jednej liscie; kotwica na kwocie nie koncu linii; liczebniki nieokreslone (wiele/kilka/sporo/troche/duzo) -> kwota NULL nigdy 0/1 (Towarzysz dalby 1 przez 'amount ?? 1', toolkit 0); unia TRZECH tabel liczebnikow: mianownik+setki/tysiace (Towarzysz polishNumbers) + dopelniacz/biernik (contracts POLISH_NUMBERS: 'dwu', zlozenia 'dwudziestu/trzydziestu/czterdziestu dwu', 'dwudziestu jednego/jednej') + polishNumberConverter Dargotha (257 form: mian.+dopeln. 1-99 ze wszystkimi zlozeniami dwuwyrazowymi 21-99 w obu przypadkach + zbiorowe 'dwoje...dziesiecioro' z odmiana; konwerter NIE zna setek/tysiecy — pokrywa Towarzysz); typo-formy 'piedziesiat'/'pieedziesieciu' (contracts) — martwe klucze albo literowki gry, probka N=0, re-check pelny korpus",
-      "wycena": "surowa gra: 'Wydaje ci sie, ze jest wart okolo N miedziakow.' — w logach HTML klient DOKLEJA ', czyli X zl, Y sr, Z mdz' (priceEvaluation.processItemValue; korpus 1030x dla 170 mdz) — backfill odcina sufiks; warianty stosu z kodu: 'Sa tu N sztuki warte ...' / 'Jest tu N sztuk wartych ...' (korpus N=0) — wariant 'Jest tu' z opcjonalnym prefiksem 'Wydaje ci sie, ze ' (stoneValue.ts); 'nie ma wiekszej wartosci' bez kwoty",
-      "transfery_pojemniki": {
-        "linie": "Wkladasz/Bierzesz <kwota> monet do/z otwartej/otwartego <sakiewki/plecaka> (korpus 126x/111x/62x...); skrzynka depozytowa = galaz bankowa (sekcja bank_depozyt)",
-        "ksiega": "TRANSFER gotowka<->pojemnik — nigdy przychod/wydatek; kwota czesto 'wiele' -> null",
-        "podglad": "'Rozwiazujesz na chwile rzemyk, sprawdzajac zawartosc swojej ... . W srodku dostrzegasz ...' (25x+ dla sakiewki) — migawka stanu na zadanie (rodzina wiedza/cechy), NIE kasa; listy mieszane 'wiele X, osiem Y'"
-      },
-      "loot_trojpodzial_bierzesz": "z ciala/sterty = lup; z otwartego pojemnika = transfer; bez zrodla = lup z ziemi (korpus N=0, pattern gry; Towarzysz swiadomie pomija loot z ziemi — Kronikarz lapie)",
-      "barter_wykluczenie": "nietypowe srodki platnicze (wiki: esencja zycia, gruczoly pajakow, kly wampirow, skalpy driad, zapiski) — brak nominalu = ksiega nietknieta; ew. zdarzenie informacyjne",
-      "gmcp": "brak kanalu stanu gotowki — POTWIERDZONE oficjalna specyfikacja GMCP Arkadii (forum t=740, akt. 2026-09-17): moduly Core/Char/Room/Objects/Gmcp_msgs/Mail; Char.State = hp/mana/fatigue/improve/form/intox/headache/stuffed/soaked/encumbrance/panic (zadnego pola pienieznego); kod klienta (arkadia, Dargoth) zgodny 1:1 — kasa zawsze z tekstu lub premium storage",
-      "wynajem_kaucja": {
-        "linia": "Wynajmujesz lekki woz, placac dwadziescia piec zlotych monet kosztu najmu oraz jedna mithrylowa monete zwrotnej kaucji.",
-        "pattern": "^Wynajmujesz (.+?),? placac (.+?) kosztu najmu(?: oraz)? (.+?) (?:zwrotnej )?kaucji\\.$ (przecinek, 'oraz', 'zwrotnej' opcjonalne)",
-        "ksiega": "koszt najmu = wydatek (usluga); kaucja = depozyt zwrotny (NIE wydatek)",
-        "zwrot": "linia 'Zwracasz <pojazd>'; pelna kaucja do 6h od wynajmu, potem czesciowa (DEPOSIT_VALID_MS w carriage.ts)",
-        "refundacja": "format linii zwrotu kaucji nieznany z kodu (klient nie triggeruje — prawdopodobnie generyczna linia przychodu) — tryb capture / pelny korpus",
-        "rozroznienie": "NIE przejazd ('Placisz woznicy') — osobna galaz uslugowa",
-        "zrodlo": "kod klienta Dargoth: carriage.ts (2026-09-17)"
-      }
-    },
-    "kantor": {
-      "status": "pelnoprawne zdarzenie kroniki — niemierzalne kwotowo (potwierdzone: zero kwot w kontekstach 'zdenominuj', 81 ech), ale timestampowane i lokalizowane",
-      "linie": [
-        "Twoje pieniadze zostaly zdenominowane. (61x)",
-        "Twoje pieniadze juz sa maksymalnie zdenominowane. (20x)"
-      ],
-      "zdarzenie": "{timestamp (log-time w backfillu albo czas live), lokacja, wynik: wykonana | maksymalnie_zdenominowane}",
-      "lokalizacja": "live: GMCP room.info; backfill: nazwa pokoju z logu",
-      "pokoje_korpusowe": [
-        "Kantor banku w Daevon.",
-        "Kantorek Vimme Vivaldiego.",
-        "Posterunek celny i kantor wymiany walut.",
-        "Niewielki kantorek.",
-        "Kantor."
-      ],
-      "statystyki": "lacznie, per kantor, per postac, per sesja; filtry globalne (zakresy dat + typy zdarzen) obejmuja kantor jak kazde zdarzenie",
-      "prowizja": "PER BANK (wiki 'Pieniadze', akt. 2026-09-17): 3% Nuln/Novigrad/Wyzima/Ard Skellige/Carbon; 5% Ebino/Karak Varn/Parravon/Quenelles/Daevon/Baccala/Hagge/Maribor/Mons Arx/Oxenfurt/Rinde/Craag Ros/Athel-Loren/Campogrotta/Toskania; 8% Kraina Zgromadzenia/Kreutzhofen/Ubersreik/Varieno/Averheim/Val'Kare/Twierdza Slaanesha/Zakon Sigmara (mapa: 'Bank, Zamek Sigmara', Averland); Guleta/Scala: depozyt bez denominacji. Poza tabela wiki: 'Kantor, Bank, Sklep, Eysenlaan' (dane mapy, banki_bez_binda) — stawka NIEZNANA, do ustalenia z tabliczki (tryb capture). 'Toscania' w tabeli wiki = literowka, gra/mapa: Toskania. Tabliczka korpusowa 'Za kazda transakcje pobieramy tylko 8 procent prowizji.' = stawka lokalna, nie globalna. Kwotowo niemierzalna (zero kwot w kontekstach zdenominuj) — poza bilansowaniem, stawka jako metadane zdarzenia",
-      "menu": [
-        "zamienic miedz i srebro na zloto",
-        "zamienic 1 mithrylowa monete na miedziane monety",
-        "zamienic mithryle na 100 srebrnych monet"
-      ]
-    },
-    "bank_depozyt": {
-      "odczyt": "Twoj depozyt zawiera ... — monety slownie i cyframi mieszanie w jednej linii",
-      "operacje": "Wkladasz/Bierzesz <cos> do/z otwartej skrzynki depozytowej (w tym monety)",
-      "cudze": "marker 'swojej skrzynki' = operacja innego gracza, odfiltrowac",
-      "echo": "→ przejrzyj depozyt (2255x), bind /depozyt (1063x)"
-    },
-    "postepy": {
-      "wniosek": "linia postepu to spontaniczny push gry (197 wyst. vs 9 ech) — pelny backfill bez ech",
-      "rodziny": [
-        "Poczyniles <grad> postepy, od momentu kiedy wszedles do gry. (197)",
-        "Masz wrazenie, iz ostatnimi czasy poczyniles <grad> postepy w poznawaniu swiata. (153+2 zerowe)",
-        "Wydaje ci sie, ze poczyniles <grad> postepy w nauce. (18)",
-        "Nie poczyniles zadnych postepow, od kiedy wszedles do gry. (wariant bez 'momentu')"
-      ],
-      "gradacje": "wszystkie 16 obecne: minimalne..gigantyczne"
-    },
-    "cechy": {
-      "zamkniecie": "Obecnie do waznych cech zaliczasz... + opcjonalny sufiks ' Mozesz to zmienic podczas medytacji w gildii podrozniczej.'",
-      "logi_html": "linie wzbogacone przez klienta: '[18] Jestes krzepki [4/10] i niewiele [3/5] ci brakuje...' — parser toleruje [N] i [x/y]",
-      "subkomenda": "cechy um"
-    },
-    "smierc": {
-      "linie": "Umierasz. + Oddalasz sie. (10x); przyczyna bywa srodowiskowa (upadek)",
-      "oslabienie_gradacje": [
-        "minimalne",
-        "bardzo male",
-        "nieduze",
-        "nieznaczne",
-        "male",
-        "zadowalajace"
-      ]
-    },
-    "czas": {
-      "apokalipsa": "Swiat odrodzil sie : Pt, 19 XII 2025, 07:27:33 — Z DNIEM TYGODNIA (regex toolkitu tego nie lapal)",
-      "uptime": "pelna odmiana + wariant bez dni ('6 godzin 30 minut 8 sekund')",
-      "ciemnosc": "77% swiata zostalo opanowane przez Ciemnosc. (684x)",
-      "prefixy_klienta": [
-        "[ POCZTA ] Masz nowa poczte od X.",
-        "[N] przy liniach cech/przybysciach",
-        "[unk] linie walki"
-      ]
-    },
-    "zlecenia": {
-      "kolizja": "'Mam (calkiem) nowe zlecenia.' od Pracownika poczty = PACZKI, nie kontrakt",
-      "reklamy": "Mam zlecenie na swieze skory/ryby/mieso, chetnie za nie zaplace. (Benito, Aubert, Naula/Rudolf)",
-      "realizacja": "linia oddania towaru bez próbki korpusowej; klasyfikacja wyłącznie po dowodzie (linia 'Sprzedajesz' w oknie), nigdy po NPC/kwocie",
-      "tablica_bounty": "| Zleceniodawca | Scigana osoba | Data",
-      "realizacja_ERRATA": "WYCOFANE: wypłaty 'wyplaca ci 4 sr 2 mdz' od Lucciano/Thomasa/Lulecka itp. to wypłaty za PACZKI (dowód: konteksty 'Oddajesz pocztowa paczke X.' -> 'X wyplaca ci ...'), nie realizacje zleceń. Zleceniodawcy są jednocześnie adresatami paczek.",
-      "oferty_warianty": [
-        "na wagę: 'Potrzebuje trzydziestu jeden kilogramow miesa z sarny. Dobrze zaplace!'",
-        "z jakością: 'Potrzebuje osmiu tarcz, przynajmniej sredniej jakosci. Dobrze zaplace za kazda sztuke.'",
-        "z rozmiarem/typem: 'dziesieciu srednich ryb slodkowodnych'",
-        "broń: 'Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.'",
-        "cudze oferty ('mowi do <ktoś>:') ignorowane"
-      ],
-      "zamowienia_rzemieslnicze": "'odbierz/zloz zamowienie' = wytwórcy (Eckhard), odrębna mechanika"
-    },
-    "zabici": "ZERO probek w korpusie (postać nie walczyla); patterny tylko z kodu kill.ts — testy syntetyczne + opcjonalny przelot na postaci walczacej",
-    "echo_transfery": [
-      "→ wloz monety do swojej sakiewki (3570x)",
-      "→ wez monety ze swojej sakiewki (2753x)",
-      "→ wloz/wez monety do/ze swojego plecaka",
-      "→ wez <denominacja> monety z N. ciala (386x)"
-    ],
-    "korpus_II_przelot": {
-      "meta": "drugi przelot tego samego korpusu poprawionym skryptem (szerokie filtry: \\bzabil, dawanie/oddawanie)",
-      "zabici": {
-        "forma_w_logach": "klient PRZEPISUJE linię: '[ ZABILES ] Zabiles X. (n / m)', '[ ZABIL ] K zabil X. (n / m)', '[ ZABILA ] K zabila X. (n / m)'; surowa forma nie występuje",
-        "statystyki": "565 wystąpień, 261 unikalnych (ZABILES 241/103, ZABIL 174/81, ZABILA 150/77)",
-        "suffix": "(n / m) — liczniki klienta jako metadane",
-        "szum": "plotki NPC, 'kosciotrup', Trupa Trupi Trup; tagi walki [1/6], [par], [unk]"
-      },
-      "etykiety_paczek": {
-        "struktury": [
-          "3-członowa: NAZWA, PROFESJA, MIASTO (121)",
-          "2-członowa: NAZWA, MIASTO (9)",
-          "1-członowa do poczty: 'POCZTA W X' / 'POCZTA MIASTA X' (5)"
-        ],
-        "pilne": "sufiks ' - PILNE!' (24) — flaga metadanych",
-        "cudzy_odbior": "'<NPC> przekazuje <komuś innemu> jakas paczke.' — ignorowane; kotwica 'przekazuje ci'"
-      },
-      "druzyna": "[ DRUZYNA ] X przekazuje ci prowadzenie druzyny. (25x) — nowy typ zdarzenia sesyjnego",
-      "naprawa": "'Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.' = naprawa u krawca (Novigrad/Campogrotta/Nuln) lub kowala; wydatek-usługa, nie zakup",
-      "lancuch_dostawy": "Odkladasz plecak -> Bierzesz paczke -> Oddajesz paczke X. -> X wyplaca ci ... (okno <=2 linie potwierdzone)"
-    },
-    "korpus_III_grepy_2026_09_17": {
-      "meta": "grepy gracza na surowych logach 2026-09-17: (1) czasownik+rzeczownik (skor/ryb/mies/bron/tarcz): 40 unikalnych/45 wystapien — 2 realne trafienia, reszta szum (zdajesz/wydajesz bez granic slowa + 'mies' wewnatrz wyrazow); (2) sam czasownik: 40 unikalnych — 100% szumu (opisy pokoi)",
-      "wynik_glowny": "ZERO realizacji standardowego zlecenia towarowego w 3,86 mln linii — gracz zadnego nie ukonczyl w okresie logowania; linia realizacji nadal bez probki (tryb capture)",
-      "bounty_szczury": {
-        "sekwencja": "daj <szczura> <NPC> -> 'Adler mowi do ciebie: Dorodny okaz! Za takiego slicznego szczurka daje trzy srebrne monety.' -> 'Adler wrecza ci monety.'",
-        "kwota": "w komentarzu NPC; linia wreczenia bez kwoty — laczyc w oknie",
-        "klasyfikacja": "przychod bounty 'zaplata za szczury', NIE realizacja zlecenia towarowego; zabojstwo szczura liczone normalnie w statystykach zabitych",
-        "lokalizacje_deklaracja_gracza": {
-          "Adler": "Nuln",
-          "szczurolap": "Novigrad"
-        },
-        "potwierdzenie": "tagiem '(Adler NPC)' w surowych logach; posrednie: wiedza 'Dostarczyles cialo skavena szczurolapowi z Nuln' + wpis na tablicy 'Kruczowlosy ponury szczurolap'"
-      },
-      "odmowa_dawania": "'<NPC> mowi do ciebie: A po co mi to dajesz?' (6x Adler) — nieudana proba daj, osobne zdarzenie",
-      "wykluczenia_dajesz_oddajesz": [
-        "Oddajesz pocztowa paczke ... — paczki",
-        "Oddajesz ... ze stojka, placac ... — naprawa (krawcy/kowale)",
-        "odbiorca = imie wlasne / tag GP — transfer gracz->gracz (np. 'Dajesz elfi chleb Gwenn.'; echa 'daj szczura/wianek/jedzenie elfce' = Gwenn, gracz-elfka)",
-        "bilety transportowe: 'Dajesz zatluszczony czerwony bilet starszemu spokojnemu mezczyznie.', 'Dajesz niewielki szary bilet ciemnowlosemu przyjacielskiemu mezczyznie.' — osobna kategoria: odprawa transportu",
-        "'Nie dajesz rady ...' — negacja-zdolnosc, twardy filtr"
-      ],
-      "anomalia_tagow": "formule oferty 'Mam zlecenie na swieze ...' wyglaszaja tez postacie z tagiem GP (Anatol, Ghaadrav) — parser kotwiczy wylacznie na tagu NPC, GP do przegladu",
-      "korelacje_miejsc_zlecen": {
-        "Lucciano": "skory — Ebino (etykieta paczki LUCCIANO HANDLARZ EBINO)",
-        "Benito": "ryby — Kreutzhofen (BENITO SANGIOVESI RESTAURATOR KREUTZHOFEN)",
-        "Rudolf/Naula": "Nuln (RUDOLF KARCZMARZ NULN)",
-        "Aubert": "Quenelles (AUBERT GRIBAUX RZEZNIK QUENELLES — rzeznik <-> mieso)",
-        "Adler": "Nuln (deklaracja gracza)",
-        "szczurolap": "Novigrad (deklaracja gracza)",
-        "Oferon": "ryby — lokalizacja nieznana; mozliwy zwiazek z linia 'Dajesz chlopakowi zlota monete, ten gryzie ja w...' (hipoteza)",
-        "bez_korelacji": [
-          "Zedar",
-          "Frael (bobolak)",
-          "Gualtiero",
-          "Georg",
-          "Szczuroslaw",
-          "Helmut/Hellmut",
-          "Caraes",
-          "Raul/Herman",
-          "2 nienazwanych"
-        ]
-      }
-    },
-    "korpus_IV_low_zlecen_2026_09_17": {
-      "meta": {
-        "zrodlo": "przelot skryptu low_zlecen na 576 sesjach HTML (korpus 2026-09-16), sekcje A-K; pelna analiza 2026-09-17",
-        "skrypt": "kronikarz_low_zlecen.py (sekcje: A oferty, B kandydaci 3h, B+ warianty 'odbiera od ciebie' + konteksty, C/D histogramy, D+ zakupy/reszta, E1-E10 szczury, F-K resztka)"
-      },
-      "realizacja_zlecenia": {
-        "wzorzec": "<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.",
-        "dowod": "oferta [12] 2026-03-06 00:32:07 'czterech kilogramow miesa z zajaca' (Wysoki zwinny mezczyzna) -> 00:32:48 dwie linie realizacji (4 zl 8 sr 4 mdz oraz 4 zl 13 sr); session_1772741531481.html",
-        "dostawy_czesciowe": true,
-        "trojznacznosc_odbiera": {
-          "realizacja": "odbiera od ciebie <towar> i wrecza ci <kwota>.",
-          "sprzedaz_sklepowa": "odbiera od ciebie <przedmiot>. (bez kasy; Antonietta, Olof, Ernest)",
-          "zakup": "odbiera od ciebie <kwota> w zamian za zakupiony towar."
-        },
-        "regula": "kotwica na pelnej formie z 'i wrecza ci'; klasyfikacja po dowodzie (parz. zlecenia_klasyfikacja)",
-        "sekwencja_pelna_v2": [
-          "echo: -> daj <towaru> <NPC> (dopelniacz partitywny, np. '-> daj miesiwa mezczyznie')",
-          "<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostala ilosc>. (tracker postepu)",
-          "<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>."
-        ],
-        "brak_linii_dajesz": "daj do NPC questowych NIE drukuje linii po stronie gracza; dowod = echo + linie NPC; jedna komenda daj = N dostaw (kazda para postep+wyplata)",
-        "lokalizacja_dowodu": "Parravon (plac nad Grismerie)",
-        "finalizacja": "nieznana - zlecenie w logach nieukonczone (wciaz 'potrzebuje jeszcze ponad kilogram'); tryb capture"
-      },
-      "paczka_spozniona": {
-        "wzorzec": "Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.",
-        "wyplata": "pomniejszona",
-        "wystapienia": "4+ (2025-12-21..27); NPC: Luter (Andolf NPC), Guy (Gautier NPC), Lit (Gurik GL), mlody zwinny mezczyzna"
-      },
-      "zakupy_reszta": {
-        "reszta_kotwica": "slowo 'reszty' = nadplata przy zakupie; koszt = zaplacone - reszta",
-        "wariant_jednoliniowy": "Placisz <kwota> i dostajesz <kwota> reszty. (mithryl mozliwy)",
-        "flavor_wydania_reszty": [
-          "ze sztucznym usmiechem wrecza ci <kwota> reszty",
-          "kryjac usmiech wrecza ci <kwota> reszty",
-          "z ogromna niechecia wrecza ci <kwota>"
-        ],
-        "flavor_pobrania_zaplaty": "drapieznym ruchem zgarnia <kwota>",
-        "flavor_wydania_towaru": "kryjac usmiech wrecza ci <towar> (bez wplywu na ksiege)",
-        "uwaga": "'wrecza ci <kwota>' bez slowa 'reszty' niejednoznaczne (reszta albo zaplata za sprzedaz) - po parze/kontekscie",
-        "npc": [
-          "Salithrandir",
-          "Zykkis",
-          "Adipatus",
-          "Myrrhis",
-          "Sniada mila kobieta",
-          "Bromius"
-        ],
-        "pułapka_zgarnia": "opis pokoju kantoru 'kasjer szybko zgarnia wymieniane monety spogladajac...' lapie sie we wzorzec - wymagana kwota z liczba po 'zgarnia' (twarda zasada nominalu)"
-      },
-      "bounty_szczury_uzupelnienie": {
-        "sekwencja_pelna": [
-          "daj <ciala> <NPC>",
-          "<NPC> oglada uwaznie cialo. / ... sterte szczatkow szczura.",
-          "<NPC> mowi do ciebie: Dorodny okaz! ... daje trzy srebrne monety.",
-          "<NPC> wrecza ci monety.",
-          "<NPC> usmiecha sie z zadowoleniem."
-        ],
-        "cennik": {
-          "szczur": "3 sr",
-          "mysz": "8 pensow"
-        },
-        "adler_nuln": "POTWIERDZONE korpusem: who-lista 'Adler Winck, Nuln', opis 'Koscisty wysoki mezczyzna (Adler NPC)', pokoj 'Biuro szczurolapa.'",
-        "ratan": "Obdarty brudny mezczyzna (Ratan NPC); szept: 'zapytaj szczurolapa o prace' - drugi szczurolap",
-        "wykluczenia": [
-          "'Szczurolap' tytul zawodowy graczy na who (Szczurolap/Doswiadczony Szczurolap, halfling; 419x/187x)",
-          "'szczury ladowe' = obelga zeglarska",
-          "maskotka 'szary szmaciany szczur' (9 dan graczom, zero kasy w oknie 90 s)"
-        ],
-        "linia_dawania_cial": "NIE ISTNIEJE (E10: zero Dajesz/Oddajesz cial* do NPC w korpusie; jedyna taka linia to cialo skavena wreczone graczowi Gwenn); kotwica sekwencji na echu '-> daj ciala szczurolapowi'",
-        "skaveny": "bounty obejmuje ciala skavenow - wpis wiedzy 'Dostarczyles cialo skavena szczurolapowi z Nuln.'",
-        "szepty_zaczepki": "oba NPC zaczepiaja szeptem: 'Jesli chcesz zarobic troche grosza... <zapytaj szczurolapa o prace>'; Adler dodatkowo wprost: 'Zapytaj mnie o prace, to wyjasnie szczegoly.'",
-        "sesja_polowanie": "2025-12-14 23:03-23:09: 15 szczurow (licznik 1/1->15/15); 23:12:53: 7x odmowa 'A po co mi to dajesz?' (spam daj niewlasciwym przedmiotem)"
-      },
-      "przekrzyki_bretonskie": {
-        "wzorzec": "<NPC> krzyczy po bretonsku, ale udaje ci sie zrozumiec tylko czesc: ...",
-        "interpretacja": "ogloszenia bounty na potwory czytane na glos (ekwiwalent listu gonczego); kwota urwana/niewiarygodna",
-        "kategoria": "informacyjna, NIE zdarzenie finansowe"
-      },
-      "pole_type_eksport_json": {
-        "format": "LogExportData v1",
-        "probka_wpisow": 1892,
-        "wartosci": [
-          "script",
-          "trigger-echo",
-          "echo",
-          "mud",
-          "other",
-          "prompt",
-          "info",
-          "room.short",
-          "room.exits",
-          "room.contents.living",
-          "comm"
-        ],
-        "zastosowanie": "strukturalny backfill: nazwa pokoju (room.short), NPC w pokoju (room.contents.living), mowa NPC (comm)",
-        "status": "wstepnie domkniete; wieksza probka potwierdzi kompletnosc"
-      },
-      "drobiazgi": {
-        "kaucja_wozownia": "Kazdy z naszych wozow bedzie sluzyc przez co najmniej N gnomich godzin... przekroczenie terminu = kaucja pomniejszona o 25 procent",
-        "race_condition_przesylki": "Lista przesylek zmienila sie i ta, ktora chcesz podjac byc moze nie jest juz ta... (34x)",
-        "bilety_warianty": [
-          "niebieski",
-          "maly blekitny",
-          "bialy elegancki",
-          "podluzny wymietoszony",
-          "niewielki rozowy",
-          "poplamiony podluzny",
-          "pomiety przybrudzony",
-          "prowizoryczny naddarty"
-        ],
-        "trasa_IZS": "Nuln-Kraina Zgromadzenia-Blekitna Wstega-Kreutzhofen",
-        "poczty_pokoje_korpusowe": [
-          "Novigrad",
-          "Quenelles",
-          "Oxenfurt",
-          "Kreutzhofen",
-          "Kraina Zgromadzenia",
-          "Jouinard"
-        ]
-      },
-      "odrzucone_decyzja_gracza": {
-        "zamowienia_rzemieslnicze": "poza katalogiem (torby/plecaki/zbroje/miecze na zamowienie); sekcja F lowiska = filtr szumu",
-        "biblioteka": "zwroty ksiazek (Oddajesz ksiazke Kerii...) poza katalogiem",
-        "trening_druzyna": "odlozone; mechanika: trenuj / trenuj intensywnie; 'um' = umiejetnosci + modyfikatory chwilowe; tag [   DRUZYNA   ]"
-      },
-      "otwarte": {
-        "finalizacja_zlecenia": "linia po ostatniej dostawie nieznana (zlecenie w logach nieukonczone) - tryb capture",
-        "szczuroslaw_fuats": "rola niezidentyfikowana, bez kotwic finansowych",
-        "wzrost_wiedzy": "osobne zdarzenie kroniki? - decyzja odlozona"
-      },
-      "przelot_v2_2026_09_17": {
-        "zabici_padding": {
-          "problem": "znacznik ma dopelnienie spacjami do stalej szerokosci: '[  ZABILES  ]' (2 sp), '[   ZABIL   ]'/'[   ZABILA   ]' (3 sp); sztywna pojedyncza spacja w regexie gubila 100% trafien (anomalia E1=0)",
-          "regex": "^\\[\\s*ZABIL(?:ES|A|)\\s*\\]",
-          "liczby": "1796 linii [ ZABIL* ] w korpusie; 37 zabojstw szczurow (23 unikalne); zabojstwa druzynowe (np. Gwenn zabila ... szczura)"
-        },
-        "wiedza_migawka": {
-          "system": "wpisy z prefiksem '* ' to listing komendy 'wiedza' (kategorie wiedzy: stworzenia widziane, przedmioty ogledziane, czyny wykonane)",
-          "przyklady": [
-            "* Widziales szczuroczleka. (387x)",
-            "* Ogladales amulet kultystow Rogatego Szczura. (181x)",
-            "* Dostarczyles cialo skavena szczurolapowi z Nuln. (138x)"
-          ],
-          "interpretacja": "migawka na zadanie (jak postepy/cechy), NIE dziennik zdarzen; licznik wystapien = czestotliwosc komendy; wpis-czyn = jednorazowy koroborant ('zaszlo kiedys przed ta migawka'), nigdy licznik ani timestamp",
-          "pokrewne": [
-            "Wiedza o <kategorii>: (naglowek)",
-            "twoja wiedza o <kategorii> wzrosla ... (wzrost wiedzy, decyzja odlozona)"
-          ]
-        },
-        "rozklad_odbiera_liczby": {
-          "realizacja": 2,
-          "w_zamian": "21 (9 unikalnych; Roseanna, Hanes/Daniger, Kivan/Biraldan, Adela, Stefan, Niemir)",
-          "sprzedaz_sklepowa": "110 (40 unikalnych; Antonietta, Olof, Ernest)"
-        },
-        "ekosystem_platnosci_liczby": {
-          "reszta": "215 (86 unikalnych)",
-          "zgarnia_flavor": 186,
-          "flavor_wreczenia": 278,
-          "placisz_kupujesz_tlo": "1353 (340 unikalnych)"
-        },
-        "npc_niezidentyfikowani": [
-          "Szczuroslaw NPC (Niski korpulentny mezczyzna, 89x)",
-          "Fuats NPC (Lysiejacy szczurkowaty mezczyzna, 59x)"
-        ]
-      }
-    }
+  {
+   "id": 853,
+   "nazwa": "Poczta, Oxenfurt",
+   "obszar": "Oxenfurt"
   },
-  "bank_depozyty_2026_09_17": {
-    "zrodla": "Dargoth deposits.ts + prettyContainers.parseItems + Mudlet boxes.lua + tjurczyk boxes.lua (ta sama rodzina) + wiki 'Skrytki'/'Pieniadze' + korpus-probka 33 logi + mapa sync 430 + spec GMCP t=740; Towarzysz: brak modulu depozytow",
-    "linie_odczytu": [
-      "Twoj depozyt zawiera <lista>. (migawka na zadanie, NIE zdarzenie ksiegowe; w logach bywa zawinieta w srodku fraz — sklejanie §6.2 SPEC)",
-      "Twoj depozyt jest pusty.",
-      "Nie posiadasz wykupionego depozytu."
-    ],
-    "transfery": "Wkladasz/Bierzesz <cos> do/z otwartej skrzynki depozytowej. — transfer, nigdy przychod/wydatek; cudze: bierze/wklada ... ze/do SWOJEJ otwartej skrzynki depozytowej. — marker 'swojej' odfiltrowuje",
-    "skrytki": {
-      "koszty": "podstawa 50 zlotych; poziomy rozbudowy 2/5/10/20 mithryli (wiki 'Skrytki')",
-      "trwalosc": "do konca gry postacia (zero odnawiania); smierc = utrata depozytu",
-      "limit": "25 przedmiotow niezaleznie od rozbudowy; stos jednego rodzaju = 1 przedmiot (notka Mistrza Rafgarta, tablica w korpusie: '10: Zmiany w depozytach')",
-      "linia_wykupienia": "NIEZNANA (zadnen z trzech klientow nie triggeruje, korpusy nie pokazaly) + komenda pomocy '?depozyt' — tryb capture",
-      "wydatek": "kategoria 'usluga bankowa' (wykupienie i kazda rozbudowa)"
-    },
-    "komendy_zarzadzania": [
-      "przejrzyj [pobieznie] <co> [z czego] (filtry: uszkodzone/naprawialne/typy)",
-      "wybierz <co>",
-      "?depozyt (pomoc)"
-    ],
-    "komendy_status_nieznany": "wplac/wyplac/przelej — gra je zna (walidator asystenta Dargotha 'Komenda operuje na pieniadzach'; lista test_commands Mudleta), ale konta procentowe zlikwidowano 2011 (wiki 'Pieniadze') — legacy albo zywe (przelew gracz->gracz przez bank?); capture przy banku + pelny korpus",
-    "historia": "konta bankowe z prowizja procentowa od wplaty/wyplaty (pre-2011) — zastapione skrzynkami depozytowymi; NIE ISTNIEJE",
-    "zakaz": "zakaz posredniego i bezposredniego przekazywania pieniedzy miedzy wlasnymi postaciami gracza (wiki 'Pieniadze')",
-    "parse_notes": "klient: 'wiele' -> pseudo-count 'wie' poza suma miedzi (zgodne z regula null); konwerter klienta konczy na 99 — lista z 'sto+' slownie nie sparsuje sie klientowi (ich bug storage), unia Kronikarza pokrywa (Towarzysz); czestotliwosc 'sto+' slownie w depozytach — re-check pelny korpus",
-    "tabela_klienta_w_logach": "pretty-print DEPOZYT po linii gry (naglowek '| DEPOZYT |', kategorie, markery *...*, licznosci cyframi) — redundantny, backfill rozpoznaje po ramce i pomija; analogicznie tabele pojemnikow",
-    "pokoje_nazwy_gry": {
-      "znane": [
-        "Glowna sala banku."
-      ],
-      "uwaga": "nazwy w grze != nazwy mapy (mapa: 'Bank w Daevon'); lista rosnie z korpusu/capture — atrybucja backfill"
-    },
-    "lokalizacje_rozjazd": "wiki 'Skrytki' podaje 13 miejsc (nieaktualna), wiki 'Pieniadze' 15, rzeczywistosc 17 (mapa+klienci: +Val'Kare, +Brugge 10 pokoi; Ard Skellig = suplement 10416); valid_banks Mudleta 16/16 zgodne z naszymi danymi",
-    "eysenlaan_depozyt": "NIEZNANY — 'Kantor, Bank, Sklep, Eysenlaan' (banki_bez_binda); wiki milczy — capture",
-    "premium_storage": "characterStorage klucz 'deposits' per (postać): Record<roomId, {name, items}> — gate isBankRoom = bind 'depozyt' w userData pokoju; warstwa defensywna (fallback na wlasne triggery)"
+  {
+   "id": 841,
+   "nazwa": "Poczta w Novigradzie",
+   "obszar": "Novigrad"
   },
-  "zlecenia_2026_09_17": {
-    "zrodla": "Dargoth contracts.ts + deliveryStats.ts + polishNumberConverter.ts + Mudlet/tjurczyk assistant.lua (zlecenie tylko w asystencie paczek) + Towarzysz (brak modulu zlecen: zlecenie 0, kontrakt 0) + wiki (brak strony o systemie zlecen) + korpus-lowisko 576 sesji (oferty 22, pytania o zlecenie 30, odmowy 'niczego mi nie trzeba' 4) + korpus-probka 33 logi",
-    "platnosc_pro_rata": {
-      "zasada": "kasa przychodzi z kazda dostawa osobno; para linii na kazda sztuke/kilogram: '<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostala ilosc>.' + '<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.'; niezaleznie od stopnia ukonczenia",
-      "dowod": "oferta 'czterech kilogramow miesa z zajaca' (2026-03-06 00:32:07) -> 41 s pozniej dwie pary postep+zaplata od Wysoki zwinny mezczyzna (4 zl 8 sr 4 mdz + 4 zl 13 sr) za 2 kg z 4 kg; Parravon",
-      "finalizacja": "NIE istnieje jako osobne zdarzenie kasowe; kandydat 'z ogromna niechecia wrecza ci' odrzucony (flavor linii sklepowej §2.2 SPEC); ewentualny tekst po ostatniej dostawie to informacja, nie kasa"
-    },
-    "reklamodawcy_kontraktow": {
-      "wzorzec": "Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace. / Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.",
-      "npc": [
-        "Lucciano",
-        "Benito",
-        "Aubert",
-        "Naula/Rudolf",
-        "Szczuroslaw (10x)",
-        "Fuats (6x)"
-      ]
-    },
-    "liczebniki_ofert": {
-      "powyzej_50_slownie": "siedemdziesieciu dwoch kilogramow miesa z dzika (72 kg) — tabela POLISH_NUMBERS contracts.ts konczy sie na 50 (Dargoth count:1); unia Kronikarza pokrywa (polishNumberConverter 60-90 ze zlozeniami)",
-      "cyfry_powyzej_100": "110 kilogramow miesa z losia — parser musi lykac czyste cyfry (Dargoth: parseInt fallback)",
-      "typy_towarow": [
-        "ryby (sztuki + rozmiar + typ)",
-        "mieso (kg, zwierze)",
-        "zbroje (sztuki, jakosc opcjonalna)",
-        "skory (sztuki, np. dwunastu skor susla)"
-      ],
-      "zleceniodawca_bez_opisu": "Petyr (golym imieniem, bez opisu)"
-    },
-    "termin": {
-      "konwersja": "1 dzien IG = 48 min realnych (ONE_INGAME_DAY_MS), godzina IG = 2 min RL",
-      "kilka_godzin": "0.5 dnia (korpus 2x: 'Na realizacje zamowienia mam kilka godzin')",
-      "brak_liczebnika": "'mam dzien' = 1 dzien; deadline kotwiczony na czasie nadania oferty"
-    },
-    "cennik_potoczny": {
-      "szyling": "= srebrna moneta (Ratan: Kazdy martwy szczur wart trzy srebrne szylingi = 3 sr)",
-      "pens": "= miedziana moneta (Adler: mysz - osiem pensow)"
-    },
-    "przekrzyk_warianty": [
-      "<NPC> krzyczy po bretonsku ...",
-      "Jakis mezczyzna krzyczy z oddali po bretonsku ..."
-    ],
-    "zamowienia_rzemieslnicze": "Placisz <NPC> <kwota> i skladasz zamowienie. (korpus 4x) — wydatek rzemieslniczy, NIE zlecenie, NIE zakup sklepowy",
-    "domkniete_SPEC": [
-      28,
-      29,
-      30
-    ],
-    "otwarte_pozostale": "odrzuty za zla jakosc/rozmiar/nadmiar dostawy (N=0 w korpusie), typo-formy piedziesiat/pieedziesieciu (N=0) — capture"
+  {
+   "id": 911,
+   "nazwa": "Poczta w Scala",
+   "obszar": "Scala"
   },
-  "zabici_2026_09_18": {
-    "zrodla": "Dargoth kill.ts + killLifetimeStorage.ts (calosc) + Mudlet counter.lua/counter/ (lifetime+sesja, bramka druzyny ateam.team_names) + tjurczyk + Towarzysz (brak modulu: zabil 0) + wiki (brak strony o liczniku) + korpus 576 sesji (dwa digesty: 1796 linii [ZABIL*]) + probka logow HTML",
-    "formy_prefixow": {
-      "wlasne": [
-        "[ ZABILES ] Zabiles <name>. (n / m)",
-        "[  ZABILAS  ] Zabilas <name>. (n / m) — postac zenska, kod, korpus N=0"
-      ],
-      "druzyny": [
-        "[ ZABIL ] <kto> zabil <name>. (n / m)",
-        "[ ZABILA ] <kto> zabila <name>. (n / m)"
-      ],
-      "regex": "^\\[\\s*ZABIL(?:ES|AS|A|)\\s*\\]",
-      "padding": "1-3 spacje, dryf wersji klienta; dominanta 1 spacja (digesty: 115+81+77 vs 34 vs 14)"
-    },
-    "suffix_licznika": " (n / m) = mySession / mySession+teamSession per mob, zakres SESYJNY (nie lifetime); korpus: (0 / 1), (5 / 17)",
-    "obce_zabojstwa": "zabojca spoza druzyny (kod: isInTeam false -> OTHER) dostaje prefix BEZ suffixu (formatPrefix z null); korpus: 'Feril zabil wscieklego groznego wilka.' 3x; DECYZJA: filtr, nie zdarzenie kroniki",
-    "szum_deski": "Szerokie drzwi wejsciowe do rezydencji ktos zabil solidnie kilkoma deskami. (3x) — regex klienta odpala (prefix w logu, bez licznika); filtr: biernik narzedzi + opis obiektu jako 'zabojca'",
-    "tagi_gildii": {
-      "przyklad": "Spiczastouchy dlugonogi elf (Aynne GP) (Crevan ES) zabil brudnego brunatnego kobolda.",
-      "alfabet_22": [
-        "CKN",
-        "ES",
-        "SC",
-        "KS",
-        "KM",
-        "OS",
-        "OHM",
-        "SGW",
-        "BK",
-        "WKS",
-        "LE",
-        "KG",
-        "KGKS",
-        "MC",
-        "OK",
-        "RA",
-        "GL",
-        "ZT",
-        "ZS",
-        "ZH",
-        "NPC",
-        "GP"
-      ],
-      "regula": "scinac '(<imie> <KOD>)' z nazw zabojcow i ofiar przed normalizacja"
-    },
-    "normalizacja_mobow": "parseName: ostatnie slowo lowercase (dopelniacz zostaje: 'szczura') | dwuwyrazowy wyjatek z listy 26 (identyczna Dargoth=Mudlet) | nazwa wlasna (1 slowo, wielka litera); tag przy ofierze zanieczyszcza klucz upstream (korpus N=0)",
-    "premium": {
-      "characterStorage": [
-        "kill_counter (lifetime)",
-        "kill_counter_session",
-        "kill_counter_team (per gracz)"
-      ],
-      "idb": "ArkadiaKillsDB: rekord per postac+mob+data, zapis TYLKO wlasnych zabojstw, odczyt per data/grupowanie/statystyki, importRecords",
-      "eventBus": [
-        "zabici.updated (sesja)",
-        "zabici2.updated (lifetime)"
-      ],
-      "aliasy": [
-        "/zabici",
-        "/zabiciw",
-        "/zabici2",
-        "/zabici2 [rrrr/m/d]",
-        "/zabici2w",
-        "/zabici2!",
-        "/zabici_reset"
-      ]
-    },
-    "domkniete_SPEC": [
-      31,
-      32,
-      33
-    ],
-    "otwarte_nowe": [
-      12,
-      13
-    ]
+  {
+   "id": 10495,
+   "nazwa": "Poczta, Craag Ros",
+   "obszar": "Wschodni Mahakam"
   },
-  "postepy_2026_09_18": {
-    "zrodla": "Dargoth improveCounter.ts (calosc) + Mudlet improve.lua/progress.lua/gmcp_handler_improvement.lua/improve2.lua + tjurczyk + Towarzysz (brak modulu) + wiki 'Doswiadczenie' + korpus 576 sesji (digesty: 16 gradacji obecne, 'Wlasnie wbiles' N=0)",
-    "skala_kanoniczna": {
-      "kolejnosc_0_15": [
-        "minimalne",
-        "nieznaczne",
-        "bardzo male",
-        "male",
-        "nieduze",
-        "zadowalajace",
-        "spore",
-        "dosc duze",
-        "znaczne",
-        "duze",
-        "bardzo duze",
-        "ogromne",
-        "imponujace",
-        "wspaniale",
-        "gigantyczne",
-        "niebotyczne"
-      ],
-      "zrodla_zgodne_4": "Dargoth IMPROVE_STATES + Mudlet improve.lua + Mudlet progress.lua + wiki Doswiadczenie",
-      "errata": "dawna tabela SPEC miala 2 zamiany (7<->8 oraz 12-15) przy deklaracji 1:1 IMPROVE_STATES — poprawiona 2026-09-18; mapowanie GMCP liczba->nazwa kotwiczy na kodzie klienta"
-    },
-    "kanal": "GMCP char.state.improve (liczba 0-15, kumulatywny sesyjnie); brak modulu pienieznego w GMCP — analogicznie: brak linii gry przy wbiciu, kanal czysto GMCP (do potwierdzenia: otwarte 16)",
-    "poziom_0": "'zadne/mini' — teksty 'zadnych' (progress.lua) i 'minimalne' (improve.lua) oba = 0; liczniki ignoruja 0; nie zdarzenie kroniki",
-    "delta_gt_1": "skok o kilka poziomow: klient emituje kazdy poziom posredni osobno (petla record per poziom, wlasny timestamp i snapshot zabojstw); kronika: wpis per poziom, nigdy zbiorczy",
-    "reconnect_absorb": "rozroznienie per object_num: recordInitial (cichy catch-up po reconnect/nowej sesji, zero duplikatow) vs record (zdarzenie); spadek przy fresh login = absorb miedzy sesjami (reset poziomu bazowego); spadek mid-session klient ignoruje -> otwarte 14-15",
-    "no_form": "postepy przy niepelnej formie liczone osobno: optionsForm===1 && stateForm<3 -> noFormCount; adnotacja w wpisie",
-    "prezentacja": "formatCount: 15 postepow = 1 'niebotyczne' (widok 'N niebotycznych + stan'); wylacznie statystyki, nie format wpisu",
-    "semantyka_wiki": "1 poziom = ulamek CALKOWITEGO doswiadczenia postaci; czas miedzy wbiciami nieporownywalny miedzy postaciami o roznej sile; reset przy wylogowaniu; poziomy doswiadczenia (historyczne od 2019) osobno od gradacji",
-    "linia_kliencka": "klient drukuje wlasny komunikat: tab + 'Wlasnie wbiles postepy: <stan> (czas: m:ss)' — NIE linia gry; digest N=0 -> re-check pelny korpus (otwarte 16)",
-    "kontekst_wpisu": "DECYZJA 2026-09-18: wpis prosty (stan + timestamp); czas od poprzedniego wbicia (m:ss) i snapshot zabojstw (my+team) = metadane audytowe zdarzenia, poza tekstem wpisu; zasilaja weryfikator krzyzowy",
-    "technikalia_klienta": "aliasy /postepy* (10 szt.); storage improve_counter + improve_counter_lifetime (klucz dnia rrrr/m/d); eventBus postepy.updated + postepy2.updated; gender wbiles/wbilas w komunikacie Mudleta",
-    "otwarte_nowe": "14 cap-vs-wrap przy 15; 15 spadek mid-session (smierc?); 16 linia kliencka re-check; 17 DOMKNIETE 2026-09-18 (format wpisu + weryfikator)",
-    "weryfikator_krzyzowy": "live, w obrebie sesji: delta snapshotow miedzy wbiciami vs liczba wpisow zabojstw (wlasne+druzyna) kroniki; czas klienta vs roznica timestampow; rozbieznosc (delta!=0) -> flaga audytowa + wpis audytowy + znacznik sesji 'pokrycie niepelne' + statystyki z obiema wartosciami + capture surowych linii ±20; NIGDY auto-korekta (wpisy = dowod, licznik = metadany); ograniczenia: zakres sesyjny, snapshot my+team, dociecie na absorb, alarm wylaczony przy 15 do otwartego 14, brak na backfillu"
+  {
+   "id": 1364,
+   "nazwa": "Poczta w Fandall",
+   "obszar": "Zachodni Mahakam"
   },
-  "wiedza_2026_09_18": {
-    "zrodla": "wiki 'Wiedza' + 'Opcje' + Dargoth knowledge.ts/knowledgeCategories.ts/wiedzaStore.ts + Mudlet knowledge.lua/books.lua/libraries.lua + repo danych Delwinga tjurczyk/arkadia-data knowledge_data.json (v1) + API ethel.pl action=wiedza_data + korpus 576 sesji (digesty)",
-    "linia_tick": "Wydaje ci sie, ze twoja wiedza o <dziedzina> wzrosla nieznacznie. — gradacja ZAWSZE 'nieznacznie' (wiki: minipoziom co 1%, 100 = pelna); korpus 8 dziedzin, wszystkie nieznacznie; regex Dargotha wildcartowy 'wzrosla .*' = fallback",
-    "linia_fragment": "Dowiadujesz sie czegos wiecej o <dziedzina>. — nowy wpis * w migawce; gated opcja gry WIEDZA (wiki 'Opcje'); korpus N=0 -> capture",
-    "pelna_wiedza": "tytul 'Znawca <dziedziny>'; brak osobnej linii — rozstrzygalne z migawki 'wiedza o <dziedzinie>' (poziom pelna)",
-    "dziedziny_14": [
-      "chaos i jego twory",
-      "goblinoidy",
-      "golemy",
-      "istoty demoniczne",
-      "jaszczuroludzie",
-      "magia i jej twory",
-      "nieumarli",
-      "pajaki i pajakowate",
-      "ryboludzie",
-      "smoki i smokowate",
-      "starsze rasy",
-      "stwory pokoniunkcyjne",
-      "szczuroludzie",
-      "wampiry"
-    ],
-    "anomalia_wiki": "wiki 'Wiedza' lista mowi 'istoty magiczne' — gra/korpus/kod x2: 'magia i jej twory' (korpus 'magii i jej tworach' 6 wyst.); wiki nadrzedne semantycznie, kod/korpus tekstowo",
-    "zrodla_per_dziedzina": {
-      "typy_3": [
-        "walki",
-        "ksiazek i bibliotek",
-        "eksploracji"
-      ],
-      "ksiazki": "knowledge_data.json Delwinga: 44 ksiazki, pelna odmiana (mian/dop/biernik/mnoga) + lista dziedzin per ksiazka",
-      "biblioteki": "knowledge_data.json: 44 biblioteki z location_id (mapa) + nazwa + lista dziedzin; pokrycie 14/14 dziedzin w obu zbiorach",
-      "eksploracja": "API ethel.pl action=wiedza_data: 14 list wpisow eksploracyjnych (Byles/Ogladales/Dowiedziales...), mapowanie indeksowe na KNOWLEDGE_CATEGORY_CONFIG, bez typu zrodla w payloadzie — Dargoth przypisuje wszystko do exploration; wiki: 'ponad szescset' zdarzen"
-    },
-    "poziomy": "10 gradacji gry: znikoma/niewielka/czesciowa/niezla/dosc dobra/dobra/bardzo dobra/doskonala/prawie pelna/pelna (wiki + Mudlet knowledge_desc 1/10-10/10); Dargoth 11 etykiet (dodaje 'brak' idx 0); tick NIE mowi typu — wpis = dziedzina + timestamp",
-    "format_wpisu": "12:03:44 — Wzrost wiedzy: goblinoidy. ; backfill z logow (push); koroboracja z migawki 'wiedza'",
-    "smierc_druzynowa": {
-      "kto": "ROZSTRZYGNIETE kodem: diff objects.nums (przed->po) + akumulowane objects.data (id -> {desc, team, hp}); Dargoth accumulatedObjectsData + Mudlet ateam.objs akumuluja identycznie; identyfikacja ubylego druzynowego w 100%",
-      "dlaczego": "CAPTURE (otwarte 18): dyskryminator smierci vs wyjscie/quit/teleport = brak linii odejscia + pojawienie sie ciala w pokoju; nieznane: forma ciala gracza, hp przy zgonie, powrot ducha (ten sam id?); 1 obserwacja live domyka",
-      "mechanika_wiki": "wiki 'Smierc': cialo postaci zostaje w pokoju z calym dobytkiem; duch na kilka minut w zaswiatach (brak interakcji); odrodzenie: lokacja startowa najblizsza zgonu albo siedziba stowarzyszenia (opcje start przy ciele/neutralna)",
-      "korekta_living": "flaga living NIE jest flaga smierci — spec forum t=740: 'living - BOOLEAN, czy obiekt to istota zywa, na te chwile zawsze tak'; w GMCP wystepuje 3x zawsze jako typ obiektu (objects.data param, room.contents.living, living.long); oba klienty uzywaja jako filtra istot, zadne nie wykrywa smierci druzynowego",
-      "korpus": "N=0 smierci druzynowych w 576 sesjach (digesty: zero 'duch <imie>', zero cial druzynowych, 'Umierasz.' tylko wlasna) — backfill nie istnieje",
-      "zasieg": "tylko ta sama lokacja — GMCP milczy o innych pokojach; smierc podzielonej druzyny poza zasiegiem (jawne ograniczenie)",
-      "protokol_capture": "surowe snapshoty objects.nums+objects.data przed/w trakcie/po + pelny tekst pokoju ±30 s + timestampy; mozliwa smierc wymuszona z druga postacia; opcja: ring buffer surowego GMCP (tryb diagnostyczny) = capture samoczynny",
-      "nazwa_widoku": "Zmarli czlonkowie druzyny (decyzja 2026-09-18); live-only, brak backfillu"
-    },
-    "decyzje": "1 wzrost wiedzy TAK; 2 smierc druzynowa TAK (z capture kanalu); 3 trening+druzyna jako kategorie ODRZUCONE"
+  {
+   "id": 1476,
+   "nazwa": "Poczta, Twierdza pod Gora Carbon",
+   "obszar": "Twierdza pod Gora Carbon"
+  },
+  {
+   "id": 10013,
+   "nazwa": "Poczta, Hagge",
+   "obszar": "Hagge"
+  },
+  {
+   "id": 1994,
+   "nazwa": "Poczta w Rinde",
+   "obszar": "Wschodnia Redania"
+  },
+  {
+   "id": 3160,
+   "nazwa": "Poczta w Twierdzy Bodrog",
+   "obszar": "Verden"
+  },
+  {
+   "id": 4035,
+   "nazwa": "Poczta w Blaviken",
+   "obszar": "Polnocna Redania"
+  },
+  {
+   "id": 4533,
+   "nazwa": "Poczta w Gelibolu",
+   "obszar": "Polnocna Redania"
+  },
+  {
+   "id": 4370,
+   "nazwa": "Poczta w Gornej posadzie",
+   "obszar": "Aedirn"
+  },
+  {
+   "id": 8032,
+   "nazwa": "Poczta, Guleta",
+   "obszar": "Aedirn"
+  },
+  {
+   "id": 22948,
+   "nazwa": "Poczta w Eysenlaan",
+   "obszar": "Aedirn"
+  },
+  {
+   "id": 10251,
+   "nazwa": "Poczta w Eldar",
+   "obszar": "Ard Carraigh"
+  },
+  {
+   "id": 10046,
+   "nazwa": "Poczta w Daevon",
+   "obszar": "Daevon"
+  },
+  {
+   "id": 4737,
+   "nazwa": "Poczta, Quenelles",
+   "obszar": "Quenelles"
+  },
+  {
+   "id": 4913,
+   "nazwa": "Poczta, Salignac La Rouge",
+   "obszar": "Salignac"
+  },
+  {
+   "id": 5182,
+   "nazwa": "Poczta w Kreutzhofen",
+   "obszar": "Wissenland"
+  },
+  {
+   "id": 5263,
+   "nazwa": "Poczta, Toskania",
+   "obszar": "Polnocna Tilea"
+  },
+  {
+   "id": 5988,
+   "nazwa": "Poczta, Varieno",
+   "obszar": "Polnocna Tilea"
+  },
+  {
+   "id": 11145,
+   "nazwa": "Poczta, Ebino",
+   "obszar": "Ebino"
+  },
+  {
+   "id": 5469,
+   "nazwa": "Poczta, Campogrotta",
+   "obszar": "Campogrotta"
+  },
+  {
+   "id": 5877,
+   "nazwa": "Poczta, Urbimo",
+   "obszar": "Urbimo"
+  },
+  {
+   "id": 6527,
+   "nazwa": "Poczta w Averheim",
+   "obszar": "Averland"
+  },
+  {
+   "id": 11215,
+   "nazwa": "Poczta w Krainie Zgromadzenia",
+   "obszar": "Kraina Zgromadzenia"
+  },
+  {
+   "id": 7304,
+   "nazwa": "Poczta u Gladiatorow, Nuln",
+   "obszar": "Nuln"
+  },
+  {
+   "id": 7335,
+   "nazwa": "Poczta, Nuln",
+   "obszar": "Nuln"
+  },
+  {
+   "id": 7468,
+   "nazwa": "Poczta, Ubersreik",
+   "obszar": "Reikland"
+  },
+  {
+   "id": 7543,
+   "nazwa": "Poczta, Bogenhafen",
+   "obszar": "Reikland"
+  },
+  {
+   "id": 7612,
+   "nazwa": "Poczta, Jaskare",
+   "obszar": "Reikland"
+  },
+  {
+   "id": 7653,
+   "nazwa": "Poczta w Jouinard",
+   "obszar": "Parravon"
+  },
+  {
+   "id": 26644,
+   "nazwa": "Poczta, Parravon",
+   "obszar": "Parravon"
+  },
+  {
+   "id": 9788,
+   "nazwa": "Poczta, Baccala",
+   "obszar": "Baccala"
+  },
+  {
+   "id": 11342,
+   "nazwa": "Poczta w Karak Varn",
+   "obszar": "Karak Varn"
+  },
+  {
+   "id": 15485,
+   "nazwa": "Poczta w Karak Varn",
+   "obszar": "Karak Varn"
+  },
+  {
+   "id": 14987,
+   "nazwa": "Poczta w Karak Kadrin",
+   "obszar": "Karak Kadrin"
+  },
+  {
+   "id": 20194,
+   "nazwa": "Poczta w Val'kare",
+   "obszar": "Val'kare"
+  },
+  {
+   "id": 23667,
+   "nazwa": "Poczta w Faroe",
+   "obszar": "Pozostale wyspy Skellige"
+  },
+  {
+   "id": 24104,
+   "nazwa": "Poczta, Athel Loren",
+   "obszar": "Athel Loren"
   }
+ ],
+ "banki_z_bindem": [
+  {
+   "id": 316,
+   "nazwa": "Bank, Wyzima",
+   "obszar": "Wyzima",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 22755,
+   "nazwa": "22755",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22756,
+   "nazwa": "22756",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22757,
+   "nazwa": "22757",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22758,
+   "nazwa": "22758",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22759,
+   "nazwa": "22759",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22761,
+   "nazwa": "22761",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22762,
+   "nazwa": "22762",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22763,
+   "nazwa": "22763",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22764,
+   "nazwa": "22764",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 22765,
+   "nazwa": "22765",
+   "obszar": "Brugge",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (mapa: Biały Kieł — skrytki przy zajezdzie)"
+  },
+  {
+   "id": 2687,
+   "nazwa": "Bank, Novigrad",
+   "obszar": "Novigrad",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 893,
+   "nazwa": "893",
+   "obszar": "Scala",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 1467,
+   "nazwa": "Bank, Twierdza pod Gora Carbon",
+   "obszar": "Twierdza pod Gora Carbon",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 1999,
+   "nazwa": "Bank, Rinde",
+   "obszar": "Wschodnia Redania",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 8059,
+   "nazwa": "Sklep, Guleta",
+   "obszar": "Aedirn",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 4574,
+   "nazwa": "Bank w Daevon",
+   "obszar": "Daevon",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 4661,
+   "nazwa": "Bank, Quenelles",
+   "obszar": "Quenelles",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 5364,
+   "nazwa": "Bank, Ebino",
+   "obszar": "Ebino",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 6739,
+   "nazwa": "Bank, Kraina Zgromadzenia",
+   "obszar": "Kraina Zgromadzenia",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 7334,
+   "nazwa": "Bank, Nuln",
+   "obszar": "Nuln",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 26630,
+   "nazwa": "Bank, Parravon",
+   "obszar": "Parravon",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 9776,
+   "nazwa": "Bank, Baccala",
+   "obszar": "Baccala",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 15395,
+   "nazwa": "Bank, Karak Varn",
+   "obszar": "Karak Varn",
+   "bind": "/depozyt",
+   "depozyt_wiki": "TAK (wiki)"
+  },
+  {
+   "id": 20164,
+   "nazwa": "20164",
+   "obszar": "Val'kare",
+   "bind": "przejrzyj depozyt",
+   "depozyt_wiki": "TAK (mapa: pokój $ z bindem; wiki nieaktualna)"
+  }
+ ],
+ "banki_bez_binda": [
+  {
+   "id": 10550,
+   "nazwa": "Bank w Mons Arx",
+   "obszar": "Poludniowy Mahakam",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 480,
+   "nazwa": "Bank, Maribor",
+   "obszar": "Poludniowa Temeria",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 2569,
+   "nazwa": "Bank, Oxenfurt",
+   "obszar": "Oxenfurt",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 10554,
+   "nazwa": "Bank, Craag Ros",
+   "obszar": "Wschodni Mahakam",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 10027,
+   "nazwa": "Bank, Hagge",
+   "obszar": "Hagge",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 22947,
+   "nazwa": "Kantor, Bank, Sklep, Eysenlaan",
+   "obszar": "Aedirn",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 5196,
+   "nazwa": "Bank, Kreutzhofen",
+   "obszar": "Wissenland",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 5277,
+   "nazwa": "Bank, Toskania",
+   "obszar": "Polnocna Tilea",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 6035,
+   "nazwa": "Bank, Varieno",
+   "obszar": "Polnocna Tilea",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 5519,
+   "nazwa": "Bank, Campogrotta",
+   "obszar": "Campogrotta",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 6457,
+   "nazwa": "Bank, Zamek Sigmara",
+   "obszar": "Averland",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 6528,
+   "nazwa": "Bank, Averheim",
+   "obszar": "Averland",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 7482,
+   "nazwa": "Bank, Ubersreik",
+   "obszar": "Reikland",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  },
+  {
+   "id": 24105,
+   "nazwa": "Bank, Athel Loren",
+   "obszar": "Athel Loren",
+   "depozyt_wiki": "brak depozytu (wiki) / nieznane"
+  }
+ ],
+ "wiki": {
+  "zrodlo": "wikipedia.arkadia.rpg.pl/view/Pieni%C4%85dze (akt. 2026-05-27) + /view/Skrytki",
+  "depozyt_TAK_imperium": [
+   "Ebino",
+   "Karak Varn",
+   "Kraina Zgromadzenia",
+   "Nuln",
+   "Parravon",
+   "Quenelles"
+  ],
+  "depozyt_TAK_ishtar": [
+   "Ard Skellige",
+   "Baccala",
+   "Carbon",
+   "Daevon",
+   "Guleta",
+   "Novigrad",
+   "Rinde",
+   "Scala",
+   "Wyzima"
+  ],
+  "anomalie": "patrz anomalie_rozwiazane"
+ },
+ "anomalie_rozwiazane": [
+  {
+   "lokacja": "Brugge (11 pokoi 22755-22765 + korytarz 22754)",
+   "status": "POTWIERDZONE: piętro skrytek depozytowych przy Zajeździe Biały Kieł (sklep 540/546, kowal 1084, poczta 543 obok). Bind /depozyt łapie. Wiki nieaktualna."
+  },
+  {
+   "lokacja": "Val'kare (pokój 20164)",
+   "status": "POTWIERDZONE: okienko depozytowe — symbol $, bind \"przejrzyj depozyt\". Brak pokoju \"Bank\". Bind łapie. Wiki nieaktualna."
+  },
+  {
+   "lokacja": "Ard Skellig (pokój 10416)",
+   "status": "ROZWIĄZANE: bank istnieje na mapie (symbol $, env 295), brak binda = luka mappera (cały obszar Ard Skellig: 438 pokoi bez nazw). Suplement w danych pluginu + zgłoszenie upstream do Delwing/arkadia-mapa."
+  }
+ ],
+ "suplement_depozyty": {
+  "mapa_sync": "430",
+  "dodatkowe_id": [
+   10416
+  ],
+  "komentarz": "Ard Skellig — bank bez binda; usunąć po dodaniu binda upstream"
+ },
+ "symbol_dolar": {
+  "pokoi": 29,
+  "wniosek": "$ dostają zarówno banki z depozytem jak i kantory — nie nadaje się na gate"
+ },
+ "poczta_nienazwane_symbol_P": [
+  {
+   "id": 25542,
+   "obszar": "Poludniowy Mahakam",
+   "env": 202,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 21487,
+   "obszar": "Poludniowa Temeria",
+   "env": 269,
+   "status": "potwierdzona (wiki/kontekst)",
+   "identyfikacja": "Kociepole / Gildia Osadników (kontekst + wiki)"
+  },
+  {
+   "id": 25444,
+   "obszar": "Novigrad",
+   "env": 296,
+   "status": "potwierdzona (wiki/kontekst)",
+   "identyfikacja": "SKN Novigrad — kurier (kontekst)"
+  },
+  {
+   "id": 24553,
+   "obszar": "Ard Carraigh",
+   "env": 813,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 16015,
+   "obszar": "Wissenland",
+   "env": 260,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 6472,
+   "obszar": "Averland",
+   "env": 269,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 24778,
+   "obszar": "Gory Sine",
+   "env": 269,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 10412,
+   "obszar": "Ard Skellig",
+   "env": 269,
+   "status": "potwierdzona (wiki/kontekst)",
+   "identyfikacja": "główna poczta Ard Skellige (wiki)"
+  },
+  {
+   "id": 11164,
+   "obszar": "Wyspa Slubow",
+   "env": 295,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 19942,
+   "obszar": "Gory Kranca Swiata",
+   "env": 269,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 20901,
+   "obszar": "Ziemie Czaszki",
+   "env": 269,
+   "status": "prawdopodobna - do weryfikacji w grze",
+   "identyfikacja": ""
+  },
+  {
+   "id": 26796,
+   "obszar": "Sterowiec SGW",
+   "env": 269,
+   "status": "potwierdzona (wiki/kontekst)",
+   "identyfikacja": "poczta pokładowa sterowca SGW (kontekst)"
+  }
+ ],
+ "poczta_wyjatki": [
+  {
+   "lokacja": "Jaskare (7612)",
+   "status": "poczta TAK, paczki NIE (wiki) — wykluczona z gate'a paczek"
+  },
+  {
+   "lokacja": "Faroe (23667)",
+   "status": "prawdopodobnie tylko paczki lokalne (wiki)"
+  },
+  {
+   "lokacja": "Biały Most",
+   "status": "brak poczty (wiki)"
+  }
+ ],
+ "poczta_wnioski": {
+  "symbol_P_razem": 59,
+  "zasada": "gate odbioru paczki: lista ID (59) LUB nazwa ^poczt, minus wykluczenia; symbol P tylko offline do generowania listy (GMCP nie niesie symbolu)",
+  "zasada_gate_a": "GATE MIEKKI (decyzja 2026-09-16): lokalizacja NIGDY nie wyklucza zdarzenia paczki. Odbior i dostawa rejestrowane zawsze, niezaleznie od pokoju. Lista 59 ID + nazwy ^poczt (minus Jaskare) sluzy wylacznie jako: (1) metadane zdarzenia (skad/dokad, statystyki tras), (2) flaga confidence (znana/nieznana lokalizacja odbioru), (3) czujnik odkrywania nowych poczt (mapa-sync lag) — odbior poza lista trafia na liste 'do weryfikacji', nie jest odrzucany. Uzasadnienie: maszyna stanow z python-toolkit osiaga ~100% trafnosci na logach bez zadnej lokalizacji, bo lancuch fraz jest samowalidujacy; twarde wykluczanie daloby falszywe negatywy przy nowych/zmienionych pocztach."
+ },
+ "paczki_hardening_wypłaty": {
+  "testy_adwersarialne_2026-09-16": [
+   "KOLIZJA 'wyplaca ci': galaz 'wyplaca ci' w toolkit NIE wymaga waluty — karczmarz/handlarz wyplacajacy cos tuz po dostawie ZAMYKA paczke z kwota 0 i pochlania prawdziwa wyplate. Kronikarz: galaz 'wyplaca ci' MUSI wymagac waluty w linii (paritet z galazia 'otrzymujesz').",
+   "KOLIZJA 'otrzymujesz od X': podzial lupu / przelew od gracza w oknie <=2 linii od dostawy zostaje zaksiegowany jako wyplata za paczke. Lokalizacja tego NIE naprawia (druzyna moze stac na poczcie). Kronikarz: galaz 'otrzymujesz' odrzuca linie z ' od <kims>' + flaga confidence.",
+   "KWOTY SLOWNIE: 'wyplaca ci kilka miedzianych monet' parsuje sie na 0. Kronikarz: parser liczb slownych (pattern polishNumbers z Towarzysza).",
+   "PACZKA QUESTOWA: fraza 'przekazuje ci jakas paczke' poza poczta tworzy wiszaca paczke — nieszkodliwa dla kasy (brak wyplaty), trafia do 'nierozliczone', audytowalna po surowej linii."
+  ],
+  "zasada_nadrzedna": "kazde zdarzenie audytowalne (surowa linia + zrodlo + confidence); paczki w toku/nierozliczone widoczne w raporcie, nie pochlaniane cicho",
+  "cross_session": "paczka w toku persystowana w storage przez relogin (odpowiednik _merge_cross_session z toolkit)"
+ },
+ "paczki_statusy": {
+  "model": [
+   "dostarczona",
+   "spozniona",
+   "nieoddana",
+   "zwrocona"
+  ],
+  "patterny": {
+   "dostarczona": "^(Oddajesz) pocztowa paczke + wyplata (wyplaca ci+waluta / otrzymujesz+waluta <=2 linie, zahartowane)",
+   "spozniona": "<NPC> mowi do ciebie: Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle. — wyplata pomniejszona; POTWIERDZONE korpus III (lowisko 2026-09-17, 4+ wystapien; NPC: Luter/Andolf, Guy/Gautier, Lit, anonimowy mlody zwinny mezczyzna). Wariant z toolkitu: flaga 'Dostarczyles przesylke po terminie' na otwartej paczce",
+   "zwrocona": "kotwica na echu komendy '-> zwroc paczke' (korpus III: 4x, konteksty 359/439/457/491) + linia wynikowa '^Zwracasz pocztowa paczke' w trybie capture (korpus N=0 w 3,86 mln linii); mechanika wiki: zwrot w urzedzie zrodlowym, niewielki spadek reputacji; helpery klienckie traktuja zwrot jak dostawe (PackageHelper '^(Oddajesz|Zwracasz)') — Kronikarz rozroznia; brak wyplaty",
+   "nieoddana": "paczka otwarta bez dostawy/zwrotu; persystowana cross-session, widoczna w raporcie jako 'w toku'"
+  },
+  "odmowa_odbioru": [
+   "Ty juz dla nas dostatecznie ciezko zapracowales",
+   "Nie ufam ci na tyle, aby powierzyc ci dostarczenie tej przesylki",
+   "Cos ci sie chyba pomylilo, nie ma takiej oferty",
+   "Niestety, nie widzisz tu nikogo, od kogo mozna by wziac zlecenie"
+  ],
+  "lista_ofert": "PackageHelper packageLineRegex: miasto + zloto/srebro/miedz + limit czasu ('N' lub 'nieogr.'); regex niekotwiczony do konca linii — toleruje kolumne 'Dystans' i linie '> dystans: N' wstrzykiwane przez klienta w logach HTML (12/12 ofert testowych, low_zlecen 651-672); komendy wyboru: 'wybierz paczke N' + wariant 'wybierz przesylke N' (wiki); odliczanie limitu w kliencie startuje od pokazania tablicy (PackageHelper listTime) — Kronikarz kotwiczy na odbiorze; etykieta 'Wypisano na niej duzymi literami: <IMIĘ>, <PROFESJA>, <MIASTO>' (korpus 2026-09-16: np. 'LULECK, CZELADNIK KOWALSKI, KREUTZHOFEN' — format szerszy niz samo miasto); parser etykiety klienta lapie tylko 1. czlon — Kronikarz parsuje wszystkie 3 struktury + sufiks ' - PILNE!'; ciezkie przesylki oznaczone '*' — cel i nagroda znane przy odbiorze (plan vs wykonanie)",
+  "kanaly_premium": {
+   "packageStatus_event": "{recipient, seconds?, location(room id)} — countdown do deadline co 1 s (plugin API)",
+   "npc_event_i_npcStore": "baza NPC {name, loc}: remote https://delwing.github.io/arkadia-mapa/data/npc.json (TTL 24h) + lokalne douczone przy dostawie do nieznanego adresata",
+   "leadTo_mapPath": "klient rysuje trase do adresata; eventy leadTo/mapPath daja zaplanowana trase",
+   "ArkadiaDeliveryStats_IDB": "historia klienta: {timestamp, late, gold, silver, copper} per postac — backfill premium (bez surowych linii)"
+  },
+  "luki_klienta_do_przeskoczenia": "klient nie rejestruje zwrotow (traktuje jak dostawe) i nieoddanych; parsePayment (deliveryStats) tylko cyfry i zl/sr/mie — bez mithrylu, bez liczb slownych, bez fallbacku 'otrzymujesz'; triggery one-time bez timeoutu; statystyki tylko delivered/late",
+  "reputacja_pocztowa": {
+   "zrodlo": "wiki 'Pocztylioni' (analiza 2026-09-17)",
+   "model": "licznik heurystyczny per rewir: dostawa +1, spoznienie -1, zwrot -1 (niewielki), zagubienie = blokada nowych ofert ~24h",
+   "kalibracja": "komenda 'sprawdz swoja reputacje' — linia wynikowa nieznana (0 wystapien w korpusie), tryb capture",
+   "mechaniki": {
+    "progi_cenowe": "lokalne ~1 zl, blizsze 2-4, dalsze 5-9, najdalsze 10-12, wszystkie do 45 zl — skala z reputacja",
+    "ciezar_limit": "~50 kg (blokada: 'Pocztowa paczka jest zbyt ciezka.', korpus 15x)",
+    "wylogowanie": "paczka znika 6h po wylogowaniu (liczone od pobrania)",
+    "zagubienie": "blokada nowych ofert ~24h",
+    "licencja": "licencja pocztowa (Tilea) poza katalogiem — brak kotwic korpusowych"
+   },
+   "kotwice_korpusowe": "kamienie milowe zaufania (14x/45x) = posredni sygnal progu reputacji"
+  },
+  "npc_zrodla": {
+   "remote": "https://delwing.github.io/arkadia-mapa/data/npc.json — 637 rekordow {name, loc}, TTL 24h (npcStore), merge remote+local, dedupe po 'name-loc'",
+   "local": "wpisy douczane przy dostawie do nieznanego adresata (PackageHelper addLocalNpc)",
+   "pokrycie_korpusu": "111/111 adresatow-osob z korpusu obecnych w remote (0 brakow) — douczanie potrzebne tylko dla nowych NPC",
+   "etykiety_pocztowe": "5 etykiet 1-czlonowych ('POCZTA W X' / 'POCZTA MIASTA X') celowo poza baza NPC — mapowane na lokacje poczt (poczta + poczta_nienazwane_symbol_P), nie na osoby"
+  }
+ },
+ "zlecenia_klasyfikacja": "KOREKTA 2026-09-16: lokacja zleceniodawcy to tez sklep/tawerna — sprzedaz TAM jest mozliwa. Regula: kasa-przychod na lokacji aktywnego zlecenia z linia 'Sprzedajesz' w oknie = SPRZEDAZ; kasa-przychod bez dowodu sprzedazy = ZAPLATA ZA ZLECENIE. Klasyfikacja po dowodzie sprzedazy, nie po samej lokacji. Oba przypadki audytowalne (surowa linia + confidence).",
+ "korpus_2026_09_16": {
+  "meta": "576 plikow HTML klienta Dargoth, 3 865 554 linii, postac kurier/handlowiec; skrypt kronikarz_korpus.py, 13 kategorii",
+  "paczki": {
+   "odbior": "<NPC> przekazuje ci jakas paczke. (17 wariantow, takze nazwane NPC)",
+   "etykieta": "Wypisano na niej duzymi literami: IMIĘ, PROFESJA, MIASTO. + opcjonalnie 'Ponizej zas odczytujesz drobniejsze pismo:'",
+   "dostawa": "Oddajesz pocztowa paczke <opis adresata w dopelniaczu>. (16+ wariantow); bind 'oddaj paczke'",
+   "wyplata": "wyplaca ci <kwota> — 15 wystapien; dominuje 4 sr 2 mdz (50 mdz); wystepuja 3-nominalowe (15 zl 9 sr 4 mdz)",
+   "nieudany_odbior": [
+    "Pocztowa paczka jest zbyt ciezka. (15x)",
+    "Lista przesylek zmienila sie i ta, ktora chcesz podjac... (34x)"
+   ],
+   "zaufanie": [
+    "Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac. (14x)",
+    "Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke. (45x)"
+   ],
+   "zero_wystapien": [
+    "Zwracasz pocztowa paczke",
+    "Dostarczyles przesylke po terminie"
+   ],
+   "odmowy_cudze": "odmowy 'mowi do ciebie' liczone; 'mowi do <inny gracz>' odfiltrowane"
+  },
+  "pieniadze": {
+   "przychod": [
+    "Dostajesz/Otrzymujesz <kwota cyframi> (bez 'od'); kwoty nieznormalizowane (78 mdz)",
+    "<Gracz> daje ci <moneta> — transfer gracz->gracz",
+    "<NPC> <wtret> wrecza ci <kwota>( reszty) — wtret dowolny"
+   ],
+   "wydatek": [
+    "Kupujesz X, placac N miedziakow/srebrnikow (potoczne denominacje)",
+    "Placisz <kwota> i dostajesz <kwota> reszty — netto = zaplacone - reszta; reszta bywa w mithrylu",
+    "Placisz <komu> <kwota> (transport); 'Placisz woznicy...' bez kwoty; 'Kupujesz X.' bez kwoty = zero wplywu",
+    "<NPC> drapieznym ruchem zgarnia <kwota> (wtret przed czasownikiem)",
+    "odbiera od ciebie <kwota slownie> w zamian za zakupiony towar"
+   ],
+   "parser": "multi-nominal ze spojnikiem 'i'; moneta/monety/monet; liczby mieszane slownie+cyfry w jednej liscie; kotwica na kwocie nie koncu linii; liczebniki nieokreslone (wiele/kilka/sporo/troche/duzo) -> kwota NULL nigdy 0/1 (Towarzysz dalby 1 przez 'amount ?? 1', toolkit 0); unia TRZECH tabel liczebnikow: mianownik+setki/tysiace (Towarzysz polishNumbers) + dopelniacz/biernik (contracts POLISH_NUMBERS: 'dwu', zlozenia 'dwudziestu/trzydziestu/czterdziestu dwu', 'dwudziestu jednego/jednej') + polishNumberConverter Dargotha (257 form: mian.+dopeln. 1-99 ze wszystkimi zlozeniami dwuwyrazowymi 21-99 w obu przypadkach + zbiorowe 'dwoje...dziesiecioro' z odmiana; konwerter NIE zna setek/tysiecy — pokrywa Towarzysz); typo-formy 'piedziesiat'/'pieedziesieciu' (contracts) — martwe klucze albo literowki gry, probka N=0, re-check pelny korpus",
+   "wycena": "surowa gra: 'Wydaje ci sie, ze jest wart okolo N miedziakow.' — w logach HTML klient DOKLEJA ', czyli X zl, Y sr, Z mdz' (priceEvaluation.processItemValue; korpus 1030x dla 170 mdz) — backfill odcina sufiks; warianty stosu z kodu: 'Sa tu N sztuki warte ...' / 'Jest tu N sztuk wartych ...' (korpus N=0) — wariant 'Jest tu' z opcjonalnym prefiksem 'Wydaje ci sie, ze ' (stoneValue.ts); 'nie ma wiekszej wartosci' bez kwoty",
+   "transfery_pojemniki": {
+    "linie": "Wkladasz/Bierzesz <kwota> monet do/z otwartej/otwartego <sakiewki/plecaka> (korpus 126x/111x/62x...); skrzynka depozytowa = galaz bankowa (sekcja bank_depozyt)",
+    "ksiega": "TRANSFER gotowka<->pojemnik — nigdy przychod/wydatek; kwota czesto 'wiele' -> null",
+    "podglad": "'Rozwiazujesz na chwile rzemyk, sprawdzajac zawartosc swojej ... . W srodku dostrzegasz ...' (25x+ dla sakiewki) — migawka stanu na zadanie (rodzina wiedza/cechy), NIE kasa; listy mieszane 'wiele X, osiem Y'"
+   },
+   "loot_trojpodzial_bierzesz": "z ciala/sterty = lup; z otwartego pojemnika = transfer; bez zrodla = lup z ziemi (korpus N=0, pattern gry; Towarzysz swiadomie pomija loot z ziemi — Kronikarz lapie)",
+   "barter_wykluczenie": "nietypowe srodki platnicze (wiki: esencja zycia, gruczoly pajakow, kly wampirow, skalpy driad, zapiski) — brak nominalu = ksiega nietknieta; ew. zdarzenie informacyjne",
+   "gmcp": "brak kanalu stanu gotowki — POTWIERDZONE oficjalna specyfikacja GMCP Arkadii (forum t=740, akt. 2026-09-17): moduly Core/Char/Room/Objects/Gmcp_msgs/Mail; Char.State = hp/mana/fatigue/improve/form/intox/headache/stuffed/soaked/encumbrance/panic (zadnego pola pienieznego); kod klienta (arkadia, Dargoth) zgodny 1:1 — kasa zawsze z tekstu lub premium storage",
+   "wynajem_kaucja": {
+    "linia": "Wynajmujesz lekki woz, placac dwadziescia piec zlotych monet kosztu najmu oraz jedna mithrylowa monete zwrotnej kaucji.",
+    "pattern": "^Wynajmujesz (.+?),? placac (.+?) kosztu najmu(?: oraz)? (.+?) (?:zwrotnej )?kaucji\\.$ (przecinek, 'oraz', 'zwrotnej' opcjonalne)",
+    "ksiega": "koszt najmu = wydatek (usluga); kaucja = depozyt zwrotny (NIE wydatek)",
+    "zwrot": "linia 'Zwracasz <pojazd>'; pelna kaucja do 6h od wynajmu, potem czesciowa (DEPOSIT_VALID_MS w carriage.ts)",
+    "refundacja": "format linii zwrotu kaucji nieznany z kodu (klient nie triggeruje — prawdopodobnie generyczna linia przychodu) — tryb capture / pelny korpus",
+    "rozroznienie": "NIE przejazd ('Placisz woznicy') — osobna galaz uslugowa",
+    "zrodlo": "kod klienta Dargoth: carriage.ts (2026-09-17)"
+   }
+  },
+  "kantor": {
+   "status": "pelnoprawne zdarzenie kroniki — niemierzalne kwotowo (potwierdzone: zero kwot w kontekstach 'zdenominuj', 81 ech), ale timestampowane i lokalizowane",
+   "linie": [
+    "Twoje pieniadze zostaly zdenominowane. (61x)",
+    "Twoje pieniadze juz sa maksymalnie zdenominowane. (20x)"
+   ],
+   "zdarzenie": "{timestamp (log-time w backfillu albo czas live), lokacja, wynik: wykonana | maksymalnie_zdenominowane}",
+   "lokalizacja": "live: GMCP room.info; backfill: nazwa pokoju z logu",
+   "pokoje_korpusowe": [
+    "Kantor banku w Daevon.",
+    "Kantorek Vimme Vivaldiego.",
+    "Posterunek celny i kantor wymiany walut.",
+    "Niewielki kantorek.",
+    "Kantor."
+   ],
+   "statystyki": "lacznie, per kantor, per postac, per sesja; filtry globalne (zakresy dat + typy zdarzen) obejmuja kantor jak kazde zdarzenie",
+   "prowizja": "PER BANK (wiki 'Pieniadze', akt. 2026-09-17): 3% Nuln/Novigrad/Wyzima/Ard Skellige/Carbon; 5% Ebino/Karak Varn/Parravon/Quenelles/Daevon/Baccala/Hagge/Maribor/Mons Arx/Oxenfurt/Rinde/Craag Ros/Athel-Loren/Campogrotta/Toskania; 8% Kraina Zgromadzenia/Kreutzhofen/Ubersreik/Varieno/Averheim/Val'Kare/Twierdza Slaanesha/Zakon Sigmara (mapa: 'Bank, Zamek Sigmara', Averland); Guleta/Scala: depozyt bez denominacji. Poza tabela wiki: 'Kantor, Bank, Sklep, Eysenlaan' (dane mapy, banki_bez_binda) — stawka NIEZNANA, do ustalenia z tabliczki (tryb capture). 'Toscania' w tabeli wiki = literowka, gra/mapa: Toskania. Tabliczka korpusowa 'Za kazda transakcje pobieramy tylko 8 procent prowizji.' = stawka lokalna, nie globalna. Kwotowo niemierzalna (zero kwot w kontekstach zdenominuj) — poza bilansowaniem, stawka jako metadane zdarzenia",
+   "menu": [
+    "zamienic miedz i srebro na zloto",
+    "zamienic 1 mithrylowa monete na miedziane monety",
+    "zamienic mithryle na 100 srebrnych monet"
+   ]
+  },
+  "bank_depozyt": {
+   "odczyt": "Twoj depozyt zawiera ... — monety slownie i cyframi mieszanie w jednej linii",
+   "operacje": "Wkladasz/Bierzesz <cos> do/z otwartej skrzynki depozytowej (w tym monety)",
+   "cudze": "marker 'swojej skrzynki' = operacja innego gracza, odfiltrowac",
+   "echo": "→ przejrzyj depozyt (2255x), bind /depozyt (1063x)"
+  },
+  "postepy": {
+   "wniosek": "linia postepu to spontaniczny push gry (197 wyst. vs 9 ech) — pelny backfill bez ech",
+   "rodziny": [
+    "Poczyniles <grad> postepy, od momentu kiedy wszedles do gry. (197)",
+    "Masz wrazenie, iz ostatnimi czasy poczyniles <grad> postepy w poznawaniu swiata. (153+2 zerowe)",
+    "Wydaje ci sie, ze poczyniles <grad> postepy w nauce. (18)",
+    "Nie poczyniles zadnych postepow, od kiedy wszedles do gry. (wariant bez 'momentu')"
+   ],
+   "gradacje": "wszystkie 16 obecne: minimalne..gigantyczne"
+  },
+  "cechy": {
+   "zamkniecie": "Obecnie do waznych cech zaliczasz... + opcjonalny sufiks ' Mozesz to zmienic podczas medytacji w gildii podrozniczej.'",
+   "logi_html": "linie wzbogacone przez klienta: '[18] Jestes krzepki [4/10] i niewiele [3/5] ci brakuje...' — parser toleruje [N] i [x/y]",
+   "subkomenda": "cechy um"
+  },
+  "smierc": {
+   "linie": "Umierasz. + Oddalasz sie. (10x); przyczyna bywa srodowiskowa (upadek)",
+   "oslabienie_gradacje": [
+    "minimalne",
+    "bardzo male",
+    "nieduze",
+    "nieznaczne",
+    "male",
+    "zadowalajace"
+   ]
+  },
+  "czas": {
+   "apokalipsa": "Swiat odrodzil sie : Pt, 19 XII 2025, 07:27:33 — Z DNIEM TYGODNIA (regex toolkitu tego nie lapal)",
+   "uptime": "pelna odmiana + wariant bez dni ('6 godzin 30 minut 8 sekund')",
+   "ciemnosc": "77% swiata zostalo opanowane przez Ciemnosc. (684x)",
+   "prefixy_klienta": [
+    "[ POCZTA ] Masz nowa poczte od X.",
+    "[N] przy liniach cech/przybysciach",
+    "[unk] linie walki"
+   ]
+  },
+  "zlecenia": {
+   "kolizja": "'Mam (calkiem) nowe zlecenia.' od Pracownika poczty = PACZKI, nie kontrakt",
+   "reklamy": "Mam zlecenie na swieze skory/ryby/mieso, chetnie za nie zaplace. (Benito, Aubert, Naula/Rudolf)",
+   "realizacja": "linia oddania towaru bez próbki korpusowej; klasyfikacja wyłącznie po dowodzie (linia 'Sprzedajesz' w oknie), nigdy po NPC/kwocie",
+   "tablica_bounty": "| Zleceniodawca | Scigana osoba | Data",
+   "realizacja_ERRATA": "WYCOFANE: wypłaty 'wyplaca ci 4 sr 2 mdz' od Lucciano/Thomasa/Lulecka itp. to wypłaty za PACZKI (dowód: konteksty 'Oddajesz pocztowa paczke X.' -> 'X wyplaca ci ...'), nie realizacje zleceń. Zleceniodawcy są jednocześnie adresatami paczek.",
+   "oferty_warianty": [
+    "na wagę: 'Potrzebuje trzydziestu jeden kilogramow miesa z sarny. Dobrze zaplace!'",
+    "z jakością: 'Potrzebuje osmiu tarcz, przynajmniej sredniej jakosci. Dobrze zaplace za kazda sztuke.'",
+    "z rozmiarem/typem: 'dziesieciu srednich ryb slodkowodnych'",
+    "broń: 'Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.'",
+    "cudze oferty ('mowi do <ktoś>:') ignorowane"
+   ],
+   "zamowienia_rzemieslnicze": "'odbierz/zloz zamowienie' = wytwórcy (Eckhard), odrębna mechanika"
+  },
+  "zabici": "ZERO probek w korpusie (postać nie walczyla); patterny tylko z kodu kill.ts — testy syntetyczne + opcjonalny przelot na postaci walczacej",
+  "echo_transfery": [
+   "→ wloz monety do swojej sakiewki (3570x)",
+   "→ wez monety ze swojej sakiewki (2753x)",
+   "→ wloz/wez monety do/ze swojego plecaka",
+   "→ wez <denominacja> monety z N. ciala (386x)"
+  ],
+  "korpus_II_przelot": {
+   "meta": "drugi przelot tego samego korpusu poprawionym skryptem (szerokie filtry: \\bzabil, dawanie/oddawanie)",
+   "zabici": {
+    "forma_w_logach": "klient PRZEPISUJE linię: '[ ZABILES ] Zabiles X. (n / m)', '[ ZABIL ] K zabil X. (n / m)', '[ ZABILA ] K zabila X. (n / m)'; surowa forma nie występuje",
+    "statystyki": "565 wystąpień, 261 unikalnych (ZABILES 241/103, ZABIL 174/81, ZABILA 150/77)",
+    "suffix": "(n / m) — liczniki klienta jako metadane",
+    "szum": "plotki NPC, 'kosciotrup', Trupa Trupi Trup; tagi walki [1/6], [par], [unk]"
+   },
+   "etykiety_paczek": {
+    "struktury": [
+     "3-członowa: NAZWA, PROFESJA, MIASTO (121)",
+     "2-członowa: NAZWA, MIASTO (9)",
+     "1-członowa do poczty: 'POCZTA W X' / 'POCZTA MIASTA X' (5)"
+    ],
+    "pilne": "sufiks ' - PILNE!' (24) — flaga metadanych",
+    "cudzy_odbior": "'<NPC> przekazuje <komuś innemu> jakas paczke.' — ignorowane; kotwica 'przekazuje ci'"
+   },
+   "druzyna": "[ DRUZYNA ] X przekazuje ci prowadzenie druzyny. (25x) — nowy typ zdarzenia sesyjnego",
+   "naprawa": "'Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.' = naprawa u krawca (Novigrad/Campogrotta/Nuln) lub kowala; wydatek-usługa, nie zakup",
+   "lancuch_dostawy": "Odkladasz plecak -> Bierzesz paczke -> Oddajesz paczke X. -> X wyplaca ci ... (okno <=2 linie potwierdzone)"
+  },
+  "korpus_III_grepy_2026_09_17": {
+   "meta": "grepy gracza na surowych logach 2026-09-17: (1) czasownik+rzeczownik (skor/ryb/mies/bron/tarcz): 40 unikalnych/45 wystapien — 2 realne trafienia, reszta szum (zdajesz/wydajesz bez granic slowa + 'mies' wewnatrz wyrazow); (2) sam czasownik: 40 unikalnych — 100% szumu (opisy pokoi)",
+   "wynik_glowny": "ZERO realizacji standardowego zlecenia towarowego w 3,86 mln linii — gracz zadnego nie ukonczyl w okresie logowania; linia realizacji nadal bez probki (tryb capture)",
+   "bounty_szczury": {
+    "sekwencja": "daj <szczura> <NPC> -> 'Adler mowi do ciebie: Dorodny okaz! Za takiego slicznego szczurka daje trzy srebrne monety.' -> 'Adler wrecza ci monety.'",
+    "kwota": "w komentarzu NPC; linia wreczenia bez kwoty — laczyc w oknie",
+    "klasyfikacja": "przychod bounty 'zaplata za szczury', NIE realizacja zlecenia towarowego; zabojstwo szczura liczone normalnie w statystykach zabitych",
+    "lokalizacje_deklaracja_gracza": {
+     "Adler": "Nuln",
+     "szczurolap": "Novigrad"
+    },
+    "potwierdzenie": "tagiem '(Adler NPC)' w surowych logach; posrednie: wiedza 'Dostarczyles cialo skavena szczurolapowi z Nuln' + wpis na tablicy 'Kruczowlosy ponury szczurolap'"
+   },
+   "odmowa_dawania": "'<NPC> mowi do ciebie: A po co mi to dajesz?' (6x Adler) — nieudana proba daj, osobne zdarzenie",
+   "wykluczenia_dajesz_oddajesz": [
+    "Oddajesz pocztowa paczke ... — paczki",
+    "Oddajesz ... ze stojka, placac ... — naprawa (krawcy/kowale)",
+    "odbiorca = imie wlasne / tag GP — transfer gracz->gracz (np. 'Dajesz elfi chleb Gwenn.'; echa 'daj szczura/wianek/jedzenie elfce' = Gwenn, gracz-elfka)",
+    "bilety transportowe: 'Dajesz zatluszczony czerwony bilet starszemu spokojnemu mezczyznie.', 'Dajesz niewielki szary bilet ciemnowlosemu przyjacielskiemu mezczyznie.' — osobna kategoria: odprawa transportu",
+    "'Nie dajesz rady ...' — negacja-zdolnosc, twardy filtr"
+   ],
+   "anomalia_tagow": "formule oferty 'Mam zlecenie na swieze ...' wyglaszaja tez postacie z tagiem GP (Anatol, Ghaadrav) — parser kotwiczy wylacznie na tagu NPC, GP do przegladu",
+   "korelacje_miejsc_zlecen": {
+    "Lucciano": "skory — Ebino (etykieta paczki LUCCIANO HANDLARZ EBINO)",
+    "Benito": "ryby — Kreutzhofen (BENITO SANGIOVESI RESTAURATOR KREUTZHOFEN)",
+    "Rudolf/Naula": "Nuln (RUDOLF KARCZMARZ NULN)",
+    "Aubert": "Quenelles (AUBERT GRIBAUX RZEZNIK QUENELLES — rzeznik <-> mieso)",
+    "Adler": "Nuln (deklaracja gracza)",
+    "szczurolap": "Novigrad (deklaracja gracza)",
+    "Oferon": "ryby — lokalizacja nieznana; mozliwy zwiazek z linia 'Dajesz chlopakowi zlota monete, ten gryzie ja w...' (hipoteza)",
+    "bez_korelacji": [
+     "Zedar",
+     "Frael (bobolak)",
+     "Gualtiero",
+     "Georg",
+     "Szczuroslaw",
+     "Helmut/Hellmut",
+     "Caraes",
+     "Raul/Herman",
+     "2 nienazwanych"
+    ]
+   }
+  },
+  "korpus_IV_low_zlecen_2026_09_17": {
+   "meta": {
+    "zrodlo": "przelot skryptu low_zlecen na 576 sesjach HTML (korpus 2026-09-16), sekcje A-K; pelna analiza 2026-09-17",
+    "skrypt": "kronikarz_low_zlecen.py (sekcje: A oferty, B kandydaci 3h, B+ warianty 'odbiera od ciebie' + konteksty, C/D histogramy, D+ zakupy/reszta, E1-E10 szczury, F-K resztka)"
+   },
+   "realizacja_zlecenia": {
+    "wzorzec": "<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.",
+    "dowod": "oferta [12] 2026-03-06 00:32:07 'czterech kilogramow miesa z zajaca' (Wysoki zwinny mezczyzna) -> 00:32:48 dwie linie realizacji (4 zl 8 sr 4 mdz oraz 4 zl 13 sr); session_1772741531481.html",
+    "dostawy_czesciowe": true,
+    "trojznacznosc_odbiera": {
+     "realizacja": "odbiera od ciebie <towar> i wrecza ci <kwota>.",
+     "sprzedaz_sklepowa": "odbiera od ciebie <przedmiot>. (bez kasy; Antonietta, Olof, Ernest)",
+     "zakup": "odbiera od ciebie <kwota> w zamian za zakupiony towar."
+    },
+    "regula": "kotwica na pelnej formie z 'i wrecza ci'; klasyfikacja po dowodzie (parz. zlecenia_klasyfikacja)",
+    "sekwencja_pelna_v2": [
+     "echo: -> daj <towaru> <NPC> (dopelniacz partitywny, np. '-> daj miesiwa mezczyznie')",
+     "<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostala ilosc>. (tracker postepu)",
+     "<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>."
+    ],
+    "brak_linii_dajesz": "daj do NPC questowych NIE drukuje linii po stronie gracza; dowod = echo + linie NPC; jedna komenda daj = N dostaw (kazda para postep+wyplata)",
+    "lokalizacja_dowodu": "Parravon (plac nad Grismerie)",
+    "finalizacja": "nieznana - zlecenie w logach nieukonczone (wciaz 'potrzebuje jeszcze ponad kilogram'); tryb capture"
+   },
+   "paczka_spozniona": {
+    "wzorzec": "Niestety, ale dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.",
+    "wyplata": "pomniejszona",
+    "wystapienia": "4+ (2025-12-21..27); NPC: Luter (Andolf NPC), Guy (Gautier NPC), Lit (Gurik GL), mlody zwinny mezczyzna"
+   },
+   "zakupy_reszta": {
+    "reszta_kotwica": "slowo 'reszty' = nadplata przy zakupie; koszt = zaplacone - reszta",
+    "wariant_jednoliniowy": "Placisz <kwota> i dostajesz <kwota> reszty. (mithryl mozliwy)",
+    "flavor_wydania_reszty": [
+     "ze sztucznym usmiechem wrecza ci <kwota> reszty",
+     "kryjac usmiech wrecza ci <kwota> reszty",
+     "z ogromna niechecia wrecza ci <kwota>"
+    ],
+    "flavor_pobrania_zaplaty": "drapieznym ruchem zgarnia <kwota>",
+    "flavor_wydania_towaru": "kryjac usmiech wrecza ci <towar> (bez wplywu na ksiege)",
+    "uwaga": "'wrecza ci <kwota>' bez slowa 'reszty' niejednoznaczne (reszta albo zaplata za sprzedaz) - po parze/kontekscie",
+    "npc": [
+     "Salithrandir",
+     "Zykkis",
+     "Adipatus",
+     "Myrrhis",
+     "Sniada mila kobieta",
+     "Bromius"
+    ],
+    "pułapka_zgarnia": "opis pokoju kantoru 'kasjer szybko zgarnia wymieniane monety spogladajac...' lapie sie we wzorzec - wymagana kwota z liczba po 'zgarnia' (twarda zasada nominalu)"
+   },
+   "bounty_szczury_uzupelnienie": {
+    "sekwencja_pelna": [
+     "daj <ciala> <NPC>",
+     "<NPC> oglada uwaznie cialo. / ... sterte szczatkow szczura.",
+     "<NPC> mowi do ciebie: Dorodny okaz! ... daje trzy srebrne monety.",
+     "<NPC> wrecza ci monety.",
+     "<NPC> usmiecha sie z zadowoleniem."
+    ],
+    "cennik": {
+     "szczur": "3 sr",
+     "mysz": "8 pensow"
+    },
+    "adler_nuln": "POTWIERDZONE korpusem: who-lista 'Adler Winck, Nuln', opis 'Koscisty wysoki mezczyzna (Adler NPC)', pokoj 'Biuro szczurolapa.'",
+    "ratan": "Obdarty brudny mezczyzna (Ratan NPC); szept: 'zapytaj szczurolapa o prace' - drugi szczurolap",
+    "wykluczenia": [
+     "'Szczurolap' tytul zawodowy graczy na who (Szczurolap/Doswiadczony Szczurolap, halfling; 419x/187x)",
+     "'szczury ladowe' = obelga zeglarska",
+     "maskotka 'szary szmaciany szczur' (9 dan graczom, zero kasy w oknie 90 s)"
+    ],
+    "linia_dawania_cial": "NIE ISTNIEJE (E10: zero Dajesz/Oddajesz cial* do NPC w korpusie; jedyna taka linia to cialo skavena wreczone graczowi Gwenn); kotwica sekwencji na echu '-> daj ciala szczurolapowi'",
+    "skaveny": "bounty obejmuje ciala skavenow - wpis wiedzy 'Dostarczyles cialo skavena szczurolapowi z Nuln.'",
+    "szepty_zaczepki": "oba NPC zaczepiaja szeptem: 'Jesli chcesz zarobic troche grosza... <zapytaj szczurolapa o prace>'; Adler dodatkowo wprost: 'Zapytaj mnie o prace, to wyjasnie szczegoly.'",
+    "sesja_polowanie": "2025-12-14 23:03-23:09: 15 szczurow (licznik 1/1->15/15); 23:12:53: 7x odmowa 'A po co mi to dajesz?' (spam daj niewlasciwym przedmiotem)"
+   },
+   "przekrzyki_bretonskie": {
+    "wzorzec": "<NPC> krzyczy po bretonsku, ale udaje ci sie zrozumiec tylko czesc: ...",
+    "interpretacja": "ogloszenia bounty na potwory czytane na glos (ekwiwalent listu gonczego); kwota urwana/niewiarygodna",
+    "kategoria": "informacyjna, NIE zdarzenie finansowe"
+   },
+   "pole_type_eksport_json": {
+    "format": "LogExportData v1",
+    "probka_wpisow": 1892,
+    "wartosci": [
+     "script",
+     "trigger-echo",
+     "echo",
+     "mud",
+     "other",
+     "prompt",
+     "info",
+     "room.short",
+     "room.exits",
+     "room.contents.living",
+     "comm"
+    ],
+    "zastosowanie": "strukturalny backfill: nazwa pokoju (room.short), NPC w pokoju (room.contents.living), mowa NPC (comm)",
+    "status": "wstepnie domkniete; wieksza probka potwierdzi kompletnosc"
+   },
+   "drobiazgi": {
+    "kaucja_wozownia": "Kazdy z naszych wozow bedzie sluzyc przez co najmniej N gnomich godzin... przekroczenie terminu = kaucja pomniejszona o 25 procent",
+    "race_condition_przesylki": "Lista przesylek zmienila sie i ta, ktora chcesz podjac byc moze nie jest juz ta... (34x)",
+    "bilety_warianty": [
+     "niebieski",
+     "maly blekitny",
+     "bialy elegancki",
+     "podluzny wymietoszony",
+     "niewielki rozowy",
+     "poplamiony podluzny",
+     "pomiety przybrudzony",
+     "prowizoryczny naddarty"
+    ],
+    "trasa_IZS": "Nuln-Kraina Zgromadzenia-Blekitna Wstega-Kreutzhofen",
+    "poczty_pokoje_korpusowe": [
+     "Novigrad",
+     "Quenelles",
+     "Oxenfurt",
+     "Kreutzhofen",
+     "Kraina Zgromadzenia",
+     "Jouinard"
+    ]
+   },
+   "odrzucone_decyzja_gracza": {
+    "zamowienia_rzemieslnicze": "poza katalogiem (torby/plecaki/zbroje/miecze na zamowienie); sekcja F lowiska = filtr szumu",
+    "biblioteka": "zwroty ksiazek (Oddajesz ksiazke Kerii...) poza katalogiem",
+    "trening_druzyna": "odlozone; mechanika: trenuj / trenuj intensywnie; 'um' = umiejetnosci + modyfikatory chwilowe; tag [   DRUZYNA   ]"
+   },
+   "otwarte": {
+    "finalizacja_zlecenia": "linia po ostatniej dostawie nieznana (zlecenie w logach nieukonczone) - tryb capture",
+    "szczuroslaw_fuats": "rola niezidentyfikowana, bez kotwic finansowych",
+    "wzrost_wiedzy": "osobne zdarzenie kroniki? - decyzja odlozona"
+   },
+   "przelot_v2_2026_09_17": {
+    "zabici_padding": {
+     "problem": "znacznik ma dopelnienie spacjami do stalej szerokosci: '[  ZABILES  ]' (2 sp), '[   ZABIL   ]'/'[   ZABILA   ]' (3 sp); sztywna pojedyncza spacja w regexie gubila 100% trafien (anomalia E1=0)",
+     "regex": "^\\[\\s*ZABIL(?:ES|A|)\\s*\\]",
+     "liczby": "1796 linii [ ZABIL* ] w korpusie; 37 zabojstw szczurow (23 unikalne); zabojstwa druzynowe (np. Gwenn zabila ... szczura)"
+    },
+    "wiedza_migawka": {
+     "system": "wpisy z prefiksem '* ' to listing komendy 'wiedza' (kategorie wiedzy: stworzenia widziane, przedmioty ogledziane, czyny wykonane)",
+     "przyklady": [
+      "* Widziales szczuroczleka. (387x)",
+      "* Ogladales amulet kultystow Rogatego Szczura. (181x)",
+      "* Dostarczyles cialo skavena szczurolapowi z Nuln. (138x)"
+     ],
+     "interpretacja": "migawka na zadanie (jak postepy/cechy), NIE dziennik zdarzen; licznik wystapien = czestotliwosc komendy; wpis-czyn = jednorazowy koroborant ('zaszlo kiedys przed ta migawka'), nigdy licznik ani timestamp",
+     "pokrewne": [
+      "Wiedza o <kategorii>: (naglowek)",
+      "twoja wiedza o <kategorii> wzrosla ... (wzrost wiedzy, decyzja odlozona)"
+     ]
+    },
+    "rozklad_odbiera_liczby": {
+     "realizacja": 2,
+     "w_zamian": "21 (9 unikalnych; Roseanna, Hanes/Daniger, Kivan/Biraldan, Adela, Stefan, Niemir)",
+     "sprzedaz_sklepowa": "110 (40 unikalnych; Antonietta, Olof, Ernest)"
+    },
+    "ekosystem_platnosci_liczby": {
+     "reszta": "215 (86 unikalnych)",
+     "zgarnia_flavor": 186,
+     "flavor_wreczenia": 278,
+     "placisz_kupujesz_tlo": "1353 (340 unikalnych)"
+    },
+    "npc_niezidentyfikowani": [
+     "Szczuroslaw NPC (Niski korpulentny mezczyzna, 89x)",
+     "Fuats NPC (Lysiejacy szczurkowaty mezczyzna, 59x)"
+    ]
+   }
+  }
+ },
+ "bank_depozyty_2026_09_17": {
+  "zrodla": "Dargoth deposits.ts + prettyContainers.parseItems + Mudlet boxes.lua + tjurczyk boxes.lua (ta sama rodzina) + wiki 'Skrytki'/'Pieniadze' + korpus-probka 33 logi + mapa sync 430 + spec GMCP t=740; Towarzysz: brak modulu depozytow",
+  "linie_odczytu": [
+   "Twoj depozyt zawiera <lista>. (migawka na zadanie, NIE zdarzenie ksiegowe; w logach bywa zawinieta w srodku fraz — sklejanie §6.2 SPEC)",
+   "Twoj depozyt jest pusty.",
+   "Nie posiadasz wykupionego depozytu."
+  ],
+  "transfery": "Wkladasz/Bierzesz <cos> do/z otwartej skrzynki depozytowej. — transfer, nigdy przychod/wydatek; cudze: bierze/wklada ... ze/do SWOJEJ otwartej skrzynki depozytowej. — marker 'swojej' odfiltrowuje",
+  "skrytki": {
+   "koszty": "podstawa 50 zlotych; poziomy rozbudowy 2/5/10/20 mithryli (wiki 'Skrytki')",
+   "trwalosc": "do konca gry postacia (zero odnawiania); smierc = utrata depozytu",
+   "limit": "25 przedmiotow niezaleznie od rozbudowy; stos jednego rodzaju = 1 przedmiot (notka Mistrza Rafgarta, tablica w korpusie: '10: Zmiany w depozytach')",
+   "linia_wykupienia": "NIEZNANA (zadnen z trzech klientow nie triggeruje, korpusy nie pokazaly) + komenda pomocy '?depozyt' — tryb capture",
+   "wydatek": "kategoria 'usluga bankowa' (wykupienie i kazda rozbudowa)"
+  },
+  "komendy_zarzadzania": [
+   "przejrzyj [pobieznie] <co> [z czego] (filtry: uszkodzone/naprawialne/typy)",
+   "wybierz <co>",
+   "?depozyt (pomoc)"
+  ],
+  "komendy_status_nieznany": "wplac/wyplac/przelej — gra je zna (walidator asystenta Dargotha 'Komenda operuje na pieniadzach'; lista test_commands Mudleta), ale konta procentowe zlikwidowano 2011 (wiki 'Pieniadze') — legacy albo zywe (przelew gracz->gracz przez bank?); capture przy banku + pelny korpus",
+  "historia": "konta bankowe z prowizja procentowa od wplaty/wyplaty (pre-2011) — zastapione skrzynkami depozytowymi; NIE ISTNIEJE",
+  "zakaz": "zakaz posredniego i bezposredniego przekazywania pieniedzy miedzy wlasnymi postaciami gracza (wiki 'Pieniadze')",
+  "parse_notes": "klient: 'wiele' -> pseudo-count 'wie' poza suma miedzi (zgodne z regula null); konwerter klienta konczy na 99 — lista z 'sto+' slownie nie sparsuje sie klientowi (ich bug storage), unia Kronikarza pokrywa (Towarzysz); czestotliwosc 'sto+' slownie w depozytach — re-check pelny korpus",
+  "tabela_klienta_w_logach": "pretty-print DEPOZYT po linii gry (naglowek '| DEPOZYT |', kategorie, markery *...*, licznosci cyframi) — redundantny, backfill rozpoznaje po ramce i pomija; analogicznie tabele pojemnikow",
+  "pokoje_nazwy_gry": {
+   "znane": [
+    "Glowna sala banku."
+   ],
+   "uwaga": "nazwy w grze != nazwy mapy (mapa: 'Bank w Daevon'); lista rosnie z korpusu/capture — atrybucja backfill"
+  },
+  "lokalizacje_rozjazd": "wiki 'Skrytki' podaje 13 miejsc (nieaktualna), wiki 'Pieniadze' 15, rzeczywistosc 17 (mapa+klienci: +Val'Kare, +Brugge 10 pokoi; Ard Skellig = suplement 10416); valid_banks Mudleta 16/16 zgodne z naszymi danymi",
+  "eysenlaan_depozyt": "NIEZNANY — 'Kantor, Bank, Sklep, Eysenlaan' (banki_bez_binda); wiki milczy — capture",
+  "premium_storage": "characterStorage klucz 'deposits' per (postać): Record<roomId, {name, items}> — gate isBankRoom = bind 'depozyt' w userData pokoju; warstwa defensywna (fallback na wlasne triggery)"
+ },
+ "zlecenia_2026_09_17": {
+  "zrodla": "Dargoth contracts.ts + deliveryStats.ts + polishNumberConverter.ts + Mudlet/tjurczyk assistant.lua (zlecenie tylko w asystencie paczek) + Towarzysz (brak modulu zlecen: zlecenie 0, kontrakt 0) + wiki (brak strony o systemie zlecen) + korpus-lowisko 576 sesji (oferty 22, pytania o zlecenie 30, odmowy 'niczego mi nie trzeba' 4) + korpus-probka 33 logi",
+  "platnosc_pro_rata": {
+   "zasada": "kasa przychodzi z kazda dostawa osobno; para linii na kazda sztuke/kilogram: '<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostala ilosc>.' + '<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.'; niezaleznie od stopnia ukonczenia",
+   "dowod": "oferta 'czterech kilogramow miesa z zajaca' (2026-03-06 00:32:07) -> 41 s pozniej dwie pary postep+zaplata od Wysoki zwinny mezczyzna (4 zl 8 sr 4 mdz + 4 zl 13 sr) za 2 kg z 4 kg; Parravon",
+   "finalizacja": "NIE istnieje jako osobne zdarzenie kasowe; kandydat 'z ogromna niechecia wrecza ci' odrzucony (flavor linii sklepowej §2.2 SPEC); ewentualny tekst po ostatniej dostawie to informacja, nie kasa"
+  },
+  "reklamodawcy_kontraktow": {
+   "wzorzec": "Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace. / Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.",
+   "npc": [
+    "Lucciano",
+    "Benito",
+    "Aubert",
+    "Naula/Rudolf",
+    "Szczuroslaw (10x)",
+    "Fuats (6x)"
+   ]
+  },
+  "liczebniki_ofert": {
+   "powyzej_50_slownie": "siedemdziesieciu dwoch kilogramow miesa z dzika (72 kg) — tabela POLISH_NUMBERS contracts.ts konczy sie na 50 (Dargoth count:1); unia Kronikarza pokrywa (polishNumberConverter 60-90 ze zlozeniami)",
+   "cyfry_powyzej_100": "110 kilogramow miesa z losia — parser musi lykac czyste cyfry (Dargoth: parseInt fallback)",
+   "typy_towarow": [
+    "ryby (sztuki + rozmiar + typ)",
+    "mieso (kg, zwierze)",
+    "zbroje (sztuki, jakosc opcjonalna)",
+    "skory (sztuki, np. dwunastu skor susla)"
+   ],
+   "zleceniodawca_bez_opisu": "Petyr (golym imieniem, bez opisu)"
+  },
+  "termin": {
+   "konwersja": "1 dzien IG = 48 min realnych (ONE_INGAME_DAY_MS), godzina IG = 2 min RL",
+   "kilka_godzin": "0.5 dnia (korpus 2x: 'Na realizacje zamowienia mam kilka godzin')",
+   "brak_liczebnika": "'mam dzien' = 1 dzien; deadline kotwiczony na czasie nadania oferty"
+  },
+  "cennik_potoczny": {
+   "szyling": "= srebrna moneta (Ratan: Kazdy martwy szczur wart trzy srebrne szylingi = 3 sr)",
+   "pens": "= miedziana moneta (Adler: mysz - osiem pensow)"
+  },
+  "przekrzyk_warianty": [
+   "<NPC> krzyczy po bretonsku ...",
+   "Jakis mezczyzna krzyczy z oddali po bretonsku ..."
+  ],
+  "zamowienia_rzemieslnicze": "Placisz <NPC> <kwota> i skladasz zamowienie. (korpus 4x) — wydatek rzemieslniczy, NIE zlecenie, NIE zakup sklepowy",
+  "domkniete_SPEC": [
+   28,
+   29,
+   30
+  ],
+  "otwarte_pozostale": "odrzuty za zla jakosc/rozmiar/nadmiar dostawy (N=0 w korpusie), typo-formy piedziesiat/pieedziesieciu (N=0) — capture"
+ },
+ "zabici_2026_09_18": {
+  "zrodla": "Dargoth kill.ts + killLifetimeStorage.ts (calosc) + Mudlet counter.lua/counter/ (lifetime+sesja, bramka druzyny ateam.team_names) + tjurczyk + Towarzysz (brak modulu: zabil 0) + wiki (brak strony o liczniku) + korpus 576 sesji (dwa digesty: 1796 linii [ZABIL*]) + probka logow HTML",
+  "formy_prefixow": {
+   "wlasne": [
+    "[ ZABILES ] Zabiles <name>. (n / m)",
+    "[  ZABILAS  ] Zabilas <name>. (n / m) — postac zenska, kod, korpus N=0"
+   ],
+   "druzyny": [
+    "[ ZABIL ] <kto> zabil <name>. (n / m)",
+    "[ ZABILA ] <kto> zabila <name>. (n / m)"
+   ],
+   "regex": "^\\[\\s*ZABIL(?:ES|AS|A|)\\s*\\]",
+   "padding": "1-3 spacje, dryf wersji klienta; dominanta 1 spacja (digesty: 115+81+77 vs 34 vs 14)"
+  },
+  "suffix_licznika": " (n / m) = mySession / mySession+teamSession per mob, zakres SESYJNY (nie lifetime); korpus: (0 / 1), (5 / 17)",
+  "obce_zabojstwa": "zabojca spoza druzyny (kod: isInTeam false -> OTHER) dostaje prefix BEZ suffixu (formatPrefix z null); korpus: 'Feril zabil wscieklego groznego wilka.' 3x; DECYZJA: filtr, nie zdarzenie kroniki",
+  "szum_deski": "Szerokie drzwi wejsciowe do rezydencji ktos zabil solidnie kilkoma deskami. (3x) — regex klienta odpala (prefix w logu, bez licznika); filtr: biernik narzedzi + opis obiektu jako 'zabojca'",
+  "tagi_gildii": {
+   "przyklad": "Spiczastouchy dlugonogi elf (Aynne GP) (Crevan ES) zabil brudnego brunatnego kobolda.",
+   "alfabet_22": [
+    "CKN",
+    "ES",
+    "SC",
+    "KS",
+    "KM",
+    "OS",
+    "OHM",
+    "SGW",
+    "BK",
+    "WKS",
+    "LE",
+    "KG",
+    "KGKS",
+    "MC",
+    "OK",
+    "RA",
+    "GL",
+    "ZT",
+    "ZS",
+    "ZH",
+    "NPC",
+    "GP"
+   ],
+   "regula": "scinac '(<imie> <KOD>)' z nazw zabojcow i ofiar przed normalizacja"
+  },
+  "normalizacja_mobow": "parseName: ostatnie slowo lowercase (dopelniacz zostaje: 'szczura') | dwuwyrazowy wyjatek z listy 26 (identyczna Dargoth=Mudlet) | nazwa wlasna (1 slowo, wielka litera); tag przy ofierze zanieczyszcza klucz upstream (korpus N=0)",
+  "premium": {
+   "characterStorage": [
+    "kill_counter (lifetime)",
+    "kill_counter_session",
+    "kill_counter_team (per gracz)"
+   ],
+   "idb": "ArkadiaKillsDB: rekord per postac+mob+data, zapis TYLKO wlasnych zabojstw, odczyt per data/grupowanie/statystyki, importRecords",
+   "eventBus": [
+    "zabici.updated (sesja)",
+    "zabici2.updated (lifetime)"
+   ],
+   "aliasy": [
+    "/zabici",
+    "/zabiciw",
+    "/zabici2",
+    "/zabici2 [rrrr/m/d]",
+    "/zabici2w",
+    "/zabici2!",
+    "/zabici_reset"
+   ]
+  },
+  "domkniete_SPEC": [
+   31,
+   32,
+   33
+  ],
+  "otwarte_nowe": [
+   12,
+   13
+  ]
+ },
+ "postepy_2026_09_18": {
+  "zrodla": "Dargoth improveCounter.ts (calosc) + Mudlet improve.lua/progress.lua/gmcp_handler_improvement.lua/improve2.lua + tjurczyk + Towarzysz (brak modulu) + wiki 'Doswiadczenie' + korpus 576 sesji (digesty: 16 gradacji obecne, 'Wlasnie wbiles' N=0)",
+  "skala_kanoniczna": {
+   "kolejnosc_0_15": [
+    "minimalne",
+    "nieznaczne",
+    "bardzo male",
+    "male",
+    "nieduze",
+    "zadowalajace",
+    "spore",
+    "dosc duze",
+    "znaczne",
+    "duze",
+    "bardzo duze",
+    "ogromne",
+    "imponujace",
+    "wspaniale",
+    "gigantyczne",
+    "niebotyczne"
+   ],
+   "zrodla_zgodne_4": "Dargoth IMPROVE_STATES + Mudlet improve.lua + Mudlet progress.lua + wiki Doswiadczenie",
+   "errata": "dawna tabela SPEC miala 2 zamiany (7<->8 oraz 12-15) przy deklaracji 1:1 IMPROVE_STATES — poprawiona 2026-09-18; mapowanie GMCP liczba->nazwa kotwiczy na kodzie klienta"
+  },
+  "kanal": "GMCP char.state.improve (liczba 0-15, kumulatywny sesyjnie); brak modulu pienieznego w GMCP — analogicznie: brak linii gry przy wbiciu, kanal czysto GMCP (do potwierdzenia: otwarte 16)",
+  "poziom_0": "'zadne/mini' — teksty 'zadnych' (progress.lua) i 'minimalne' (improve.lua) oba = 0; liczniki ignoruja 0; nie zdarzenie kroniki",
+  "delta_gt_1": "skok o kilka poziomow: klient emituje kazdy poziom posredni osobno (petla record per poziom, wlasny timestamp i snapshot zabojstw); kronika: wpis per poziom, nigdy zbiorczy",
+  "reconnect_absorb": "rozroznienie per object_num: recordInitial (cichy catch-up po reconnect/nowej sesji, zero duplikatow) vs record (zdarzenie); spadek przy fresh login = absorb miedzy sesjami (reset poziomu bazowego); spadek mid-session klient ignoruje -> otwarte 14-15",
+  "no_form": "postepy przy niepelnej formie liczone osobno: optionsForm===1 && stateForm<3 -> noFormCount; adnotacja w wpisie",
+  "prezentacja": "formatCount: 15 postepow = 1 'niebotyczne' (widok 'N niebotycznych + stan'); wylacznie statystyki, nie format wpisu",
+  "semantyka_wiki": "1 poziom = ulamek CALKOWITEGO doswiadczenia postaci; czas miedzy wbiciami nieporownywalny miedzy postaciami o roznej sile; reset przy wylogowaniu; poziomy doswiadczenia (historyczne od 2019) osobno od gradacji",
+  "linia_kliencka": "klient drukuje wlasny komunikat: tab + 'Wlasnie wbiles postepy: <stan> (czas: m:ss)' — NIE linia gry; digest N=0 -> re-check pelny korpus (otwarte 16)",
+  "kontekst_wpisu": "DECYZJA 2026-09-18: wpis prosty (stan + timestamp); czas od poprzedniego wbicia (m:ss) i snapshot zabojstw (my+team) = metadane audytowe zdarzenia, poza tekstem wpisu; zasilaja weryfikator krzyzowy",
+  "technikalia_klienta": "aliasy /postepy* (10 szt.); storage improve_counter + improve_counter_lifetime (klucz dnia rrrr/m/d); eventBus postepy.updated + postepy2.updated; gender wbiles/wbilas w komunikacie Mudleta",
+  "otwarte_nowe": "14 cap-vs-wrap przy 15; 15 spadek mid-session (smierc?); 16 linia kliencka re-check; 17 DOMKNIETE 2026-09-18 (format wpisu + weryfikator)",
+  "weryfikator_krzyzowy": "live, w obrebie sesji: delta snapshotow miedzy wbiciami vs liczba wpisow zabojstw (wlasne+druzyna) kroniki; czas klienta vs roznica timestampow; rozbieznosc (delta!=0) -> flaga audytowa + wpis audytowy + znacznik sesji 'pokrycie niepelne' + statystyki z obiema wartosciami + capture surowych linii ±20; NIGDY auto-korekta (wpisy = dowod, licznik = metadany); ograniczenia: zakres sesyjny, snapshot my+team, dociecie na absorb, alarm wylaczony przy 15 do otwartego 14, brak na backfillu"
+ },
+ "wiedza_2026_09_18": {
+  "zrodla": "wiki 'Wiedza' + 'Opcje' + Dargoth knowledge.ts/knowledgeCategories.ts/wiedzaStore.ts + Mudlet knowledge.lua/books.lua/libraries.lua + repo danych Delwinga tjurczyk/arkadia-data knowledge_data.json (v1) + API ethel.pl action=wiedza_data + korpus 576 sesji (digesty)",
+  "linia_tick": "Wydaje ci sie, ze twoja wiedza o <dziedzina> wzrosla nieznacznie. — gradacja ZAWSZE 'nieznacznie' (wiki: minipoziom co 1%, 100 = pelna); korpus 8 dziedzin, wszystkie nieznacznie; regex Dargotha wildcartowy 'wzrosla .*' = fallback",
+  "linia_fragment": "Dowiadujesz sie czegos wiecej o <dziedzina>. — nowy wpis * w migawce; gated opcja gry WIEDZA (wiki 'Opcje'); korpus N=0 -> capture",
+  "pelna_wiedza": "tytul 'Znawca <dziedziny>'; brak osobnej linii — rozstrzygalne z migawki 'wiedza o <dziedzinie>' (poziom pelna)",
+  "dziedziny_14": [
+   "chaos i jego twory",
+   "goblinoidy",
+   "golemy",
+   "istoty demoniczne",
+   "jaszczuroludzie",
+   "magia i jej twory",
+   "nieumarli",
+   "pajaki i pajakowate",
+   "ryboludzie",
+   "smoki i smokowate",
+   "starsze rasy",
+   "stwory pokoniunkcyjne",
+   "szczuroludzie",
+   "wampiry"
+  ],
+  "anomalia_wiki": "wiki 'Wiedza' lista mowi 'istoty magiczne' — gra/korpus/kod x2: 'magia i jej twory' (korpus 'magii i jej tworach' 6 wyst.); wiki nadrzedne semantycznie, kod/korpus tekstowo",
+  "zrodla_per_dziedzina": {
+   "typy_3": [
+    "walki",
+    "ksiazek i bibliotek",
+    "eksploracji"
+   ],
+   "ksiazki": "knowledge_data.json Delwinga: 44 ksiazki, pelna odmiana (mian/dop/biernik/mnoga) + lista dziedzin per ksiazka",
+   "biblioteki": "knowledge_data.json: 44 biblioteki z location_id (mapa) + nazwa + lista dziedzin; pokrycie 14/14 dziedzin w obu zbiorach",
+   "eksploracja": "API ethel.pl action=wiedza_data: 14 list wpisow eksploracyjnych (Byles/Ogladales/Dowiedziales...), mapowanie indeksowe na KNOWLEDGE_CATEGORY_CONFIG, bez typu zrodla w payloadzie — Dargoth przypisuje wszystko do exploration; wiki: 'ponad szescset' zdarzen"
+  },
+  "poziomy": "10 gradacji gry: znikoma/niewielka/czesciowa/niezla/dosc dobra/dobra/bardzo dobra/doskonala/prawie pelna/pelna (wiki + Mudlet knowledge_desc 1/10-10/10); Dargoth 11 etykiet (dodaje 'brak' idx 0); tick NIE mowi typu — wpis = dziedzina + timestamp",
+  "format_wpisu": "12:03:44 — Wzrost wiedzy: goblinoidy. ; backfill z logow (push); koroboracja z migawki 'wiedza'",
+  "smierc_druzynowa": {
+   "kto": "ROZSTRZYGNIETE kodem: diff objects.nums (przed->po) + akumulowane objects.data (id -> {desc, team, hp}); Dargoth accumulatedObjectsData + Mudlet ateam.objs akumuluja identycznie; identyfikacja ubylego druzynowego w 100%",
+   "dlaczego": "CAPTURE (otwarte 18): dyskryminator smierci vs wyjscie/quit/teleport = brak linii odejscia + pojawienie sie ciala w pokoju; nieznane: forma ciala gracza, hp przy zgonie, powrot ducha (ten sam id?); 1 obserwacja live domyka",
+   "mechanika_wiki": "wiki 'Smierc': cialo postaci zostaje w pokoju z calym dobytkiem; duch na kilka minut w zaswiatach (brak interakcji); odrodzenie: lokacja startowa najblizsza zgonu albo siedziba stowarzyszenia (opcje start przy ciele/neutralna)",
+   "korekta_living": "flaga living NIE jest flaga smierci — spec forum t=740: 'living - BOOLEAN, czy obiekt to istota zywa, na te chwile zawsze tak'; w GMCP wystepuje 3x zawsze jako typ obiektu (objects.data param, room.contents.living, living.long); oba klienty uzywaja jako filtra istot, zadne nie wykrywa smierci druzynowego",
+   "korpus": "N=0 smierci druzynowych w 576 sesjach (digesty: zero 'duch <imie>', zero cial druzynowych, 'Umierasz.' tylko wlasna) — backfill nie istnieje",
+   "zasieg": "tylko ta sama lokacja — GMCP milczy o innych pokojach; smierc podzielonej druzyny poza zasiegiem (jawne ograniczenie)",
+   "protokol_capture": "surowe snapshoty objects.nums+objects.data przed/w trakcie/po + pelny tekst pokoju ±30 s + timestampy; mozliwa smierc wymuszona z druga postacia; opcja: ring buffer surowego GMCP (tryb diagnostyczny) = capture samoczynny",
+   "nazwa_widoku": "Zmarli czlonkowie druzyny (decyzja 2026-09-18); live-only, brak backfillu"
+  },
+  "decyzje": "1 wzrost wiedzy TAK; 2 smierc druzynowa TAK (z capture kanalu); 3 trening+druzyna jako kategorie ODRZUCONE"
+ },
+ "cechy_2026_09_18": {
+  "zrodla": "Dargoth lvlCalc.ts (calosc) + cechyHistory.ts + afterDeathProgress.ts + Mudlet misc/lvl_calc.lua (tablice 1:1) + wiki 'Cechy' i 'Opcje' + pomoc arkadia.rpg.pl/help/command/cechy + korpus 576 sesji",
+  "skala_cech": "5 cech x 9 poziomow + nadludzki = 10; anomalia: kod x2 'thorzliwy' (odwaga 1) vs wiki 'tchorzliwy' — korpus N=0, parser akceptuje obie formy (otwarte 19)",
+  "kroki": "bardzo duzo=0, duzo=1, troche=2, niewiele=3, bardzo niewiele=4; suma cechy = (poziom-1)*5 + krok",
+  "progi_poziomu": "LEVEL_THRESHOLDS 58-190 (12 progow, 13 etykiet 'ktos niedoswiadczony'...'osoba owiana legenda'); rzeczownik intelekt -> inteligencja",
+  "modyfikatory": "suffix '( +N )' -> odczyt odrzucany; gate gmcp.char.options.state_modifiers===1 (wiki 'Opcje': opcje modyfikatory wlacz)",
+  "oslabienie": "linia rozszerzona '...By je odbudowac potrzebujesz zdobyc jeszcze <gradacja> postepy.' (16 gradacji + zadnych); grace 500 ms po linii zamykajacej",
+  "kanal_premium": "eventBus cechy.read (snapshot: readings/total/level/weakened) + storage cechy_history (MAX 500, tylko zmiany, null per cecha zmodyfikowana, flaga estimated; pole postepy = lifetime przy odczycie -> koszt zmiany cechy w postepach)",
+  "linia_poziom_klienta": "'Twoj aktualny poziom to ...' generowana przez klienta (calculateLvl), nie przez gre — korpus N=0 zgodne z kodem",
+  "cechy_um_nie_istnieje": "pomoc gry: 'cechy' bezargumentowa; echo w korpusie = literowka gracza (domkniete, SPEC 10: 39)",
+  "poziomy_komenda": "komenda-referencja opisow poziomow cech (pomoc) — walidator skal; output nieznany -> otwarte 20 (skrypt ekstrakcyjny pkt 7a)"
+ }
 }
