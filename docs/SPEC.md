@@ -434,7 +434,7 @@ tolerować prefiks `[N]` i wstawki `[x/y]` (bonus: wartości liczbowe dostępne 
 |---|---|---|
 | Śmierć własna | `^Umierasz\.$` (następna linia `Oddalasz sie.` to odejście duszy — ignorowana); przyczyna bywa środowiskowa, nie tylko walka (korpus: upadek — `Odpadasz od sciany i lecisz w dol...`) | kod (Towarzysz DEATH_PATTERNS) + korpus |
 | Osłabienie po śmierci | `Twoje cechy sa oslabione po ostatniej smierci\.` + **6 gradacji** wymaganych postępów: minimalne / bardzo małe / nieduże / nieznaczne / małe / zadowalające | kod (klient: afterDeathProgress, lvlCalc) + korpus (143 odczyty przy 10 śmierciach) |
-| Śmierć członka drużyny | możliwa wyłącznie live: GMCP `objects.data` flaga `living` przy `team: true` | kod (klient: TeamManager) — **odłożone** |
+| Śmierć członka drużyny | **kanał detekcji niezweryfikowany** — errata 2026-09-18: flaga `living` w GMCP `objects.data` NIE jest flagą śmierci (oficjalna specyfikacja forum t=740: „living - BOOLEAN, czy obiekt to istota zywa, na te chwile zawsze tak" — rozróżnia istotę od przedmiotu; oba klienty używają jej tylko jako filtra istot, żadne nie wykrywa śmierci drużynowego); linia tekstowa śmierci osób: korpus N=0 → capture live przy realnej śmierci drużynowej (obserwacja `objects.data`/`objects.nums`/`hp`) — otwarte 18 (§10) | spec GMCP + korpus + kod ×2 — zdarzenie live-only, brak backfillu; widok statystyk: „Zmarli czlonkowie druzyny" (decyzja 2026-09-18) |
 
 ### 2.9 Poczta (listy)
 
@@ -469,6 +469,47 @@ Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
   (`cechy`, `postepy`, `depozyt`, `zdenominuj`).
 - Drużyna: przekazanie prowadzenia `[ DRUZYNA ] <ktoś> przekazuje ci prowadzenie
   druzyny.` (prefix klienta; korpus: 25 wyst.) + eventy `teamChange`.
+
+### 2.12 Wiedza
+
+| Zdarzenie | Detekcja | Weryfikacja |
+|---|---|---|
+| Wzrost wiedzy (tick) | `Wydaje ci sie, ze twoja wiedza o <dziedzina> wzrosla nieznacznie\.` — gradacja zawsze „nieznacznie" (wiki: przekroczenie minipoziomu co 1%, 100 minipoziomow = pelna wiedza); wildcard z kodu Dargotha (`wzrosla .*`) jako fallback | wiki „Wiedza" + kod (Dargoth knowledge.ts KNOWLEDGE_TICK_PATTERN; Mudlet knowledge.lua: brak parsowania ticka) + korpus (8 dziedzin, wszystkie „nieznacznie") |
+| Pozyskanie fragmentu wiedzy | `Dowiadujesz sie czegos wiecej o <dziedzina>\.` — nowy wpis `* ` w migawce; gated opcja gry WIEDZA (wiki „Opcje") | wiki „Wiedza"; korpus N=0 → capture |
+| Pelna wiedza w dziedzinie | brak osobnej linii — rozstrzygalne z migawki komendy `wiedza o <dziedzinie>` (poziom `pelna`) lub z odczytu tytulu; tytul „Znawca <dziedziny>" | wiki „Wiedza" |
+
+**14 dziedzin kanonicznych** (kod Dargoth `knowledgeCategories.ts` = Mudlet
+`knowledge.lua`, 1:1): Chaos i jego twory, goblinoidy, golemy, istoty demoniczne,
+jaszczuroludzie, magia i jej twory, nieumarli, pajaki i pajakowate, ryboludzie,
+smoki i smokowate, starsze rasy, stwory pokoniunkcyjne, szczuroludzie, wampiry.
+Uwaga: lista wiki „Wiedza" pisze „istoty magiczne" — gra/korpus/kod: `magii i jej
+tworach` (korpus 6 wyst.); wiki nadrzedne semantycznie, kod/korpus nadrzedne
+tekstowo.
+
+**Zrodla wiedzy per dziedzina** (trop Delwinga potwierdzony): trzy typy —
+`walki` / `ksiazek i bibliotek` / `eksploracji` (Dargoth KNOWLEDGE_TYPE_IDENTIFIERS
+= wiki „Rozwijanie wiedzy"). Bazy zrodlowe:
+- **ksiazki**: `tjurczyk/arkadia-data/master/knowledge_data.json` (repo danych
+  Delwinga, version 1) — 44 ksiazki z pelna odmiana (mianownik/dopelniacz/
+  biernik/mnoga) i lista dziedzin per ksiazka;
+- **biblioteki**: ten sam JSON — 44 biblioteki z `location_id` (mapa), nazwa
+  i lista dziedzin per biblioteka; pokrycie 14/14 dziedzin w obu zbiorach;
+- **eksploracja**: API ethel.pl `wp-admin/admin-ajax.php?action=wiedza_data`
+  (to z niego korzysta Dargoth wiedzaStore) — 14 list wpisow eksploracyjnych
+  (teksty `Byles/Ogladales/Dowiedziales...`), kolejnosc list = kolejnosc
+  KNOWLEDGE_CATEGORY_CONFIG (mapowanie indeksowe, bez nazw w payloadzie); API
+  NIE niesie typu zrodla — Dargoth przypisuje wszystkie wpisy do `exploration`.
+  Wiki: „ponad szescset" zdarzen eksploracyjnych.
+
+**Poziomy stanu wiedzy** (migawka `wiedza`): 10 gradacji gry — znikoma, niewielka,
+czesciowa, niezla, dosc dobra, dobra, bardzo dobra, doskonala, prawie pelna,
+pelna (wiki + Mudlet knowledge_desc [1/10..10/10]); Dargoth dodaje `brak` na
+indeksie 0 (11 etykiet). Migawka rozbija dziedzine na 3 typy; linia ticka NIE
+mowi ktorego typu dotyczy — wpis kroniki = dziedzina + timestamp, typ nieznany.
+
+Wpis kroniki: `12:03:44 — Wzrost wiedzy: goblinoidy.` Backfill mozliwy z logow
+(linia ticka jest pushem gry); koroboracja z migawki komendy `wiedza` (poziomy
+per dziedzina x typ). Decyzja 2026-09-18: wzrost wiedzy = zdarzenie kroniki (§11).
 
 ---
 
@@ -760,8 +801,9 @@ pieniężnych):
     modułu/pola pieniężnego; księga zawsze tekstowa (§2.2).
 
 Nadal otwarte:
-1. Wzrost wiedzy (`twoja wiedza o <kategorii> wzrosla ...`) jako osobne zdarzenie
-   kroniki — decyzja odłożona.
+1. ~~Wzrost wiedzy jako osobne zdarzenie kroniki~~ — decyzja 2026-09-18: TAK
+   (§2.12, §11); kanal, 14 dziedzin, bazy zrodlowe (ksiazki/biblioteki/eksploracja)
+   i poziomy domkniete na wiki + kod x2 + korpus + JSON Delwinga + API ethel.pl.
 2. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
 3. Linia wynikowa komendy `sprawdz swoja reputacje` — nieznana (komenda nieużywana
@@ -817,6 +859,10 @@ Nadal otwarte (uzupełnienie):
     timestamp); czas od poprzedniego wbicia i snapshot zabójstw = metadane
     audytowe zdarzenia zasilające weryfikator krzyżowy; polityka rozbieżności:
     flaga + diagnoza, zero auto-korekty (§11).
+18. Kanał detekcji śmierci członka drużyny — flaga `living` odpada (spec: zawsze
+    true = „istota żywa", nie „żyje"); linia tekstowa korpus N=0; capture live
+    przy realnej śmierci drużynowej: zachowanie `objects.data`/`objects.nums`/`hp`
+    (§2.8).
 
 Domknięte na analizie źródeł zleceń 2026-09-17 (Dargoth contracts.ts +
 deliveryStats.ts + polishNumberConverter + Mudlet/tjurczyk/Towarzysz (brak modułu
@@ -928,6 +974,19 @@ Podjęte:
 - (2026-09-18, kod) Skok `improve` o delta > 1 = osobny wpis per poziom pośredni
   (jak `record` w pętli klienta), każdy z własnym timestampem; nigdy wpis
   zbiorczy (§2.6).
+- (2026-09-18, decyzja) Wzrost wiedzy = zdarzenie kroniki (tick „wzrosla
+  nieznacznie" + fragment „Dowiadujesz sie czegos wiecej" w capture); wpis =
+  dziedzina + timestamp (typ zrodla nieznany z linii); bazy zrodlowe: JSON
+  Delwinga (44 ksiazki, 44 biblioteki) + API ethel.pl (wpisy eksploracyjne)
+  (§2.12, §10: 1).
+- (2026-09-18, decyzja + spec GMCP) Śmierć członka drużyny = zdarzenie kroniki
+  live-only, brak backfillu; widok statystyk nazwany „Zmarli czlonkowie
+  druzyny"; KOREKTA: flaga `living` NIE jest flagą śmierci (spec t=740: zawsze
+  true) — kanał detekcji w capture (§2.8, §10: 18).
+- (2026-09-18, decyzja) Trening i drużyna jako kategorie kroniki — odrzucone
+  (poza zakresem); mechanika zostaje odnotowana w §2.11; śmierć drużynowa
+  (§2.8) NIE jest objęta odrzuceniem — to pojedynczy typ zdarzenia, nie
+  kategoria.
 - (2026-09-18, decyzja) Postępy — format wpisu i audyt: wpis prosty (stan +
   timestamp, wierny GMCP); czas od poprzedniego wbicia (m:ss) i snapshot
   zabójstw (my+team) = **metadane audytowe** zdarzenia, poza tekstem wpisu.
