@@ -1346,5 +1346,37 @@
   "linia_poziom_klienta": "'Twoj aktualny poziom to ...' generowana przez klienta (calculateLvl), nie przez gre — korpus N=0 zgodne z kodem",
   "cechy_um_nie_istnieje": "pomoc gry: 'cechy' bezargumentowa; echo w korpusie = literowka gracza (domkniete, SPEC 10: 39)",
   "poziomy_komenda": "komenda-referencja opisow poziomow cech (pomoc) — walidator skal; output nieznany -> otwarte 20 (skrypt ekstrakcyjny pkt 7a)"
+ },
+ "umiejetnosci_jezyki_2026_09_18": {
+  "zrodla": "Dargoth skills.ts + skillTable.ts + languageSkills.ts + Mudlet misc/skill.lua + wiki 'Umiejetnosci' i 'Jezyki' + pomoc arkadia.rpg.pl/help/command/{umiejetnosci,jezyki,poziomy,trenuj} + probka logow HTML (um x4, jezyki x4)",
+  "kanal_zmiany": "BRAK linii push w grze — zmiana poziomu = diff kolejnych migawek komend um/jezyki (model cechy_history); wpis = nazwa + stary->nowy poziom + timestamp",
+  "skala_umiejetnosci": [
+   "ledwo",
+   "troche",
+   "pobieznie",
+   "zadowalajaco",
+   "niezle",
+   "dobrze",
+   "znakomicie",
+   "doskonale",
+   "perfekcyjnie",
+   "mistrzowsko"
+  ],
+  "skala_zgodnosc": "3 zrodla 1:1 (Dargoth skillsDesc, Mudlet skills_desc, wiki)",
+  "typy_umiejetnosci": {
+   "ogolne": 11,
+   "bojowe": 16,
+   "magiczne": 3,
+   "zlodziejskie": 6,
+   "praktyczne": null,
+   "jezykowe": null,
+   "specjalne": null
+  },
+  "komendy": "um / umiejetnosci [typ] / maksymalne [typ] / jezyki / jezyki maksymalne (pomoc gry); output 'maksymalne' nieznany -> otwarte 22",
+  "modyfikacje_klienta": "tabela um przepisana z wstawkami [N/10] (skillTable); wiersz rozpoznawany po slowniku poziomow (isSkillRow); paski [====  ] przy jezykach (gauge) — parser backfillu odcina",
+  "modyfikator_um": "suffix jak w cechach — probka N=0 -> capture (otwarte 21)",
+  "skala_jezykow": "= skala wiedzy (10: znikoma...pelna); Dargoth languageLevels = Mudlet knowledge_desc",
+  "jezyki_20": "14 Imperium + 6 Ishtar (wiki 'Jezyki'); nauka od graczy / z pochodzenia; Mroczna Mowa = mutacja; storage klienta language_max_levels = koroboracja",
+  "koszt_treningu_decyzja": "wydatek 'usluga/trening' — wylacznie laczna kwota, bez atrybucji per umiejetnosc; trening jako kategoria kroniki odrzucony (SPEC 2.13, 11)"
  }
 }
