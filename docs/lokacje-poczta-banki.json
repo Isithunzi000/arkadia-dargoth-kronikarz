@@ -1251,5 +1251,41 @@
       12,
       13
     ]
+  },
+  "postepy_2026_09_18": {
+    "zrodla": "Dargoth improveCounter.ts (calosc) + Mudlet improve.lua/progress.lua/gmcp_handler_improvement.lua/improve2.lua + tjurczyk + Towarzysz (brak modulu) + wiki 'Doswiadczenie' + korpus 576 sesji (digesty: 16 gradacji obecne, 'Wlasnie wbiles' N=0)",
+    "skala_kanoniczna": {
+      "kolejnosc_0_15": [
+        "minimalne",
+        "nieznaczne",
+        "bardzo male",
+        "male",
+        "nieduze",
+        "zadowalajace",
+        "spore",
+        "dosc duze",
+        "znaczne",
+        "duze",
+        "bardzo duze",
+        "ogromne",
+        "imponujace",
+        "wspaniale",
+        "gigantyczne",
+        "niebotyczne"
+      ],
+      "zrodla_zgodne_4": "Dargoth IMPROVE_STATES + Mudlet improve.lua + Mudlet progress.lua + wiki Doswiadczenie",
+      "errata": "dawna tabela SPEC miala 2 zamiany (7<->8 oraz 12-15) przy deklaracji 1:1 IMPROVE_STATES — poprawiona 2026-09-18; mapowanie GMCP liczba->nazwa kotwiczy na kodzie klienta"
+    },
+    "kanal": "GMCP char.state.improve (liczba 0-15, kumulatywny sesyjnie); brak modulu pienieznego w GMCP — analogicznie: brak linii gry przy wbiciu, kanal czysto GMCP (do potwierdzenia: otwarte 16)",
+    "poziom_0": "'zadne/mini' — teksty 'zadnych' (progress.lua) i 'minimalne' (improve.lua) oba = 0; liczniki ignoruja 0; nie zdarzenie kroniki",
+    "delta_gt_1": "skok o kilka poziomow: klient emituje kazdy poziom posredni osobno (petla record per poziom, wlasny timestamp i snapshot zabojstw); kronika: wpis per poziom, nigdy zbiorczy",
+    "reconnect_absorb": "rozroznienie per object_num: recordInitial (cichy catch-up po reconnect/nowej sesji, zero duplikatow) vs record (zdarzenie); spadek przy fresh login = absorb miedzy sesjami (reset poziomu bazowego); spadek mid-session klient ignoruje -> otwarte 14-15",
+    "no_form": "postepy przy niepelnej formie liczone osobno: optionsForm===1 && stateForm<3 -> noFormCount; adnotacja w wpisie",
+    "prezentacja": "formatCount: 15 postepow = 1 'niebotyczne' (widok 'N niebotycznych + stan'); wylacznie statystyki, nie format wpisu",
+    "semantyka_wiki": "1 poziom = ulamek CALKOWITEGO doswiadczenia postaci; czas miedzy wbiciami nieporownywalny miedzy postaciami o roznej sile; reset przy wylogowaniu; poziomy doswiadczenia (historyczne od 2019) osobno od gradacji",
+    "linia_kliencka": "klient drukuje wlasny komunikat: tab + 'Wlasnie wbiles postepy: <stan> (czas: m:ss)' — NIE linia gry; digest N=0 -> re-check pelny korpus (otwarte 16)",
+    "kontekst_wpisu": "licznik zapisuje czas od poprzedniego wbicia (m:ss) i snapshot zabojstw (lastKills) przy kazdym record; czy w formacie wpisu — decyzja odlozona (otwarte 17)",
+    "technikalia_klienta": "aliasy /postepy* (10 szt.); storage improve_counter + improve_counter_lifetime (klucz dnia rrrr/m/d); eventBus postepy.updated + postepy2.updated; gender wbiles/wbilas w komunikacie Mudleta",
+    "otwarte_nowe": "14 cap-vs-wrap przy 15; 15 spadek mid-session (smierc?); 16 linia kliencka re-check; 17 format wpisu (kontekst czas+zabojstwa)"
   }
 }
