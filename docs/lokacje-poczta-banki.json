@@ -1284,8 +1284,9 @@
     "prezentacja": "formatCount: 15 postepow = 1 'niebotyczne' (widok 'N niebotycznych + stan'); wylacznie statystyki, nie format wpisu",
     "semantyka_wiki": "1 poziom = ulamek CALKOWITEGO doswiadczenia postaci; czas miedzy wbiciami nieporownywalny miedzy postaciami o roznej sile; reset przy wylogowaniu; poziomy doswiadczenia (historyczne od 2019) osobno od gradacji",
     "linia_kliencka": "klient drukuje wlasny komunikat: tab + 'Wlasnie wbiles postepy: <stan> (czas: m:ss)' — NIE linia gry; digest N=0 -> re-check pelny korpus (otwarte 16)",
-    "kontekst_wpisu": "licznik zapisuje czas od poprzedniego wbicia (m:ss) i snapshot zabojstw (lastKills) przy kazdym record; czy w formacie wpisu — decyzja odlozona (otwarte 17)",
+    "kontekst_wpisu": "DECYZJA 2026-09-18: wpis prosty (stan + timestamp); czas od poprzedniego wbicia (m:ss) i snapshot zabojstw (my+team) = metadane audytowe zdarzenia, poza tekstem wpisu; zasilaja weryfikator krzyzowy",
     "technikalia_klienta": "aliasy /postepy* (10 szt.); storage improve_counter + improve_counter_lifetime (klucz dnia rrrr/m/d); eventBus postepy.updated + postepy2.updated; gender wbiles/wbilas w komunikacie Mudleta",
-    "otwarte_nowe": "14 cap-vs-wrap przy 15; 15 spadek mid-session (smierc?); 16 linia kliencka re-check; 17 format wpisu (kontekst czas+zabojstwa)"
+    "otwarte_nowe": "14 cap-vs-wrap przy 15; 15 spadek mid-session (smierc?); 16 linia kliencka re-check; 17 DOMKNIETE 2026-09-18 (format wpisu + weryfikator)",
+    "weryfikator_krzyzowy": "live, w obrebie sesji: delta snapshotow miedzy wbiciami vs liczba wpisow zabojstw (wlasne+druzyna) kroniki; czas klienta vs roznica timestampow; rozbieznosc (delta!=0) -> flaga audytowa + wpis audytowy + znacznik sesji 'pokrycie niepelne' + statystyki z obiema wartosciami + capture surowych linii ±20; NIGDY auto-korekta (wpisy = dowod, licznik = metadany); ograniczenia: zakres sesyjny, snapshot my+team, dociecie na absorb, alarm wylaczony przy 15 do otwartego 14, brak na backfillu"
   }
 }
