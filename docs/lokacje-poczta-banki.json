@@ -1288,5 +1288,47 @@
     "technikalia_klienta": "aliasy /postepy* (10 szt.); storage improve_counter + improve_counter_lifetime (klucz dnia rrrr/m/d); eventBus postepy.updated + postepy2.updated; gender wbiles/wbilas w komunikacie Mudleta",
     "otwarte_nowe": "14 cap-vs-wrap przy 15; 15 spadek mid-session (smierc?); 16 linia kliencka re-check; 17 DOMKNIETE 2026-09-18 (format wpisu + weryfikator)",
     "weryfikator_krzyzowy": "live, w obrebie sesji: delta snapshotow miedzy wbiciami vs liczba wpisow zabojstw (wlasne+druzyna) kroniki; czas klienta vs roznica timestampow; rozbieznosc (delta!=0) -> flaga audytowa + wpis audytowy + znacznik sesji 'pokrycie niepelne' + statystyki z obiema wartosciami + capture surowych linii ±20; NIGDY auto-korekta (wpisy = dowod, licznik = metadany); ograniczenia: zakres sesyjny, snapshot my+team, dociecie na absorb, alarm wylaczony przy 15 do otwartego 14, brak na backfillu"
+  },
+  "wiedza_2026_09_18": {
+    "zrodla": "wiki 'Wiedza' + 'Opcje' + Dargoth knowledge.ts/knowledgeCategories.ts/wiedzaStore.ts + Mudlet knowledge.lua/books.lua/libraries.lua + repo danych Delwinga tjurczyk/arkadia-data knowledge_data.json (v1) + API ethel.pl action=wiedza_data + korpus 576 sesji (digesty)",
+    "linia_tick": "Wydaje ci sie, ze twoja wiedza o <dziedzina> wzrosla nieznacznie. — gradacja ZAWSZE 'nieznacznie' (wiki: minipoziom co 1%, 100 = pelna); korpus 8 dziedzin, wszystkie nieznacznie; regex Dargotha wildcartowy 'wzrosla .*' = fallback",
+    "linia_fragment": "Dowiadujesz sie czegos wiecej o <dziedzina>. — nowy wpis * w migawce; gated opcja gry WIEDZA (wiki 'Opcje'); korpus N=0 -> capture",
+    "pelna_wiedza": "tytul 'Znawca <dziedziny>'; brak osobnej linii — rozstrzygalne z migawki 'wiedza o <dziedzinie>' (poziom pelna)",
+    "dziedziny_14": [
+      "chaos i jego twory",
+      "goblinoidy",
+      "golemy",
+      "istoty demoniczne",
+      "jaszczuroludzie",
+      "magia i jej twory",
+      "nieumarli",
+      "pajaki i pajakowate",
+      "ryboludzie",
+      "smoki i smokowate",
+      "starsze rasy",
+      "stwory pokoniunkcyjne",
+      "szczuroludzie",
+      "wampiry"
+    ],
+    "anomalia_wiki": "wiki 'Wiedza' lista mowi 'istoty magiczne' — gra/korpus/kod x2: 'magia i jej twory' (korpus 'magii i jej tworach' 6 wyst.); wiki nadrzedne semantycznie, kod/korpus tekstowo",
+    "zrodla_per_dziedzina": {
+      "typy_3": [
+        "walki",
+        "ksiazek i bibliotek",
+        "eksploracji"
+      ],
+      "ksiazki": "knowledge_data.json Delwinga: 44 ksiazki, pelna odmiana (mian/dop/biernik/mnoga) + lista dziedzin per ksiazka",
+      "biblioteki": "knowledge_data.json: 44 biblioteki z location_id (mapa) + nazwa + lista dziedzin; pokrycie 14/14 dziedzin w obu zbiorach",
+      "eksploracja": "API ethel.pl action=wiedza_data: 14 list wpisow eksploracyjnych (Byles/Ogladales/Dowiedziales...), mapowanie indeksowe na KNOWLEDGE_CATEGORY_CONFIG, bez typu zrodla w payloadzie — Dargoth przypisuje wszystko do exploration; wiki: 'ponad szescset' zdarzen"
+    },
+    "poziomy": "10 gradacji gry: znikoma/niewielka/czesciowa/niezla/dosc dobra/dobra/bardzo dobra/doskonala/prawie pelna/pelna (wiki + Mudlet knowledge_desc 1/10-10/10); Dargoth 11 etykiet (dodaje 'brak' idx 0); tick NIE mowi typu — wpis = dziedzina + timestamp",
+    "format_wpisu": "12:03:44 — Wzrost wiedzy: goblinoidy. ; backfill z logow (push); koroboracja z migawki 'wiedza'",
+    "smierc_druzynowa": {
+      "korekta_living": "flaga living w objects.data NIE jest flaga smierci — spec forum t=740: 'living - BOOLEAN, czy obiekt to istota zywa, na te chwile zawsze tak'; oba klienty uzywaja jako filtra istot (Mudlet team/core.lua:63, enemy_eq), zadne nie wykrywa smierci druzynowego",
+      "linia_tekstowa": "korpus N=0 (digesty: zero linii smierci osob; 'Umierasz.' tylko wlasna)",
+      "kanal": "NIEZWERYFIKOWANY — capture live: objects.data/objects.nums/hp przy realnej smierci (otwarte 18)",
+      "nazwa_widoku": "Zmarli czlonkowie druzyny (decyzja 2026-09-18); live-only, brak backfillu"
+    },
+    "decyzje": "1 wzrost wiedzy TAK; 2 smierc druzynowa TAK (z capture kanalu); 3 trening+druzyna jako kategorie ODRZUCONE"
   }
 }
