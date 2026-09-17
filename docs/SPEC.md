@@ -104,16 +104,18 @@ Przeliczniki (dwa niezależne źródła: Towarzysz `coins.ts` i toolkit `denomin
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Łup / kasa otrzymana | `^Bierzesz ...`, `^Dostajesz (.+)\.$`, `^Otrzymujesz (.+)\.$`, `wyplaca ci (.+)` | kod (Towarzysz LOOT_PATTERNS) + korpus |
+| Łup / kasa otrzymana | trójpodział `Bierzesz`: `... z ciala/sterty` = łup, `... z otwartej/otwartego <pojemnika>` = transfer (wiersz niżej), bez źródła = łup z ziemi (korpus N=0, pattern gry; Towarzysz świadomie go pomija — Kronikarz jako księga łapie); + `^Dostajesz (.+)\.$`, `^Otrzymujesz (.+)\.$` (**brak w aktualnym LOOT_PATTERNS Towarzysza** — wzorzec trzymany na korpusie), `wyplaca ci (.+)` (waluta wymagana, §3) | kod (Towarzysz LOOT_PATTERNS) + korpus |
 | Wydatek | `^Kupujesz `, `^Placisz ` (obejmuje przejazdy: `Placisz <komu> <kwota>` oraz wariant bez kwoty `Placisz woznicy i wspinasz sie...`), `zgarnia ... monet` (z dowolnym wtrętem, np. `drapieznym ruchem zgarnia`), `odbiera od ciebie ... monet ... w zamian za zakupion` | kod (Towarzysz SPEND_PATTERNS) + korpus |
 | Wydatek z resztą | `Placisz <kwota> i dostajesz <kwota> reszty.` — wydatek netto = zapłacone − reszta; reszta potrafi zawierać mithryl (`Placisz 1 mithrylowa monete i dostajesz 64 zlote, 47 srebrnych i 27 miedzianych monet reszty.`) | korpus |
 | Usługa: naprawa | `Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.` — oddanie ubioru krawcowi (Novigrad, Campogrotta, Nuln) lub oreża/zbroi kowalowi do naprawy; wydatek kategorii „usługa", nie zakup | korpus + wiedza domenowa |
 | Reszta od NPC | `<NPC> <wtręt dowolny> wrecza ci <kwota>( reszty)?\.` — regex przepuszcza dowolny wtręt między podmiotem a czasownikiem. **Reguła:** obecność słowa `reszty` = reszta od nadpłaty przy zakupie (koszt = zapłacone − reszta); brak słowa `reszty` = niejednoznaczne (reszta albo zapłata za sprzedaż) — klasyfikacja po parze/kontekście | korpus (flavory: `ze sztucznym usmiechem`, `kryjac usmiech`, `z ogromna niechecia`) |
 | Kupno u flavor-sklepikarzy | para/trójka linii: `<NPC> drapieznym ruchem zgarnia <kwota>.` (pobranie zapłaty — wydatek) + `<NPC> kryjac usmiech wrecza ci <towar>.` (wydanie towaru — **bez wpływu na księgę**) + opcjonalnie `... wrecza ci <kwota> reszty.` | korpus (Salithrandir, Zykkis, Adipatus, Myrrhis) |
 | Transfer gracz→gracz | `<Gracz> daje ci <moneta>.` (wielka litera imienia, brak tagu `(NPC)`) — przychód oznaczany jako transfer od gracza | korpus (Gwenn, Ulik) |
+| Transfer gotówka↔pojemnik | `Wkladasz <kwota> monet\w* do otwartej/otwartego <pojemnika>.` / `Bierzesz <kwota> ... z otwartej/otwartego <pojemnika>.` (sakiewka/plecak — korpus: 126×/111×/62×…; skrzynka depozytowa = gałąź §2.3); **transfer, nigdy przychód/wydatek**; kwota często nieokreślona `wiele` → null (reguła 6 niżej) | korpus |
+| Podgląd pojemnika (migawka) | `Rozwiazujesz na chwile rzemyk, sprawdzajac zawartosc swojej ... <pojemnika>. W srodku dostrzegasz <lista monet>.` — migawka stanu na żądanie (rodzina `wiedza`/`cechy`), **nie zdarzenie księgowe**; listy mieszane `wiele X, osiem Y` (gra drukuje `wiele` powyżej progu widoczności) | korpus (25×+ dla sakiewki) |
 | Sprzedaż | `^Sprzedajesz ` + zapłata osobną linią przychodu | kod (Towarzysz SELL_PATTERNS) + korpus |
 | Liczby słowne | mapowanie liczebników polskich (Towarzysz `polishNumbers`, klient `contracts.ts` POLISH_NUMBERS); **listy mieszane**: słownie i cyfry w jednej linii (`szesc srebrnych monet, 76 zlotych monet i siedem miedzianych monet`) | kod + korpus |
-| Wartość ekwipunku | `Wydaje ci sie, ze (jest/sa) wart... mied` i warianty (w tym `nie ma wiekszej wartosci`); niezależne potwierdzenie przeliczników (170 mdz = 14 sr 2 mdz; 4600 mdz = 19 zł 3 sr 4 mdz) | kod (klient: priceEvaluation) + korpus |
+| Wartość ekwipunku | surowa forma gry: `^Wydaje ci sie, ze (jest|sa) wart[aye]? okolo N mied\S+\.$` + warianty stosu z kodu `Sa tu N sztuki warte ...` / `Jest tu N sztuk wartych ...` (korpus N=0) + `nie ma wiekszej wartosci` (bez kwoty); **w logach HTML klient dokleja `, czyli X zl, Y sr, Z mdz`** (priceEvaluation.processItemValue — korpus: 1030× dla 170 mdz) — backfill odcina/toleruje sufiks, bonus: gotowa normalizacja; niezależne potwierdzenie przeliczników (170 mdz = 14 sr 2 mdz; 4600 mdz = 19 zł 3 sr 4 mdz) | kod (klient: priceEvaluation) + korpus |
 
 **Twarda zasada:** linia bez jawnego nominału (`monet` + liczba/liczebnik) nie ma wpływu
 na księgę. Frazy `daje ci / wrecza ci / przekazuje ci` bez waluty dotyczą rzeczy lub
@@ -133,6 +135,15 @@ we wzorzec `zgarnia ... monet` — reguła kwoty z liczbą odfiltrowuje go autom
 5. Zdanie może ciągnąć się po kwocie (`Placisz wlascicielce dwanascie srebrnych i szesc
    miedzianych monet i zamawiasz wybrany smakolyk.`) — kotwica na kwocie, nie na
    końcu linii.
+6. **Liczebniki nieokreślone** (`wiele`, `kilka`, `sporo`, `troche`, `duzo`) → kwota
+   **nieznana (null)**, nigdy liczba: Towarzysz policzyłby `kilka miedzianych` jako 1
+   (`amount ?? 1`), toolkit jako 0 — oba fałszują księgę. Korpus: `wiele` masowo przy
+   pojemnikach; `kilka` przy kasie N=0 (dotąd tylko test adwersarialny §3).
+7. **Unia tabel liczebników:** mianownik (Towarzysz polishNumbers: `jeden`…`dziewietnascie`
+   + dziesiątki/setki/tysiące) + dopełniacz/biernik (klient contracts POLISH_NUMBERS:
+   `jednej/jednego/dwoch/dwu/trzech/pieciu…`, dwuwyrazowe `trzydziestu jeden`).
+   Towarzysz nie zna dopełniacza dziesiątek (`trzydziestu`) — kopia 1:1 gubiłaby
+   kwoty słowne w odmianie.
 
 **Kantor — pełne zdarzenie bez kwoty (dowód korpusowy):** komenda `zdenominuj` (81 ech)
 drukuje wyłącznie `Twoje pieniadze zostaly zdenominowane.` (61×) lub `Twoje pieniadze
@@ -145,9 +156,23 @@ maksymalnie zdenominowane). Zdarzenie wchodzi do osi czasu, wyszukiwania i filtr
 jak każde inne; statystyki: łącznie, per kantor, per postać, per sesja. Z tabliczek
 kantorów: `Za kazda transakcje pobieramy tylko 8 procent prowizji.` — prowizja 8%
 pozostaje niewidzialnym mikrowydatkiem (wymiana nie zmienia majątku poza prowizją).
-Świadomie poza bilansowaniem — ale nie poza kroniką.
+Świadomie poza bilansowaniem — ale nie poza kroniką. **Prowizja jest per bank, nie
+globalna** (wiki „Pieniądze"): 3% (Nuln, Novigrad, Wyzima, Ard Skellige, Carbon),
+5% (Ebino, Karak Varn, Parravon, Quenelles, Daevon, Baccala, Hagge, Maribor,
+Mons Arx, Oxenfurt, Rinde, Craag Ros, Athel-Loren, Campogrotta, Toskania), 8%
+(Kraina Zgromadzenia, Kreutzhofen, Ubersreik, Varieno, Averheim, Val'Kare, Twierdza
+Slaanesha); Guleta i Scala: depozyt bez denominacji. Tabliczka „8 procent" z korpusu
+to stawka lokalna — stawka znana z góry per lokacja trafia do metadanych zdarzenia.
 
 **Nie istnieje w grze:** kradzież/okradzenie — poza katalogiem.
+
+**Barter poza księgą:** sklepy z nietypowymi środkami płatniczymi (wiki: esencja
+życia, gruczoły pająków, kły wampirów, skalpy driad, zapiski) — płatność towarem
+bez nominału nie rusza księgi (twarda zasada); ewentualnie zdarzenie informacyjne.
+
+**GMCP:** brak kanału stanu gotówki — wniosek z architektury klienta (depozyty
+liczone tekstowo w `deposits.ts` mimo pełnego GMCP; `char.state` bez pola money).
+Wniosek pośredni, nie twardy dowód; kasa zawsze z tekstu lub premium storage.
 
 ### 2.3 Bank i depozyty
 
@@ -596,6 +621,19 @@ PackageHelper/deliveryStats/npcStore + tjurczyk assistant.lua + wiki „Pocztyli
     w zdalnej bazie npc.json (637 rekordów); 5 etykiet pocztowych mapowanych na
     lokacje poczty (§2.1).
 
+Domknięte na pełnej analizie źródeł pieniędzy 2026-09-17 (Towarzysz coins/
+polishNumbers/sources + klient coinColors/priceEvaluation/deposits/contracts +
+toolkit denominacja + wiki „Pieniądze" + korpus; tjurczyk: brak modułu kasy):
+15. ~~Wycena EQ — forma w logach~~ — `, czyli X zl, Y sr, Z mdz` to wstawka klienta
+    (priceEvaluation), nie tekst gry; backfill odcina; + 2 warianty stosu z kodu
+    (§2.2).
+16. ~~Kwoty `wiele`/`kilka`~~ — liczebniki nieokreślone nieparsowalne: kwota null,
+    księga nietknięta (żaden z trzech parserów nie robi tego poprawnie — §2.2
+    reguła 6).
+17. ~~Monety w pojemnikach własnych~~ — transfer gotówka↔pojemnik (jak bank), nie
+    przychód/wydatek; linie wynikowe + migawka podglądu skatalogowane (§2.2).
+18. ~~Prowizja denominacji~~ — per bank 3/5/8% (wiki), nie globalna 8% (§2.2).
+
 Nadal otwarte:
 1. Linia finalizacji zlecenia (po ostatniej dostawie — w korpusie zlecenie nie
    zostało ukończone: wciąż „potrzebuje jeszcze ponad kilogram") — tryb capture.
@@ -695,6 +733,19 @@ Podjęte:
 - (2026-09-17, kod klienta + korpus) Baza adresatów paczek: zdalna npc.json (637
   rekordów, TTL 24 h) + douczanie lokalne; pokrycie korpusu 111/111; etykiety
   pocztowe mapowane na lokacje poczty (§2.1).
+- (2026-09-17, korpus + kod klienta) Wycena EQ: surowa forma gry kończy na kwocie
+  w miedziakach; `, czyli ...` = doklejka klienta (backfill odcina, bonus
+  normalizacji); warianty stosu `Sa tu/Jest tu N sztuk(i) warte...` z kodu (§2.2).
+- (2026-09-17, korpus + Towarzysz) Liczebniki nieokreślone (`wiele`/`kilka`/…)
+  → kwota null, nigdy 0/1; parser liczebników = unia tabel mianownik+dopełniacz
+  (§2.2 reguły 6–7).
+- (2026-09-17, korpus) Monety w pojemnikach własnych (sakiewka/plecak) = transfer
+  gotówka↔pojemnik; podgląd pojemnika (`Rozwiazujesz… dostrzegasz`) = migawka
+  stanu, nie kasa (§2.2).
+- (2026-09-17, wiki) Prowizja denominacji per bank: 3/5/8%; stawka lokalna jako
+  metadane zdarzenia kantorowego (§2.2).
+- (2026-09-17, kod Towarzysza) Atrybucja `Otrzymujesz`: brak w aktualnym
+  LOOT_PATTERNS — wzorzec trzymany na korpusie (§2.2).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
