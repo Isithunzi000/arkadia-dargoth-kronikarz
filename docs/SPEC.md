@@ -193,15 +193,37 @@ Dargoth) subskrybuje zgodnie 1:1. Kasa zawsze z tekstu lub premium storage.
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Odczyt depozytu | `Twoj depozyt zawiera ...` (monety w liście — słownie i cyframi mieszanie), `Twoj depozyt jest pusty`, `Nie posiadasz wykupionego...` | kod (klient: deposits.ts) + korpus |
+| Odczyt depozytu (migawka) | `Twoj depozyt zawiera ...` (monety w liście — słownie i cyframi mieszanie), `Twoj depozyt jest pusty`, `Nie posiadasz wykupionego...` — **migawka stanu na żądanie** (rodzina podglądu pojemnika §2.2), nie zdarzenie księgowe; w logach linia bywa **zawinięta w środku fraz** (§6.2 sklejanie) | kod (klient: deposits.ts) + korpus |
 | Wpłata / wypłata | triggery kontekstowe na lokacji z bindem `depozyt` (lista referencyjna, §5); linie `Wkladasz/Bierzesz <coś> do/z otwartej skrzynki depozytowej.` (w tym monety: `Wkladasz dwie mithrylowe monety do otwartej skrzynki depozytowej.`) | kod + mapa + korpus |
-| Cudze operacje | `<Gracz> bierze ... ze swojej otwartej skrzynki depozytowej.` — marker `swojej` = odfiltrować (nie nasz depozyt) | korpus |
-| Stan konta per bank | premium: odczyt storage klienta klucz `deposits` (characterStorage) | kod |
+| Wykupienie / rozbudowa skrzynki | **wydatek kategorii „usługa bankowa"**: podstawa 50 złotych, poziomy rozbudowy 2 / 5 / 10 / 20 mithryli (wiki „Skrytki"); raz wykupiona działa **do końca gry postacią** (zero odnawiania; śmierć = utrata depozytu, §2.8); limit 25 przedmiotów w depozycie niezależnie od rozbudowy (stos jednego rodzaju = 1 przedmiot; notka Mistrza Rafgarta na tablicy, korpus). Linia gry nieznana (żaden klient nie triggeruje, korpusy nie pokazały) + komenda pomocy `?depozyt` — **tryb capture** | wiki „Skrytki" + korpus (tablica) |
+| Cudze operacje | `<Gracz> bierze ... ze swojej otwartej skrzynki depozytowej.` / `<Gracz> wklada ... do swojej otwartej skrzynki depozytowej.` — marker `swojej` = odfiltrować (nie nasz depozyt) | korpus |
+| Stan konta per bank | premium: odczyt storage klienta klucz `deposits` (characterStorage); klient trzyma `wiele` jako pseudo-count `'wie'` poza sumą (zgodne z regułą 6 §2.2); konwerter klienta kończy na 99 — lista z `sto+` słownie nie sparsuje się klientowi, unia Kronikarza pokrywa (§2.2 reguła 7) | kod |
 
 **Zasada księgowa:** wpłata i wypłata to **transfer** (przesunięcie gotówka ↔ bank),
 nigdy przychód ani wydatek. Bilans majątku pokazuje gotówkę i depozyty osobno i łącznie.
 
-Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków.
+Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków. Nazwy sal
+bankowych **w grze ≠ nazwy mapy** (gra: `Glowna sala banku.`, mapa: `Bank w Daevon`)
+— lista korpusowa nazw sal w danych referencyjnych (rosnie z korpusu/capture).
+
+**Komendy zarządzania depozytem** (wiki „Skrytki"): `przejrzyj [pobieznie] <co>
+[z czego]` (filtry: uszkodzone, naprawialne, typy broni/zbroi), `wybierz <co>` —
+echo tych komend w backfillu to markery kontekstu depozytowego (rodzina
+`→ przejrzyj depozyt`).
+
+**Komendy `wplac`/`wyplac`/`przelej` — status nieznany:** gra je zna (walidator
+asystenta Dargotha: „Komenda operuje na pieniadzach"; lista testowych komend
+Mudleta), ale konta procentowe zlikwidowano w 2011 (wiki „Pieniądze") — legacy
+albo żywe operacje (np. przelew gracz→gracz przez bank). Rozstrzygnięcie: capture
+przy banku + pełny korpus (otwarte §10).
+
+**Zasada świata:** zakaz pośredniego i bezpośredniego przekazywania pieniędzy
+między własnymi postaciami gracza (wiki „Pieniądze") — kontekst interpretacji
+transferów gracz→gracz (§2.2); Kronikarz księguje fakty, nie ocenia.
+
+**Historia (nie istnieje):** konta bankowe z prowizją procentową od wpłaty/wypłaty
+(pre-2011, wiki „Pieniądze") — zastąpione skrzynkami depozytowymi; wyjaśnia
+potencjalny status legacy komend `wplac`/`wyplac`.
 
 ### 2.4 Zlecenia (kontrakty NPC)
 
@@ -488,12 +510,23 @@ Pole `type` wpisu — zbiór wartości **potwierdzony** na eksporcie JSON klient
 (`room.contents.living`) i mowy NPC (`comm`) zamiast heurystyk; większa próbka
 potwierdzi kompletność zbioru.
 
-**Prefixy klienta w logach (korpus):** zalogowana linia bywa wersją **przepisaną
+**Modyfikacje klienta w logach (korpus):** zalogowana linia bywa wersją **przepisaną
 przez klienta**, nie surowym tekstem gry — parser backfillu toleruje: `[ POCZTA ] `
 (poczta), `[N] ` (licznik przy liniach cech i przybyciach), `[unk] ` (linie walki bez
-rozpoznanego typu), wstawki `[x/y]` w liniach cech. W szeptach pomocy poczty komendy
+rozpoznanego typu), wstawki `[x/y]` w liniach cech, doklejkę `, czyli X zl, Y sr,
+Z mdz` (wycena, §2.2) oraz **własne tabele klienta** drukowane po liniach gry:
+pretty-print depozytu (nagłówek `| DEPOZYT |`, wiersze kategorii, markery `*...*`,
+liczności cyframi) i analogiczne tabele pojemników — redundantne wobec linii gry,
+rozpoznawane i pomijane (detekcja po nagłówku ramki). W szeptach pomocy poczty komendy
 są osadzone jako klikalne elementy i w spłaszczonym tekście znikają — nie traktować
 takich linii jako dowodu braku komendy.
+
+**Sklejanie zawiniętych linii (korpus):** gra zawija długie linie do szerokości
+okna klienta — w logu jedna linia logiczna rozpada się na kilka wizualnych, łamana
+w środku fraz, z wiszącymi przecinkami (dowód: `Twoj depozyt zawiera ... dwie
+mithrylowe` ⏎ `monety,` ⏎ `czarna zdobiona ksiege` ⏎ `, piec` ⏎ `garsci ...`).
+Parser backfillu **najpierw skleja wizualne linie wpisu, dopiero potem stosuje
+regexy** — dotyczy wszystkich długich list (depozyt, pojemniki, wyceny stosu).
 
 **Echo transferów monet:** `→ wloz monety do swojej sakiewki/plecaka`, `→ wez monety
 ze swojej sakiewki/plecaka`, `→ wez <denominacja> monety z N. ciala` — transfery
@@ -686,6 +719,35 @@ Nadal otwarte:
 8. Linia refundacji kaucji wozu — format nieznany z kodu (klient nie triggeruje);
    `Wynajmujesz` w próbce korpusu N=0 — capture lub pełny korpus.
 
+Domknięte na analizie źródeł banków 2026-09-17 (Dargoth deposits.ts + pretty-
+Containers parseItems + Mudlet boxes.lua + tjurczyk boxes.lua (ta sama rodzina;
+Towarzysz: brak modułu) + wiki „Skrytki" i „Pieniądze" + korpus-próbka 33 logi
+(realna sesja bankowa) + mapa/JSON (bindem 24 + suplement + anomalie) + GMCP):
+23. ~~Koszty skrzynek depozytowych~~ — 50 zł podstawa + poziomy 2/5/10/20 mithryli,
+    do końca gry postacią, limit 25 przedmiotów (stos = 1); wydatek „usługa
+    bankowa" (§2.3); linia gry → otwarte 9.
+24. ~~Pokrycie lokalizacji depozytów~~ — trzy źródła zgodne: valid_banks Mudleta
+    16/16 = nasze dane (15 z bindem + skellige suplement), wiki 15/15, ponad to
+    Brugge (10 pokoi) i Val'Kare; wiki „Skrytki" nieaktualna (13 miejsc) — dane
+    mapy źródłem nadrzędnym (§2.3, §5).
+25. ~~Zawijanie długich linii w logach~~ — linia depozytu łamana w środku fraz;
+    reguła ogólna: sklejanie przed regexami (§6.2).
+26. ~~Tabela DEPOZYT klienta w logach~~ — pretty-print po linii gry, redundantny;
+    akapit „prefixy" rozszerzony do „modyfikacje klienta" (§6.2).
+27. ~~Komendy `wplac`/`wyplac`/`przelej`~~ — gra je zna (walidator Dargotha +
+    lista Mudleta), status rozstrzygnięty jako nieznany → otwarte 10 (§2.3).
+
+Nadal otwarte (uzupełnienie):
+9. Linia wykupienia/rozbudowy skrzynki depozytowej + wyjście `?depozyt` — format
+   nieznany (żaden klient nie triggeruje) — tryb capture.
+10. Status komend `wplac`/`wyplac`/`przelej` — legacy czy żywe (konta zlikwidowane
+    2011) — capture przy banku + re-check pełny korpus.
+11. Korpusowe nazwy sal bankowych (gra: `Glowna sala banku.` ≠ mapa: `Bank w
+    Daevon`) — lista do backfill-atrybucji — pełny korpus / capture.
+12. `sto+` słownie w listach depozytu — konwerter klienta ślepy (1–99), unia
+    Kronikarza pokrywa; częstotliwość nieznana — re-check pełny korpus.
+13. Eysenlaan: czy „Kantor, Bank, Sklep" oferuje depozyt (wiki milczy) — capture.
+
 ---
 
 ## 11. Rejestr decyzji
@@ -799,6 +861,17 @@ Podjęte:
 - (2026-09-17, spec GMCP forum t=740 + kod) Gotówka NIE istnieje w GMCP —
   potwierdzone specyfikacją (moduły Core/Char/Room/Objects/Gmcp_msgs/Mail) i kodem;
   księga zawsze tekstowa lub premium storage (§2.2).
+- (2026-09-17, wiki „Skrytki" + korpus) Wykupienie/rozbudowa skrzynki = wydatek
+  „usługa bankowa" (50 zł + 2/5/10/20 mtr, do końca gry postacią, limit 25
+  przedmiotów); śmierć = utrata depozytu; linia gry — capture (§2.3).
+- (2026-09-17, kod ×3 + wiki + mapa) Lokalizacje depozytów domknięte trzema
+  źródłami (Mudlet 16/16, wiki 15/15, +Brugge/Val'Kare z mapy); wiki „Skrytki"
+  nieaktualna — mapa źródłem nadrzędnym lokalizacji depozytów (§2.3, §5).
+- (2026-09-17, korpus-próbka) Backfill: sklejanie zawiniętych linii przed regexami;
+  „modyfikacje klienta" (prefixy, doklejki, tabele pretty DEPOZYT/pojemników)
+  rozpoznawane i pomijane (§6.2).
+- (2026-09-17, kod) Komendy `wplac`/`wyplac`/`przelej` istnieją w grze, status
+  nieznany (konta zlikwidowane 2011) — capture, nie modelujemy na ślepo (§2.3).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
