@@ -533,6 +533,51 @@ Wpis kroniki: `12:03:44 — Wzrost wiedzy: goblinoidy.` Backfill mozliwy z logow
 (linia ticka jest pushem gry); koroboracja z migawki komendy `wiedza` (poziomy
 per dziedzina x typ). Decyzja 2026-09-18: wzrost wiedzy = zdarzenie kroniki (§11).
 
+### 2.13 Umiejętności
+
+| Zdarzenie | Detekcja | Weryfikacja |
+|---|---|---|
+| Zmiana poziomu umiejętności | **brak linii push w grze** — zmiana rozstrzygana diffem kolejnych migawek komendy `um` / `umiejetnosci [typ]` (model `cechy_history`, §2.7); wpis = nazwa + stary→nowy poziom + timestamp | kod (Dargoth skills.ts, skillTable.ts; Mudlet skill.lua) + wiki „Umiejętności" + pomoc `umiejetnosci` + próbka logów HTML (um ×4) |
+
+**Skala kanoniczna** (3 źródła 1:1 — Dargoth skillsDesc, Mudlet skills_desc,
+wiki): 1 ledwo, 2 troche, 3 pobieznie, 4 zadowalajaco, 5 niezle, 6 dobrze,
+7 znakomicie, 8 doskonale, 9 perfekcyjnie, 10 mistrzowsko.
+
+**Typy** (wiki „Umiejętności"): ogólne (11), bojowe (16), magiczne (3),
+złodziejskie (6), praktyczne, językowe, specjalne. Komendy: `um`,
+`umiejetnosci [typ]`, `maksymalne [typ]` (pomoc gry; output `maksymalne` —
+otwarte 22).
+
+Modyfikacje klienta w logach: tabela `um` przepisana z wstawkami `[N/10]`
+(skillTable) — parser backfillu toleruje i odcina; wiersz tabeli rozpoznawany
+po słowniku poziomów (isSkillRow), obce linie w ramach tabeli przepuszczane.
+Modyfikator na wierszu `um` (suffix jak w cechach) — próbka N=0 → capture
+(otwarte 21).
+
+**Koszt treningu** (decyzja 2026-09-18, §11): trening u mistrzów zawodu
+(`trenuj` / `trenuj intensywnie`) księgowany jako wydatek „usługa/trening" —
+wyłącznie łączna kwota wydana na treningi, bez atrybucji per umiejętność
+(indywidualne treningi nierozróżnialne kasowo); sam trening jako kategoria
+kroniki pozostaje poza zakresem.
+
+### 2.14 Języki
+
+| Zdarzenie | Detekcja | Weryfikacja |
+|---|---|---|
+| Zmiana poziomu języka | jak umiejętności: diff migawek komendy `jezyki` (brak push); wpis = język + stary→nowy poziom + timestamp | kod (Dargoth languageSkills.ts) + wiki „Języki" + pomoc `jezyki` + próbka logów HTML (jezyki ×4) |
+
+**Skala** = skala wiedzy (10 gradacji: znikoma, niewielka, czesciowa, niezla,
+dosc dobra, dobra, bardzo dobra, doskonala, prawie pelna, pelna — Dargoth
+languageLevels = Mudlet knowledge_desc = wiki „Wiedza").
+
+**20 języków** (wiki „Języki"): 14 Imperium + 6 Ishtar; nauka od innych graczy
+lub z pochodzenia postaci; Mroczna Mowa = mutacja. Komenda `jezyki
+maksymalne` — output nieznany (otwarte 22); klient trzyma poziomy maksymalne
+w storage `language_max_levels` (koroboracja premium).
+
+Modyfikacje klienta w logach: paski postępu `[====    ]` doklejane do wierszy
+języków (gauge) — parser backfillu odcina.
+
 ---
 
 ## 3. Zahartowanie maszyny paczek (testy adwersarialne)
@@ -953,12 +998,30 @@ sesji):
     przy włączonych modyfikatorach (`gmcp.char.options.state_modifiers===1`;
     wiki „Opcje") (§2.7).
 
-Nadal otwarte (cechy):
+Domknięte na analizie źródeł umiejętności i języków 2026-09-18 (Dargoth
+skills.ts + skillTable.ts + languageSkills.ts + Mudlet misc/skill.lua + wiki
+„Umiejętności" i „Języki" + pomoc arkadia.rpg.pl/help/command/umiejetnosci,
+jezyki, poziomy, trenuj + próbka logów HTML: um ×4, jezyki ×4):
+42. ~~Skala umiejętności~~ — 10 gradacji zgodnych w 3 źródłach (ledwo…
+    mistrzowsko) (§2.13).
+43. ~~Kanał zmiany umiejętności/języków~~ — brak linii push w grze; zmiana =
+    diff kolejnych migawek komend (model cechy_history) (§2.13, §2.14).
+44. ~~Komenda `poziomy`~~ — komenda-referencja opisów poziomów cech (pomoc
+    gry), walidator skal; output nieznany → otwarte 20.
+45. ~~Skala i lista języków~~ — 10 gradacji (= skala wiedzy); 20 języków:
+    14 Imperium + 6 Ishtar; Mroczna Mowa = mutacja (§2.14).
+
+Nadal otwarte (cechy, umiejętności, języki):
 19. Forma przy odwadze 1: `thorzliwy` (kod ×2) vs `tchorzliwy` (wiki) — korpus
     N=0 → re-check pełny korpus (skrypt ekstrakcyjny pkt 5); parser akceptuje
     obie formy (§2.7).
 20. Output komendy `poziomy` (referencja opisów poziomów) — nieznany → capture
     / skrypt ekstrakcyjny pkt 7a (§2.7).
+21. Forma modyfikatora na wierszu `um` (suffix jak w cechach) — próbka N=0 →
+    capture / skrypt ekstrakcyjny pkt 8 (§2.13).
+22. Output komend `umiejetnosci maksymalne` / `jezyki maksymalne` — nieznany →
+    capture / skrypt ekstrakcyjny pkt 7c; storage klienta
+    `language_max_levels` jako koroboracja (§2.13, §2.14).
 
 ---
 
@@ -1054,6 +1117,14 @@ Podjęte:
   kanał premium live `cechy.read` + historia `cechy_history`; koszt zmiany
   cechy wyrażany w postępach (pole lifetime przy odczycie); `cechy um` nie
   istnieje (pomoc) — echo korpusu to literówka gracza (§2.7, §10: 38–41).
+- (2026-09-18, decyzja) Umiejętności i języki = kategorie kroniki (§2.13,
+  §2.14); brak linii push w grze → zmiana poziomu rozstrzygana diffem migawek
+  komend `um`/`jezyki` (model cechy_history); wpis = nazwa + stary→nowy
+  poziom + timestamp; modyfikatory jak w cechach (capture, otwarte 21).
+- (2026-09-18, decyzja) Koszt treningu księgowany jako wydatek
+  „usługa/trening" — wyłącznie łączna kwota wydana na treningi, bez atrybucji
+  per umiejętność (indywidualne treningi nierozróżnialne kasowo); trening
+  jako kategoria kroniki pozostaje odrzucony (§2.13).
 - (2026-09-17, korpus III) Paczka spóźniona potwierdzona: `Niestety, ale
   dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.`
   — wypłata pomniejszona (§2.1).
@@ -1144,6 +1215,8 @@ Odrzucone / poza zakresem (z uzasadnieniem):
 - Trening i drużyna jako kategorie kroniki — odłożone; mechanika odnotowana
   (`trenuj` / `trenuj intensywnie` u mistrzów zawodu; komenda `um` = umiejętności
   + modyfikatory chwilowe; tag `[   DRUZYNA   ]`, składy, przekazanie prowadzenia).
+  Koszt treningu księgowany jako wydatek „usługa/trening" (decyzja 2026-09-18,
+  §2.13); umiejętności i języki przyjęte jako kategorie (§2.13, §2.14).
 
 ---
 
