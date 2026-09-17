@@ -1124,5 +1124,55 @@
     "lokalizacje_rozjazd": "wiki 'Skrytki' podaje 13 miejsc (nieaktualna), wiki 'Pieniadze' 15, rzeczywistosc 17 (mapa+klienci: +Val'Kare, +Brugge 10 pokoi; Ard Skellig = suplement 10416); valid_banks Mudleta 16/16 zgodne z naszymi danymi",
     "eysenlaan_depozyt": "NIEZNANY — 'Kantor, Bank, Sklep, Eysenlaan' (banki_bez_binda); wiki milczy — capture",
     "premium_storage": "characterStorage klucz 'deposits' per (postać): Record<roomId, {name, items}> — gate isBankRoom = bind 'depozyt' w userData pokoju; warstwa defensywna (fallback na wlasne triggery)"
+  },
+  "zlecenia_2026_09_17": {
+    "zrodla": "Dargoth contracts.ts + deliveryStats.ts + polishNumberConverter.ts + Mudlet/tjurczyk assistant.lua (zlecenie tylko w asystencie paczek) + Towarzysz (brak modulu zlecen: zlecenie 0, kontrakt 0) + wiki (brak strony o systemie zlecen) + korpus-lowisko 576 sesji (oferty 22, pytania o zlecenie 30, odmowy 'niczego mi nie trzeba' 4) + korpus-probka 33 logi",
+    "platnosc_pro_rata": {
+      "zasada": "kasa przychodzi z kazda dostawa osobno; para linii na kazda sztuke/kilogram: '<NPC> mowi do ciebie: Dziekuje, potrzebuje jeszcze <pozostala ilosc>.' + '<NPC> odbiera od ciebie <towar> i wrecza ci <kwota>.'; niezaleznie od stopnia ukonczenia",
+      "dowod": "oferta 'czterech kilogramow miesa z zajaca' (2026-03-06 00:32:07) -> 41 s pozniej dwie pary postep+zaplata od Wysoki zwinny mezczyzna (4 zl 8 sr 4 mdz + 4 zl 13 sr) za 2 kg z 4 kg; Parravon",
+      "finalizacja": "NIE istnieje jako osobne zdarzenie kasowe; kandydat 'z ogromna niechecia wrecza ci' odrzucony (flavor linii sklepowej §2.2 SPEC); ewentualny tekst po ostatniej dostawie to informacja, nie kasa"
+    },
+    "reklamodawcy_kontraktow": {
+      "wzorzec": "Mam zlecenie na swieze (skory/ryby/mieso), chetnie za nie zaplace. / Mam zlecenie na kilka sztuk broni, chetnie za nie zaplace.",
+      "npc": [
+        "Lucciano",
+        "Benito",
+        "Aubert",
+        "Naula/Rudolf",
+        "Szczuroslaw (10x)",
+        "Fuats (6x)"
+      ]
+    },
+    "liczebniki_ofert": {
+      "powyzej_50_slownie": "siedemdziesieciu dwoch kilogramow miesa z dzika (72 kg) — tabela POLISH_NUMBERS contracts.ts konczy sie na 50 (Dargoth count:1); unia Kronikarza pokrywa (polishNumberConverter 60-90 ze zlozeniami)",
+      "cyfry_powyzej_100": "110 kilogramow miesa z losia — parser musi lykac czyste cyfry (Dargoth: parseInt fallback)",
+      "typy_towarow": [
+        "ryby (sztuki + rozmiar + typ)",
+        "mieso (kg, zwierze)",
+        "zbroje (sztuki, jakosc opcjonalna)",
+        "skory (sztuki, np. dwunastu skor susla)"
+      ],
+      "zleceniodawca_bez_opisu": "Petyr (golym imieniem, bez opisu)"
+    },
+    "termin": {
+      "konwersja": "1 dzien IG = 48 min realnych (ONE_INGAME_DAY_MS), godzina IG = 2 min RL",
+      "kilka_godzin": "0.5 dnia (korpus 2x: 'Na realizacje zamowienia mam kilka godzin')",
+      "brak_liczebnika": "'mam dzien' = 1 dzien; deadline kotwiczony na czasie nadania oferty"
+    },
+    "cennik_potoczny": {
+      "szyling": "= srebrna moneta (Ratan: Kazdy martwy szczur wart trzy srebrne szylingi = 3 sr)",
+      "pens": "= miedziana moneta (Adler: mysz - osiem pensow)"
+    },
+    "przekrzyk_warianty": [
+      "<NPC> krzyczy po bretonsku ...",
+      "Jakis mezczyzna krzyczy z oddali po bretonsku ..."
+    ],
+    "zamowienia_rzemieslnicze": "Placisz <NPC> <kwota> i skladasz zamowienie. (korpus 4x) — wydatek rzemieslniczy, NIE zlecenie, NIE zakup sklepowy",
+    "domkniete_SPEC": [
+      28,
+      29,
+      30
+    ],
+    "otwarte_pozostale": "odrzuty za zla jakosc/rozmiar/nadmiar dostawy (N=0 w korpusie), typo-formy piedziesiat/pieedziesieciu (N=0) — capture"
   }
 }
