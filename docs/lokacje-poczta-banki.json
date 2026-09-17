@@ -1174,5 +1174,82 @@
       30
     ],
     "otwarte_pozostale": "odrzuty za zla jakosc/rozmiar/nadmiar dostawy (N=0 w korpusie), typo-formy piedziesiat/pieedziesieciu (N=0) — capture"
+  },
+  "zabici_2026_09_18": {
+    "zrodla": "Dargoth kill.ts + killLifetimeStorage.ts (calosc) + Mudlet counter.lua/counter/ (lifetime+sesja, bramka druzyny ateam.team_names) + tjurczyk + Towarzysz (brak modulu: zabil 0) + wiki (brak strony o liczniku) + korpus 576 sesji (dwa digesty: 1796 linii [ZABIL*]) + probka logow HTML",
+    "formy_prefixow": {
+      "wlasne": [
+        "[ ZABILES ] Zabiles <name>. (n / m)",
+        "[  ZABILAS  ] Zabilas <name>. (n / m) — postac zenska, kod, korpus N=0"
+      ],
+      "druzyny": [
+        "[ ZABIL ] <kto> zabil <name>. (n / m)",
+        "[ ZABILA ] <kto> zabila <name>. (n / m)"
+      ],
+      "regex": "^\\[\\s*ZABIL(?:ES|AS|A|)\\s*\\]",
+      "padding": "1-3 spacje, dryf wersji klienta; dominanta 1 spacja (digesty: 115+81+77 vs 34 vs 14)"
+    },
+    "suffix_licznika": " (n / m) = mySession / mySession+teamSession per mob, zakres SESYJNY (nie lifetime); korpus: (0 / 1), (5 / 17)",
+    "obce_zabojstwa": "zabojca spoza druzyny (kod: isInTeam false -> OTHER) dostaje prefix BEZ suffixu (formatPrefix z null); korpus: 'Feril zabil wscieklego groznego wilka.' 3x; DECYZJA: filtr, nie zdarzenie kroniki",
+    "szum_deski": "Szerokie drzwi wejsciowe do rezydencji ktos zabil solidnie kilkoma deskami. (3x) — regex klienta odpala (prefix w logu, bez licznika); filtr: biernik narzedzi + opis obiektu jako 'zabojca'",
+    "tagi_gildii": {
+      "przyklad": "Spiczastouchy dlugonogi elf (Aynne GP) (Crevan ES) zabil brudnego brunatnego kobolda.",
+      "alfabet_22": [
+        "CKN",
+        "ES",
+        "SC",
+        "KS",
+        "KM",
+        "OS",
+        "OHM",
+        "SGW",
+        "BK",
+        "WKS",
+        "LE",
+        "KG",
+        "KGKS",
+        "MC",
+        "OK",
+        "RA",
+        "GL",
+        "ZT",
+        "ZS",
+        "ZH",
+        "NPC",
+        "GP"
+      ],
+      "regula": "scinac '(<imie> <KOD>)' z nazw zabojcow i ofiar przed normalizacja"
+    },
+    "normalizacja_mobow": "parseName: ostatnie slowo lowercase (dopelniacz zostaje: 'szczura') | dwuwyrazowy wyjatek z listy 26 (identyczna Dargoth=Mudlet) | nazwa wlasna (1 slowo, wielka litera); tag przy ofierze zanieczyszcza klucz upstream (korpus N=0)",
+    "premium": {
+      "characterStorage": [
+        "kill_counter (lifetime)",
+        "kill_counter_session",
+        "kill_counter_team (per gracz)"
+      ],
+      "idb": "ArkadiaKillsDB: rekord per postac+mob+data, zapis TYLKO wlasnych zabojstw, odczyt per data/grupowanie/statystyki, importRecords",
+      "eventBus": [
+        "zabici.updated (sesja)",
+        "zabici2.updated (lifetime)"
+      ],
+      "aliasy": [
+        "/zabici",
+        "/zabiciw",
+        "/zabici2",
+        "/zabici2 [rrrr/m/d]",
+        "/zabici2w",
+        "/zabici2!",
+        "/zabici_reset"
+      ]
+    },
+    "domkniete_SPEC": [
+      31,
+      32,
+      33
+    ],
+    "otwarte_nowe": [
+      12,
+      13
+    ]
   }
 }
