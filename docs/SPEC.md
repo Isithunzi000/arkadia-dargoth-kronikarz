@@ -434,7 +434,7 @@ tolerować prefiks `[N]` i wstawki `[x/y]` (bonus: wartości liczbowe dostępne 
 |---|---|---|
 | Śmierć własna | `^Umierasz\.$` (następna linia `Oddalasz sie.` to odejście duszy — ignorowana); przyczyna bywa środowiskowa, nie tylko walka (korpus: upadek — `Odpadasz od sciany i lecisz w dol...`) | kod (Towarzysz DEATH_PATTERNS) + korpus |
 | Osłabienie po śmierci | `Twoje cechy sa oslabione po ostatniej smierci\.` + **6 gradacji** wymaganych postępów: minimalne / bardzo małe / nieduże / nieznaczne / małe / zadowalające | kod (klient: afterDeathProgress, lvlCalc) + korpus (143 odczyty przy 10 śmierciach) |
-| Śmierć członka drużyny | **kanał detekcji niezweryfikowany** — errata 2026-09-18: flaga `living` w GMCP `objects.data` NIE jest flagą śmierci (oficjalna specyfikacja forum t=740: „living - BOOLEAN, czy obiekt to istota zywa, na te chwile zawsze tak" — rozróżnia istotę od przedmiotu; oba klienty używają jej tylko jako filtra istot, żadne nie wykrywa śmierci drużynowego); linia tekstowa śmierci osób: korpus N=0 → capture live przy realnej śmierci drużynowej (obserwacja `objects.data`/`objects.nums`/`hp`) — otwarte 18 (§10) | spec GMCP + korpus + kod ×2 — zdarzenie live-only, brak backfillu; widok statystyk: „Zmarli czlonkowie druzyny" (decyzja 2026-09-18) |
+| Śmierć członka drużyny | **„kto" rozstrzygnięte kodem**: diff `objects.nums` (przed→po) + akumulowane `objects.data` (id → {desc, team, hp}) identyfikuje ubyłego drużynowego w 100% — oba klienty tak akumulują (Dargoth `accumulatedObjectsData`, Mudlet `ateam.objs`); **„dlaczego ubył" w capture** (otwarte 18): dyskryminator śmierci vs wyjście/quit/teleport = brak linii odejścia + pojawienie się ciała w pokoju (wiki „Śmierć": ciało zostaje z dobytkiem, duch w zaświaty na kilka minut, odrodzenie wg opcji); forma ciała gracza, zachowanie `hp` i powrót ducha (ten sam id?) — nieznane, 1 obserwacja live; errata: flaga `living` NIE jest flagą śmierci (spec t=740: „istota żywa", zawsze true); linia tekstowa śmierci osób: korpus N=0 (576 sesji, zero śmierci drużynowych) | spec GMCP + korpus + kod ×2 + wiki „Śmierć" — zdarzenie live-only, brak backfillu; **zasięg: tylko ta sama lokacja** (GMCP milczy o innych pokojach — śmierć podzielonej drużyny poza zasięgiem, jawne ograniczenie); widok statystyk: „Zmarli czlonkowie druzyny" (decyzja 2026-09-18) |
 
 ### 2.9 Poczta (listy)
 
@@ -859,10 +859,15 @@ Nadal otwarte (uzupełnienie):
     timestamp); czas od poprzedniego wbicia i snapshot zabójstw = metadane
     audytowe zdarzenia zasilające weryfikator krzyżowy; polityka rozbieżności:
     flaga + diagnoza, zero auto-korekty (§11).
-18. Kanał detekcji śmierci członka drużyny — flaga `living` odpada (spec: zawsze
-    true = „istota żywa", nie „żyje"); linia tekstowa korpus N=0; capture live
-    przy realnej śmierci drużynowej: zachowanie `objects.data`/`objects.nums`/`hp`
-    (§2.8).
+18. Śmierć członka drużyny — „kto" ROZSTRZYGNIĘTE kodem (diff `objects.nums` +
+    akumulowane `objects.data`: id → desc/team, §2.8); capture dotyczy wyłącznie
+    „dlaczego": dyskryminator śmierci (brak linii odejścia + ciało w pokoju) vs
+    wyjście/quit/teleport; nieznane: forma ciała gracza, `hp` przy zgonie, powrót
+    ducha (id). Protokół capture: surowe snapshoty `objects.nums`+`objects.data`
+    przed/w trakcie/po + pełny tekst pokoju ±30 s + timestampy; możliwa śmierć
+    wymuszona z drugą postacią. Opcjonalnie: ring buffer surowego GMCP (tryb
+    diagnostyczny pluginu) = capture samoczynny. Flaga `living` odpada (spec:
+    zawsze true = „istota żywa", nie „żyje"); linia tekstowa korpus N=0 (§2.8).
 
 Domknięte na analizie źródeł zleceń 2026-09-17 (Dargoth contracts.ts +
 deliveryStats.ts + polishNumberConverter + Mudlet/tjurczyk/Towarzysz (brak modułu
