@@ -109,13 +109,14 @@ Przeliczniki (dwa niezależne źródła: Towarzysz `coins.ts` i toolkit `denomin
 | Wydatek z resztą | `Placisz <kwota> i dostajesz <kwota> reszty.` — wydatek netto = zapłacone − reszta; reszta potrafi zawierać mithryl (`Placisz 1 mithrylowa monete i dostajesz 64 zlote, 47 srebrnych i 27 miedzianych monet reszty.`) | korpus |
 | Usługa: naprawa | `Oddajesz <NPC> <przedmiot> ze stojka, placac <kwota słownie>.` — oddanie ubioru krawcowi (Novigrad, Campogrotta, Nuln) lub oreża/zbroi kowalowi do naprawy; wydatek kategorii „usługa", nie zakup | korpus + wiedza domenowa |
 | Reszta od NPC | `<NPC> <wtręt dowolny> wrecza ci <kwota>( reszty)?\.` — regex przepuszcza dowolny wtręt między podmiotem a czasownikiem. **Reguła:** obecność słowa `reszty` = reszta od nadpłaty przy zakupie (koszt = zapłacone − reszta); brak słowa `reszty` = niejednoznaczne (reszta albo zapłata za sprzedaż) — klasyfikacja po parze/kontekście | korpus (flavory: `ze sztucznym usmiechem`, `kryjac usmiech`, `z ogromna niechecia`) |
+| Usługa: wynajem wozu + kaucja | `^Wynajmujesz (.+?),? placac (.+?) kosztu najmu(?: oraz)? (.+?) (?:zwrotnej )?kaucji\.$` (przecinek, `oraz`, `zwrotnej` opcjonalne), np. `Wynajmujesz lekki woz, placac dwadziescia piec zlotych monet kosztu najmu oraz jedna mithrylowa monete zwrotnej kaucji.` — **dwie kwoty w jednej linii:** koszt najmu = wydatek (usługa), kaucja = depozyt zwrotny (nie wydatek); zwrot pojazdu `Zwracasz <pojazd>`; mechanika z kodu klienta: pełna kaucja do 6h od wynajmu, potem częściowa; linia refundacji kaucji nieznana z kodu (klient jej nie triggeruje — prawdopodobnie generyczna linia przychodu) → tryb capture / pełny korpus. To NIE jest przejazd (`Placisz woznicy`) — osobna gałąź | kod (klient: carriage.ts) |
 | Kupno u flavor-sklepikarzy | para/trójka linii: `<NPC> drapieznym ruchem zgarnia <kwota>.` (pobranie zapłaty — wydatek) + `<NPC> kryjac usmiech wrecza ci <towar>.` (wydanie towaru — **bez wpływu na księgę**) + opcjonalnie `... wrecza ci <kwota> reszty.` | korpus (Salithrandir, Zykkis, Adipatus, Myrrhis) |
 | Transfer gracz→gracz | `<Gracz> daje ci <moneta>.` (wielka litera imienia, brak tagu `(NPC)`) — przychód oznaczany jako transfer od gracza | korpus (Gwenn, Ulik) |
 | Transfer gotówka↔pojemnik | `Wkladasz <kwota> monet\w* do otwartej/otwartego <pojemnika>.` / `Bierzesz <kwota> ... z otwartej/otwartego <pojemnika>.` (sakiewka/plecak — korpus: 126×/111×/62×…; skrzynka depozytowa = gałąź §2.3); **transfer, nigdy przychód/wydatek**; kwota często nieokreślona `wiele` → null (reguła 6 niżej) | korpus |
 | Podgląd pojemnika (migawka) | `Rozwiazujesz na chwile rzemyk, sprawdzajac zawartosc swojej ... <pojemnika>. W srodku dostrzegasz <lista monet>.` — migawka stanu na żądanie (rodzina `wiedza`/`cechy`), **nie zdarzenie księgowe**; listy mieszane `wiele X, osiem Y` (gra drukuje `wiele` powyżej progu widoczności) | korpus (25×+ dla sakiewki) |
 | Sprzedaż | `^Sprzedajesz ` + zapłata osobną linią przychodu | kod (Towarzysz SELL_PATTERNS) + korpus |
 | Liczby słowne | mapowanie liczebników polskich (Towarzysz `polishNumbers`, klient `contracts.ts` POLISH_NUMBERS); **listy mieszane**: słownie i cyfry w jednej linii (`szesc srebrnych monet, 76 zlotych monet i siedem miedzianych monet`) | kod + korpus |
-| Wartość ekwipunku | surowa forma gry: `^Wydaje ci sie, ze (jest|sa) wart[aye]? okolo N mied\S+\.$` + warianty stosu z kodu `Sa tu N sztuki warte ...` / `Jest tu N sztuk wartych ...` (korpus N=0) + `nie ma wiekszej wartosci` (bez kwoty); **w logach HTML klient dokleja `, czyli X zl, Y sr, Z mdz`** (priceEvaluation.processItemValue — korpus: 1030× dla 170 mdz) — backfill odcina/toleruje sufiks, bonus: gotowa normalizacja; niezależne potwierdzenie przeliczników (170 mdz = 14 sr 2 mdz; 4600 mdz = 19 zł 3 sr 4 mdz) | kod (klient: priceEvaluation) + korpus |
+| Wartość ekwipunku | surowa forma gry: `^Wydaje ci sie, ze (jest|sa) wart[aye]? okolo N mied\S+\.$` + warianty stosu z kodu `Sa tu N sztuki warte ...` / `Jest tu N sztuk wartych ...` (korpus N=0) — wariant `Jest tu` potrafi nieść opcjonalny prefiks `Wydaje ci sie, ze ` (klient: stoneValue.ts) — + `nie ma wiekszej wartosci` (bez kwoty); **w logach HTML klient dokleja `, czyli X zl, Y sr, Z mdz`** (priceEvaluation.processItemValue — korpus: 1030× dla 170 mdz) — backfill odcina/toleruje sufiks, bonus: gotowa normalizacja; niezależne potwierdzenie przeliczników (170 mdz = 14 sr 2 mdz; 4600 mdz = 19 zł 3 sr 4 mdz) | kod (klient: priceEvaluation) + korpus |
 
 **Twarda zasada:** linia bez jawnego nominału (`monet` + liczba/liczebnik) nie ma wpływu
 na księgę. Frazy `daje ci / wrecza ci / przekazuje ci` bez waluty dotyczą rzeczy lub
@@ -143,7 +144,16 @@ we wzorzec `zgarnia ... monet` — reguła kwoty z liczbą odfiltrowuje go autom
    + dziesiątki/setki/tysiące) + dopełniacz/biernik (klient contracts POLISH_NUMBERS:
    `jednej/jednego/dwoch/dwu/trzech/pieciu…`, dwuwyrazowe `trzydziestu jeden`).
    Towarzysz nie zna dopełniacza dziesiątek (`trzydziestu`) — kopia 1:1 gubiłaby
-   kwoty słowne w odmianie.
+   kwoty słowne w odmianie. Uzupełnienia z kodu Dargotha (2026-09-17):
+   `polishNumberConverter` (257 form: mian.+dopełn. 1–99 wraz ze WSZYSTKIMI złożeniami
+   dwuwyrazowymi 21–99 w obu przypadkach + liczebniki zbiorowe `dwoje…dziesiecioro`
+   z odmianą) — konwerter NIE zna setek ani tysięcy (pokrywa je Towarzysz);
+   contracts.ts dodaje formy spoza konwertera: `dwu`, `dwudziestu/trzydziestu/
+   czterdziestu dwu`, złożenia z `jednego/jednej` (`dwudziestu jednego`…) — unia
+   Kronikarza obejmuje wszystkie trzy tabele. Anomalia: contracts.ts zawiera
+   typo-formy `piedziesiat`, `pieedziesieciu` — martwe klucze albo lustro literówek
+   gry; próbka korpusu N=0, rozstrzygnięcie na pełnym korpusie (jeśli gra tak
+   drukuje, parser obejmuje i je).
 
 **Kantor — pełne zdarzenie bez kwoty (dowód korpusowy):** komenda `zdenominuj` (81 ech)
 drukuje wyłącznie `Twoje pieniadze zostaly zdenominowane.` (61×) lub `Twoje pieniadze
@@ -161,8 +171,11 @@ globalna** (wiki „Pieniądze"): 3% (Nuln, Novigrad, Wyzima, Ard Skellige, Carb
 5% (Ebino, Karak Varn, Parravon, Quenelles, Daevon, Baccala, Hagge, Maribor,
 Mons Arx, Oxenfurt, Rinde, Craag Ros, Athel-Loren, Campogrotta, Toskania), 8%
 (Kraina Zgromadzenia, Kreutzhofen, Ubersreik, Varieno, Averheim, Val'Kare, Twierdza
-Slaanesha); Guleta i Scala: depozyt bez denominacji. Tabliczka „8 procent" z korpusu
+Slaanesha, Zakon Sigmara — na mapie „Bank, Zamek Sigmara", Averland); Guleta i Scala:
+depozyt bez denominacji. Tabliczka „8 procent" z korpusu
 to stawka lokalna — stawka znana z góry per lokacja trafia do metadanych zdarzenia.
+Kantor spoza tabeli wiki: „Kantor, Bank, Sklep, Eysenlaan" (dane mapy, banki bez
+binda) — stawka nieznana, do ustalenia z tabliczki (tryb capture).
 
 **Nie istnieje w grze:** kradzież/okradzenie — poza katalogiem.
 
@@ -170,9 +183,11 @@ to stawka lokalna — stawka znana z góry per lokacja trafia do metadanych zdar
 życia, gruczoły pająków, kły wampirów, skalpy driad, zapiski) — płatność towarem
 bez nominału nie rusza księgi (twarda zasada); ewentualnie zdarzenie informacyjne.
 
-**GMCP:** brak kanału stanu gotówki — wniosek z architektury klienta (depozyty
-liczone tekstowo w `deposits.ts` mimo pełnego GMCP; `char.state` bez pola money).
-Wniosek pośredni, nie twardy dowód; kasa zawsze z tekstu lub premium storage.
+**GMCP:** brak kanału stanu gotówki — **potwierdzone w oficjalnej specyfikacji GMCP
+Arkadii** (forum t=740, akt. 2026-09-17): moduły Core, Char, Room, Objects,
+Gmcp_msgs, Mail; `Char.State` = hp/mana/fatigue/improve/form/intox/headache/
+stuffed/soaked/encumbrance/panic — żadnego pola pieniężnego; kod klienta (arkadia,
+Dargoth) subskrybuje zgodnie 1:1. Kasa zawsze z tekstu lub premium storage.
 
 ### 2.3 Bank i depozyty
 
@@ -634,6 +649,25 @@ toolkit denominacja + wiki „Pieniądze" + korpus; tjurczyk: brak modułu kasy)
     przychód/wydatek; linie wynikowe + migawka podglądu skatalogowane (§2.2).
 18. ~~Prowizja denominacji~~ — per bank 3/5/8% (wiki), nie globalna 8% (§2.2).
 
+Domknięte na analizie źródeł pieniędzy II 2026-09-17 (kod Dargotha: polishNumber-
+Converter/carriage/stoneValue/contracts/smith/shop/bagManager/prettyContainers/
+itemCollector/bilety + oficjalna specyfikacja GMCP forum t=740 + re-fetch wiki
+„Pieniądze" z kolumną Depozyt + korpus-próbka 33 logi; wiki „LPC": brak treści
+pieniężnych):
+19. ~~Pokrycie tabeli prowizji~~ — luka domknięta: Zakon Sigmara 8% (wiki) =
+    „Bank, Zamek Sigmara" (mapa, Averland); „Toscania" w tabeli wiki to literówka
+    — gra/mapa: Toskania (nasze dane poprawne); kantor Eysenlaan spoza wiki —
+    stawka nieznana → otwarte 6 (§2.2).
+20. ~~Wynajem wozu + kaucja~~ — osobny typ zdarzenia: dwie kwoty (najem = wydatek,
+    kaucja = depozyt zwrotny), pełna kaucja do 6h (kod carriage.ts); NIE przejazd
+    (§2.2).
+21. ~~Unia liczebników vs kod Dargotha~~ — konwerter Dargotha bez setek/tysięcy
+    (pokrywa Towarzysz); formy `dwu`- i `jednego/jednej`-złożenia tylko w contracts;
+    zbiorowe skatalogowane; typo-formy `piedziesiat/pieedziesieciu` → otwarte 7
+    (§2.2 reguła 7).
+22. ~~GMCP a gotówka~~ — definitywnie: oficjalna specyfikacja (forum t=740) nie ma
+    modułu/pola pieniężnego; księga zawsze tekstowa (§2.2).
+
 Nadal otwarte:
 1. Linia finalizacji zlecenia (po ostatniej dostawie — w korpusie zlecenie nie
    zostało ukończone: wciąż „potrzebuje jeszcze ponad kilogram") — tryb capture.
@@ -645,6 +679,12 @@ Nadal otwarte:
    — po stronie mapy, nieblokujące.
 5. Linia wynikowa komendy `sprawdz swoja reputacje` — nieznana (komenda nieużywana
    w korpusie) — tryb capture; reputacja śledzona heurystycznie per rewir (§2.1).
+6. Stawka prowizji kantoru Eysenlaan — tabliczka nieznana (wiki milczy) — tryb
+   capture.
+7. Typo-formy `piedziesiat/pieedziesieciu` (contracts.ts) — martwe klucze albo
+   literówki gry; próbka N=0 — re-check na pełnym korpusie 576 sesji.
+8. Linia refundacji kaucji wozu — format nieznany z kodu (klient nie triggeruje);
+   `Wynajmujesz` w próbce korpusu N=0 — capture lub pełny korpus.
 
 ---
 
@@ -746,6 +786,19 @@ Podjęte:
   metadane zdarzenia kantorowego (§2.2).
 - (2026-09-17, kod Towarzysza) Atrybucja `Otrzymujesz`: brak w aktualnym
   LOOT_PATTERNS — wzorzec trzymany na korpusie (§2.2).
+- (2026-09-17, wiki + mapa) Tabela prowizji kompletna: 8% obejmuje też Zakon
+  Sigmara („Bank, Zamek Sigmara", Averland); „Toscania" w tabeli wiki = literówka,
+  gra/mapa: Toskania; kantor Eysenlaan poza wiki — stawka capture (§2.2).
+- (2026-09-17, kod Dargotha) Wynajem wozu + kaucja: osobne zdarzenie usługowe —
+  koszt najmu = wydatek, kaucja = depozyt zwrotny (pełna do 6 h, potem częściowa);
+  NIE mylić z przejazdem `Placisz woznicy`; linia refundacji — capture (§2.2).
+- (2026-09-17, kod Dargotha) Parser liczebników = unia TRZECH tabel: Towarzysz
+  (mianownik + setki/tysiące) + contracts.ts (dopełniacz, `dwu`, złożenia
+  `jednego/jednej`) + polishNumberConverter (złożenia 21–99 oba przypadki,
+  zbiorowe); typo-formy na liście obserwowanej (§2.2 reguła 7).
+- (2026-09-17, spec GMCP forum t=740 + kod) Gotówka NIE istnieje w GMCP —
+  potwierdzone specyfikacją (moduły Core/Char/Room/Objects/Gmcp_msgs/Mail) i kodem;
+  księga zawsze tekstowa lub premium storage (§2.2).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
