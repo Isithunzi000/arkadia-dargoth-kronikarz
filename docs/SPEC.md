@@ -332,25 +332,40 @@ patternami.
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Zabójstwo własne | forma surowa (live, z kodu): `^[ >]*Zabil(?<v>es|as) (?<name>...)\.$`; **forma w logach HTML (backfill): klient przepisuje linię — `[ ZABILES ] Zabiles <name>. (<n> / <m>)`** | kod (kill.ts) + korpus (241 wyst., 103 unikalne) |
-| Zabójstwo drużyny | forma surowa: `^[ >]*(?<player>...) zabil(?<v>a?) (?<name>...)\.$`; w logach: `[ ZABIL ] <ktoś> zabil <name>. (n / m)`, `[ ZABILA ] <ktoś> zabila <name>. (n / m)` | kod (kill.ts) + korpus (174+150 wyst., 81+77 unikalnych) |
-| Suffix licznika | ` (n / m)` na końcu przepisanej linii — liczniki klienta; metadane gratis, parser toleruje i wykorzystuje | korpus |
+| Zabójstwo własne | forma surowa (live, z kodu): `^[ >]*Zabil(?<v>es|as) (?<name>...)\.$`; **forma w logach HTML (backfill): klient przepisuje linię — `[ ZABILES ] Zabiles <name>. (<n> / <m>)`, postać żeńska: `[  ZABILAS  ] Zabilas <name>. (n / m)` (kod; korpus N=0 — postać męska)** | kod (kill.ts) + korpus (241 wyst., 103 unikalne) |
+| Zabójstwo drużyny | forma surowa: `^[ >]*(?<player>...) zabil(?<v>a?) (?<name>...)\.$`; w logach: `[ ZABIL ] <ktoś> zabil <name>. (n / m)`, `[ ZABILA ] <ktoś> zabila <name>. (n / m)`. **Zabójca spoza drużyny (OTHER) dostaje ten sam prefix, ale BEZ suffixu licznika** (kod: `formatPrefix` z pustym licznikiem; korpus: `Feril zabil wscieklego groznego wilka.` 3×) — obce zabójstwo to **filtr, nie zdarzenie kroniki**: nigdy do statystyk własnych/drużyny | kod (kill.ts) + korpus (174+150 wyst., 81+77 unikalnych) |
+| Suffix licznika | ` (n / m)` na końcu przepisanej linii — **n = moje zabójstwa tego moba w sesji, m = moje + drużyny w sesji** (kod: `mySession / mySession + teamSession`, zakres sesyjny, NIE lifetime; korpus: `(0 / 1)`, `(5 / 17)`); metadane gratis, parser toleruje i wykorzystuje | kod + korpus |
 
 **Uwaga korpusowa (zabici):** surowa forma `Zabiles X.` w logach HTML **nie występuje**
 — klient przepisuje linię przed zapisem (prefix `[ ZABILES ]` / `[ ZABIL ]` /
 `[ ZABILA ]`, suffix licznika). Parser backfillu kotwiczy na przepisanej formie.
-**Znacznik ma dopełnienie spacjami do stałej szerokości** (łowisko v2: 1796 linii
-`[ ZABIL* ]` w korpusie): `[  ZABILES  ]` (2 spacje), `[   ZABIL   ]` /
-`[   ZABILA   ]` (3 spacje) — regex kotwiczy na `^\[\s*ZABIL(?:ES|A|)\s*\]`
-(sztywna pojedyncza spacja gubi 100% trafień). Forma trzecioosobowa drużyny też
+**Znacznik ma dopełnienie spacjami, ale szerokość dryfuje między wersjami klienta**
+(łowisko v2: 1796 linii `[ ZABIL* ]` w korpusie; digesty 2026-09-18: **1 spacja
+dominuje** — 115+81+77, 2 spacje 34, 3 spacje 14) — regex kotwiczy na
+`^\[\s*ZABIL(?:ES|AS|A|)\s*\]` (sztywna pojedyncza spacja gubi trafienia; `AS` =
+postać żeńska, wyżej). Forma trzecioosobowa drużyny też
 dotyczy szczurów (`[   ZABILA   ]  Gwenn zabila brudnego smierdzacego szczura.`).
 Szum do odfiltrowania: plotki NPC (`mowi: A wczoraj to... zabil`), opisy lokacji
-(`kosciotrup`, trupy), nazwy własne (Trupa Trupi Trup). Linie walki otoczenia noszą
-tagi `[1/6]`, `[par]`, `[unk]`. Zabójstwa szczurów (exp + bounty u szczurolapów) bez
-specjalnego traktowania — normalne wpisy statystyk; kasa za ciała to osobne zdarzenie
-bounty (§2.4).
-| Premium live | eventy API `kill` {killer: ME/TEAM/OTHER} i `enemyKilled` {objNum, killer, hasBody} | kod (plugin-types) |
-| Premium historia | IndexedDB `ArkadiaKillsDB` (indeks `character`) | kod |
+(`kosciotrup`, trupy), nazwy własne (Trupa Trupi Trup), **fałszywe dopasowanie
+regexu klienta** `Szerokie drzwi wejsciowe do rezydencji ktos zabil solidnie
+kilkoma deskami.` (korpus 3× — klient sam to oznaczył prefixem, bez licznika;
+twardy filtr: biernik narzędzi + „zabójca" będący opisem obiektu). Linie walki
+otoczenia noszą tagi `[1/6]`, `[par]`, `[unk]`. Zabójstwa szczurów (exp + bounty u
+szczurolapów) bez specjalnego traktowania — normalne wpisy statystyk; kasa za ciała
+to osobne zdarzenie bounty (§2.4).
+**Tagi gildii w liniach zabójstw (kod + korpus, 2026-09-18):** nazwy zabójców bywają
+obwieszone tagami klienta — korpus: `Spiczastouchy dlugonogi elf (Aynne GP)
+(Crevan ES) zabil brudnego brunatnego kobolda.` Parser ścina `(<imię> <KOD>)`
+z nazw zabójców i ofiar. Pełny alfabet 22 kodów (peopleGuilds.ts): CKN, ES, SC, KS,
+KM, OS, OHM, SGW, BK, WKS, LE, KG, KGKS, MC, OK, RA, GL, ZT, ZS, ZH, NPC, GP.
+**Normalizacja nazw mobów (upstream):** klucz = ostatnie słowo małą literą
+(zostaje w dopełniaczu: „szczura", „wilka") albo dwuwyrazowy wyjątek z listy 26
+(identycznej w Dargoth i Mudlecie) albo nazwa własna (1 słowo, wielka litera);
+tag przy nazwie ofiary zanieczyszcza klucz upstream (korpus N=0) — Kronikarz ścina
+tagi przed normalizacją.
+
+| Premium live | eventy API `kill` {killer: ME/TEAM/OTHER} i `enemyKilled` {objNum, killer, hasBody}; eventBus `zabici.updated` (sesja) i `zabici2.updated` (lifetime); aliasy klienta: `/zabici`, `/zabiciw`, `/zabici2`, `/zabici2 [rrrr/m/d]`, `/zabici2w`, `/zabici2!`, `/zabici_reset` | kod (kill.ts, plugin-types) |
+| Premium historia | characterStorage: `kill_counter` (lifetime), `kill_counter_session`, `kill_counter_team` (per gracz); IndexedDB `ArkadiaKillsDB` — rekord per postać+mob+data, zapis **tylko własnych** zabójstw, odczyt per data/grupowanie/statystyki globalne, import rekordów | kod (kill.ts, killLifetimeStorage.ts) |
 
 ### 2.6 Postępy
 
@@ -758,6 +773,10 @@ Nadal otwarte (uzupełnienie):
 10. `sto+` słownie w listach depozytu — konwerter klienta ślepy (1–99), unia
     Kronikarza pokrywa; częstotliwość nieznana — re-check pełny korpus.
 11. Eysenlaan: czy „Kantor, Bank, Sklep" oferuje depozyt (wiki milczy) — capture.
+12. Zabójstwa followerów/charmów drużynowych — czy przechodzą przez bramkę drużyny
+    i jak wygląda ich linia: korpus N=0 (drużyna = sami gracze) — capture.
+13. Tag `(NPC)` przy nazwie OFIARY w linii zabójstwa — korpus N=0 (widziane tylko
+    przy zabójcy); parser ścina tagi prewencyjnie (§2.5) — capture opisowe.
 
 Domknięte na analizie źródeł zleceń 2026-09-17 (Dargoth contracts.ts +
 deliveryStats.ts + polishNumberConverter + Mudlet/tjurczyk/Towarzysz (brak modułu
@@ -776,6 +795,18 @@ zleceń) + wiki (brak strony o systemie zleceń) + korpus-łowisko 576 sesji (of
     (`siedemdziesieciu dwoch kilogramow` = 72 kg) i 100 cyframi (`110
     kilogramow`); tabela contracts.ts ślepa powyżej 50 — parser Kronikarza na
     unii liczebników + cyfry (§2.4 blok liczebników).
+
+Domknięte na analizie źródeł zabici 2026-09-18 (Dargoth kill.ts +
+killLifetimeStorage.ts w całości + Mudlet counter/counter2/utils + tjurczyk +
+Towarzysz (brak modułu) + wiki (brak strony) + korpus 576 sesji (dwa digesty) +
+próbka logów HTML):
+31. ~~Komplet form prefixów zabójstw~~ — ZABILES/ZABILAS/ZABIL/ZABILA (`AS` =
+    postać żeńska, kod; korpus N=0) + OTHER bez licznika; padding 1–3 spacje,
+    dominanta 1 (korpus 576) — regex `^\[\s*ZABIL(?:ES|AS|A|)\s*\]` (§2.5).
+32. ~~Semantyka `(n / m)`~~ — sesyjne liczniki per mob (mySession /
+    mySession+teamSession), NIE lifetime (§2.5 Suffix licznika).
+33. ~~Obce zabójstwa~~ — prefix bez licznika = zabójca spoza drużyny (kod +
+    korpus); decyzja: filtr, nie zdarzenie kroniki (§2.5).
 
 ---
 
@@ -831,6 +862,8 @@ Podjęte:
   dostawą osobno (para postęp+zapłata na sztukę/kg), bez osobnego zdarzenia
   finansowego „finalizacji" — księga zleceń kompletna na liniach par; dawna
   kwestia „linii finalizacji" domknięta jako nieistniejąca kasowo (§2.4, §10: 28).
+- (2026-09-18, decyzja) Obce zabójstwa (OTHER — prefix bez licznika) to filtr,
+  nie zdarzenie kroniki: nie trafiają do statystyk własnych ani drużyny (§2.5).
 - (2026-09-17, korpus III) Paczka spóźniona potwierdzona: `Niestety, ale
   dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.`
   — wypłata pomniejszona (§2.1).
