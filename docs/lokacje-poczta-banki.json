@@ -751,8 +751,8 @@
         "<NPC> drapieznym ruchem zgarnia <kwota> (wtret przed czasownikiem)",
         "odbiera od ciebie <kwota slownie> w zamian za zakupiony towar"
       ],
-      "parser": "multi-nominal ze spojnikiem 'i'; moneta/monety/monet; liczby mieszane slownie+cyfry w jednej liscie; kotwica na kwocie nie koncu linii; liczebniki nieokreslone (wiele/kilka/sporo/troche/duzo) -> kwota NULL nigdy 0/1 (Towarzysz dalby 1 przez 'amount ?? 1', toolkit 0); unia tabel liczebnikow: mianownik (Towarzysz polishNumbers) + dopelniacz/biernik (klient contracts POLISH_NUMBERS, dwuwyrazowe 'trzydziestu jeden')",
-      "wycena": "surowa gra: 'Wydaje ci sie, ze jest wart okolo N miedziakow.' — w logach HTML klient DOKLEJA ', czyli X zl, Y sr, Z mdz' (priceEvaluation.processItemValue; korpus 1030x dla 170 mdz) — backfill odcina sufiks; warianty stosu z kodu: 'Sa tu N sztuki warte ...' / 'Jest tu N sztuk wartych ...' (korpus N=0); 'nie ma wiekszej wartosci' bez kwoty",
+      "parser": "multi-nominal ze spojnikiem 'i'; moneta/monety/monet; liczby mieszane slownie+cyfry w jednej liscie; kotwica na kwocie nie koncu linii; liczebniki nieokreslone (wiele/kilka/sporo/troche/duzo) -> kwota NULL nigdy 0/1 (Towarzysz dalby 1 przez 'amount ?? 1', toolkit 0); unia TRZECH tabel liczebnikow: mianownik+setki/tysiace (Towarzysz polishNumbers) + dopelniacz/biernik (contracts POLISH_NUMBERS: 'dwu', zlozenia 'dwudziestu/trzydziestu/czterdziestu dwu', 'dwudziestu jednego/jednej') + polishNumberConverter Dargotha (257 form: mian.+dopeln. 1-99 ze wszystkimi zlozeniami dwuwyrazowymi 21-99 w obu przypadkach + zbiorowe 'dwoje...dziesiecioro' z odmiana; konwerter NIE zna setek/tysiecy — pokrywa Towarzysz); typo-formy 'piedziesiat'/'pieedziesieciu' (contracts) — martwe klucze albo literowki gry, probka N=0, re-check pelny korpus",
+      "wycena": "surowa gra: 'Wydaje ci sie, ze jest wart okolo N miedziakow.' — w logach HTML klient DOKLEJA ', czyli X zl, Y sr, Z mdz' (priceEvaluation.processItemValue; korpus 1030x dla 170 mdz) — backfill odcina sufiks; warianty stosu z kodu: 'Sa tu N sztuki warte ...' / 'Jest tu N sztuk wartych ...' (korpus N=0) — wariant 'Jest tu' z opcjonalnym prefiksem 'Wydaje ci sie, ze ' (stoneValue.ts); 'nie ma wiekszej wartosci' bez kwoty",
       "transfery_pojemniki": {
         "linie": "Wkladasz/Bierzesz <kwota> monet do/z otwartej/otwartego <sakiewki/plecaka> (korpus 126x/111x/62x...); skrzynka depozytowa = galaz bankowa (sekcja bank_depozyt)",
         "ksiega": "TRANSFER gotowka<->pojemnik — nigdy przychod/wydatek; kwota czesto 'wiele' -> null",
@@ -760,7 +760,16 @@
       },
       "loot_trojpodzial_bierzesz": "z ciala/sterty = lup; z otwartego pojemnika = transfer; bez zrodla = lup z ziemi (korpus N=0, pattern gry; Towarzysz swiadomie pomija loot z ziemi — Kronikarz lapie)",
       "barter_wykluczenie": "nietypowe srodki platnicze (wiki: esencja zycia, gruczoly pajakow, kly wampirow, skalpy driad, zapiski) — brak nominalu = ksiega nietknieta; ew. zdarzenie informacyjne",
-      "gmcp": "brak kanalu stanu gotowki (wniosek z architektury klienta: depozyty liczone tekstowo mimo pelnego GMCP) — posredni, nie twardy dowod"
+      "gmcp": "brak kanalu stanu gotowki — POTWIERDZONE oficjalna specyfikacja GMCP Arkadii (forum t=740, akt. 2026-09-17): moduly Core/Char/Room/Objects/Gmcp_msgs/Mail; Char.State = hp/mana/fatigue/improve/form/intox/headache/stuffed/soaked/encumbrance/panic (zadnego pola pienieznego); kod klienta (arkadia, Dargoth) zgodny 1:1 — kasa zawsze z tekstu lub premium storage",
+      "wynajem_kaucja": {
+        "linia": "Wynajmujesz lekki woz, placac dwadziescia piec zlotych monet kosztu najmu oraz jedna mithrylowa monete zwrotnej kaucji.",
+        "pattern": "^Wynajmujesz (.+?),? placac (.+?) kosztu najmu(?: oraz)? (.+?) (?:zwrotnej )?kaucji\\.$ (przecinek, 'oraz', 'zwrotnej' opcjonalne)",
+        "ksiega": "koszt najmu = wydatek (usluga); kaucja = depozyt zwrotny (NIE wydatek)",
+        "zwrot": "linia 'Zwracasz <pojazd>'; pelna kaucja do 6h od wynajmu, potem czesciowa (DEPOSIT_VALID_MS w carriage.ts)",
+        "refundacja": "format linii zwrotu kaucji nieznany z kodu (klient nie triggeruje — prawdopodobnie generyczna linia przychodu) — tryb capture / pelny korpus",
+        "rozroznienie": "NIE przejazd ('Placisz woznicy') — osobna galaz uslugowa",
+        "zrodlo": "kod klienta Dargoth: carriage.ts (2026-09-17)"
+      }
     },
     "kantor": {
       "status": "pelnoprawne zdarzenie kroniki — niemierzalne kwotowo (potwierdzone: zero kwot w kontekstach 'zdenominuj', 81 ech), ale timestampowane i lokalizowane",
@@ -778,7 +787,7 @@
         "Kantor."
       ],
       "statystyki": "lacznie, per kantor, per postac, per sesja; filtry globalne (zakresy dat + typy zdarzen) obejmuja kantor jak kazde zdarzenie",
-      "prowizja": "PER BANK (wiki 'Pieniadze', akt. 2026-09-17): 3% Nuln/Novigrad/Wyzima/Ard Skellige/Carbon; 5% Ebino/Karak Varn/Parravon/Quenelles/Daevon/Baccala/Hagge/Maribor/Mons Arx/Oxenfurt/Rinde/Craag Ros/Athel-Loren/Campogrotta/Toskania; 8% Kraina Zgromadzenia/Kreutzhofen/Ubersreik/Varieno/Averheim/Val'Kare/Twierdza Slaanesha; Guleta/Scala: depozyt bez denominacji. Tabliczka korpusowa 'Za kazda transakcje pobieramy tylko 8 procent prowizji.' = stawka lokalna, nie globalna. Kwotowo niemierzalna (zero kwot w kontekstach zdenominuj) — poza bilansowaniem, stawka jako metadane zdarzenia",
+      "prowizja": "PER BANK (wiki 'Pieniadze', akt. 2026-09-17): 3% Nuln/Novigrad/Wyzima/Ard Skellige/Carbon; 5% Ebino/Karak Varn/Parravon/Quenelles/Daevon/Baccala/Hagge/Maribor/Mons Arx/Oxenfurt/Rinde/Craag Ros/Athel-Loren/Campogrotta/Toskania; 8% Kraina Zgromadzenia/Kreutzhofen/Ubersreik/Varieno/Averheim/Val'Kare/Twierdza Slaanesha/Zakon Sigmara (mapa: 'Bank, Zamek Sigmara', Averland); Guleta/Scala: depozyt bez denominacji. Poza tabela wiki: 'Kantor, Bank, Sklep, Eysenlaan' (dane mapy, banki_bez_binda) — stawka NIEZNANA, do ustalenia z tabliczki (tryb capture). 'Toscania' w tabeli wiki = literowka, gra/mapa: Toskania. Tabliczka korpusowa 'Za kazda transakcje pobieramy tylko 8 procent prowizji.' = stawka lokalna, nie globalna. Kwotowo niemierzalna (zero kwot w kontekstach zdenominuj) — poza bilansowaniem, stawka jako metadane zdarzenia",
       "menu": [
         "zamienic miedz i srebro na zloto",
         "zamienic 1 mithrylowa monete na miedziane monety",
