@@ -375,11 +375,39 @@ tagi przed normalizacją.
 | Linia tekstowa (sesyjna) | `Poczynil(?:es|as) (.*) postepy, od momentu kiedy .* gry\.$` + wariant bez „momentu": `..., od kiedy wszedles do gry.` + zerowy `Nie poczynil(?:es|as) zadnych postepow...` | kod + korpus (197 wyst. przy 9 echach — **linia jest spontanicznym pushem gry**, nie tylko odpowiedzią na komendę) |
 | Linia eksploracji | `Masz wrazenie, iz ostatnimi czasy poczynil(?:es|as) (.*) postepy w poznawaniu swiata.` (+ wariant zerowy) | korpus (155 wyst.) |
 | Linia nauki | `Wydaje ci sie, ze poczynil(?:es|as) (.*) postepy w nauce.` | korpus (18 wyst.) |
-| Skala | 16 poziomów: minimalne, nieznaczne, bardzo małe, małe, nieduże, zadowalające, spore, znaczne, dość duże, duże, bardzo duże, ogromne, wspaniałe, imponujące, niebotyczne, gigantyczne = 1:1 `IMPROVE_STATES` klienta | kod + wiki + korpus (wszystkie 16 gradacji obecne) |
+| Skala | 16 poziomów (0–15): minimalne, nieznaczne, bardzo małe, małe, nieduże, zadowalające, spore, dość duże, znaczne, duże, bardzo duże, ogromne, imponujące, wspaniałe, gigantyczne, niebotyczne = 1:1 `IMPROVE_STATES` klienta | kod (Dargoth improveCounter + Mudlet improve/progress) + wiki + korpus (wszystkie 16 gradacji obecne) — **errata 2026-09-18**: wcześniejsza tabela miała 2 zamiany (7↔8 i 12–15), poprawiona wg 4 zgodnych źródeł |
 
 Linia tekstowa pojawia się samoistnie (push) — **pełny backfill historii postępów
 z samych logów jest możliwy**, bez zależności od ech `→ postepy`. Na żywo służy jako
 koroboracja GMCP. Licznik postępów resetuje się przy wylogowaniu — naturalnie sesyjny.
+
+Mechanika poziomów (kod Dargotha improveCounter + Mudlet + wiki „Doświadczenie"):
+
+- **Poziom 0** = „zadne/mini" (teksty `zadnych` i `minimalne` oba mapują na 0);
+  liczniki go ignorują — to nie jest zdarzenie kroniki.
+- **Skok delta > 1**: klient emituje każdy poziom pośredni osobno (pętla `record`
+  per poziom) — kronika robi tak samo: jeden wpis per poziom, każdy z własnym
+  timestampem, nigdy zbiorczy „skok +N".
+- **Reconnect / absorb**: rozróżnienie per `object_num` — `recordInitial` (cichy
+  catch-up po reconnect lub nowej sesji, bez duplikowania wpisów) vs `record`
+  (zdarzenie); spadek poziomu przy fresh login = absorb między sesjami (reset
+  poziomu bazowego). Spadek w trakcie sesji klient ignoruje → otwarte 14–15 (§10).
+- **Postępy przy niepełnej formie** liczone osobno (`optionsForm === 1 &&
+  stateForm < 3`, licznik `noFormCount`) — adnotacja w wpisie.
+- **Prezentacja**: 15 postępów = 1 „niebotyczne" (`N niebotycznych + <stan>`) —
+  dotyczy wyłącznie widoku statystyk, nie formatu wpisu kroniki.
+- **Semantyka wiki**: 1 poziom = ułamek **całkowitego** doświadczenia postaci —
+  czas między wbiciami NIE jest porównywalny między postaciami o różnej sile;
+  kronika nie traktuje go jako metryki tempa.
+- **Linia kliencka wbicia**: klient drukuje własny komunikat (tab +
+  `Wlasnie wbiles postepy: <stan> (czas: m:ss)`) — to NIE jest linia gry; digest
+  korpusu N=0, re-check na pełnym korpusie → otwarte 16 (§10).
+- **Kontekst wpisu**: licznik zapisuje przy każdym wbiciu czas od poprzedniego
+  (m:ss) i snapshot zabójstw — czy trafia do formatu wpisu: decyzja odłożona
+  → otwarte 17 (§10).
+- Technikalia klienta (referencja): aliasy `/postepy*` (10), storage
+  `improve_counter` / `improve_counter_lifetime` (per `rrrr/m/d`), eventBus
+  `postepy.updated` / `postepy2.updated`.
 
 ### 2.7 Cechy
 
@@ -777,6 +805,16 @@ Nadal otwarte (uzupełnienie):
     i jak wygląda ich linia: korpus N=0 (drużyna = sami gracze) — capture.
 13. Tag `(NPC)` przy nazwie OFIARY w linii zabójstwa — korpus N=0 (widziane tylko
     przy zabójcy); parser ścina tagi prewencyjnie (§2.5) — capture opisowe.
+14. Zachowanie GMCP `improve` na szczycie skali (15): cap (zostaje 15) czy wrap
+    (spada do 0)? Kod klienta spadek w trakcie sesji ignoruje — przy wrap licznik
+    zamiera do końca sesji; źródła milczą — capture live.
+15. Czy śmierć lub inne zdarzenie obniża `improve` w trakcie sesji — kod traktuje
+    spadek wyłącznie przy fresh login (absorb między sesjami) — capture live.
+16. Linia kliencka wbicia `Wlasnie wbiles postepy: ... (czas: m:ss)` — digest
+    korpusu N=0; do potwierdzenia, że MUD nie drukuje własnej linii przy wbiciu
+    (kanał czysto GMCP) — re-check pełny korpus.
+17. Format wpisu postępu: czy wpis zawiera czas od poprzedniego wbicia i licznik
+    zabójstw między wbiciami (licznik klienta zapisuje oba) — decyzja odłożona.
 
 Domknięte na analizie źródeł zleceń 2026-09-17 (Dargoth contracts.ts +
 deliveryStats.ts + polishNumberConverter + Mudlet/tjurczyk/Towarzysz (brak modułu
@@ -807,6 +845,23 @@ próbka logów HTML):
     mySession+teamSession), NIE lifetime (§2.5 Suffix licznika).
 33. ~~Obce zabójstwa~~ — prefix bez licznika = zabójca spoza drużyny (kod +
     korpus); decyzja: filtr, nie zdarzenie kroniki (§2.5).
+
+Domknięte na analizie źródeł postępów 2026-09-18 (Dargoth improveCounter.ts w
+całości + Mudlet improve/progress/gmcp_handler_improvement/improve2 + tjurczyk +
+Towarzysz (brak modułu) + wiki „Doświadczenie" + korpus 576 sesji (digesty)):
+34. ~~Kanoniczna kolejność skali gradacji~~ — 4 źródła zgodne (kod Dargoth
+    `IMPROVE_STATES`, Mudlet improve.lua, Mudlet progress.lua, wiki): 0 minimalne,
+    1 nieznaczne, 2 bardzo małe, 3 małe, 4 nieduże, 5 zadowalające, 6 spore,
+    7 dość duże, 8 znaczne, 9 duże, 10 bardzo duże, 11 ogromne, 12 imponujące,
+    13 wspaniałe, 14 gigantyczne, 15 niebotyczne; dawna tabela SPEC miała 2 zamiany
+    (7↔8, 12–15) — poprawiona (§2.6 Skala).
+35. ~~Semantyka poziomu 0~~ — „zadne/mini" (teksty `zadnych`/`minimalne` = 0);
+    liczniki ignorują 0 — nie zdarzenie kroniki (§2.6).
+36. ~~Skok delta > 1~~ — klient emituje każdy poziom pośredni osobno; kronika:
+    wpis per poziom z własnym timestampem (§2.6).
+37. ~~Reconnect / absorb~~ — rozróżnienie per `object_num`: `recordInitial` (cichy
+    catch-up, zero duplikatów) vs `record`; spadek przy fresh login = absorb między
+    sesjami, reset poziomu bazowego (§2.6); spadek mid-session → otwarte 14–15.
 
 ---
 
@@ -864,6 +919,13 @@ Podjęte:
   kwestia „linii finalizacji" domknięta jako nieistniejąca kasowo (§2.4, §10: 28).
 - (2026-09-18, decyzja) Obce zabójstwa (OTHER — prefix bez licznika) to filtr,
   nie zdarzenie kroniki: nie trafiają do statystyk własnych ani drużyny (§2.5).
+- (2026-09-18, kod ×2 + Mudlet ×2 + wiki) Korekta skali gradacji postępów:
+  kanoniczna kolejność 0–15 wg czterech zgodnych źródeł; dawna tabela §2.6 miała
+  2 zamiany (7↔8 i 12–15) przy deklaracji „1:1 IMPROVE_STATES" — poprawiona;
+  mapowanie GMCP liczba→nazwa kotwiczy na kodzie klienta (§2.6, §10: 34).
+- (2026-09-18, kod) Skok `improve` o delta > 1 = osobny wpis per poziom pośredni
+  (jak `record` w pętli klienta), każdy z własnym timestampem; nigdy wpis
+  zbiorczy (§2.6).
 - (2026-09-17, korpus III) Paczka spóźniona potwierdzona: `Niestety, ale
   dostarczyles przesylke po terminie. Dlatego moge ci za nia zaplacic tylko tyle.`
   — wypłata pomniejszona (§2.1).
