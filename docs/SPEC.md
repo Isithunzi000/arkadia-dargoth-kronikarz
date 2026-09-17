@@ -1,8 +1,9 @@
 # Kronikarz — specyfikacja produktu
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
-Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-16 (analiza korpusu:
-576 plików HTML klienta Dargoth, 3 865 554 linii, 13 kategorii patternów).
+Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (pelny korpus:
+skrypty ekstrakcyjne v1-v5 na 576 sesjach HTML, 3 865 554 linii; domkniecia
+46-58, errata §10:40).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -60,7 +61,7 @@ Maszyna stanów przeniesiona z modułu `analizator` repo arkadia-python-toolkit
 | Kamień milowy zaufania | `Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac.`, `Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke.` | korpus (14× / 45×) |
 | Odmowa odbioru | `Ty juz dla nas dostatecznie ciezko zapracowales`, `Nie ufam ci na tyle, aby powierzyc ci dostarczenie tej przesylki`, `Cos ci sie chyba pomylilo, nie ma takiej oferty`, `nie widzisz tu nikogo, od kogo mozna by wziac zlecenie`; filtrowanie cudzych odmów: liczą się tylko linie `mowi do ciebie`, nie `mowi do <inny gracz>` | kod (tjurczyk) + korpus |
 | Nieoddana | paczka otwarta bez domknięcia; persystowana między sesjami, widoczna w raporcie jako „w toku" | projekt |
-| Reputacja pocztowa | licznik heurystyczny per rewir (dostawa +1, spóźnienie/zwrot −1, zagubienie = blokada ofert ~24 h); kalibracja komendą `sprawdz swoja reputacje` (linia wynikowa nieznana — capture); kamienie milowe zaufania (wiersz wyżej) jako pośredni sygnał progu | wiki + korpus |
+| Reputacja pocztowa | licznik heurystyczny per rewir (dostawa +1, spóźnienie/zwrot −1, zagubienie = blokada ofert ~24 h); kalibracja komendą `sprawdz swoja reputacje` — **skala 6 gradacji odpowiedzi pracownika poczty (pelny korpus)**: `Nie znam cie wcale.` / `Moge ci powierzyc jedynie przesylki lokalne i do najblizszych miasteczek.` / `Nie powierze ci zadnej dalszej przesylki, ale ufam na tyle, aby dac jakas blizsza.` / `Tak, ufam ci na tyle, aby powierzyc ci nawet te dalsze przesylki.` / `Uwazam cie za osobe wiarygodna i powierze ci kazda przesylke, ktorej zechcesz sie podjac.` (+ dopisek o przystapieniu do pocztylionow) / wariant formy trzecioosobowej per NPC: `Jestes uwazany za naprawde wiarygodna osobe, w zwiazku z tym moge powierzyc ci prawie kazda przesylke.`; kamienie milowe zaufania (wiersz wyżej) jako pośredni sygnał progu | wiki + korpus (gradacje: pelny korpus 576 sesji) |
 
 Statusy paczki: **dostarczona, spóźniona, zwrócona, nieoddana** — wszystkie obsługiwane.
 Ekwiwalent `_merge_cross_session` z toolkitu: paczka w toku przetrwa relogin (storage).
@@ -150,10 +151,14 @@ we wzorzec `zgarnia ... monet` — reguła kwoty z liczbą odfiltrowuje go autom
    z odmianą) — konwerter NIE zna setek ani tysięcy (pokrywa je Towarzysz);
    contracts.ts dodaje formy spoza konwertera: `dwu`, `dwudziestu/trzydziestu/
    czterdziestu dwu`, złożenia z `jednego/jednej` (`dwudziestu jednego`…) — unia
-   Kronikarza obejmuje wszystkie trzy tabele. Anomalia: contracts.ts zawiera
-   typo-formy `piedziesiat`, `pieedziesieciu` — martwe klucze albo lustro literówek
-   gry; próbka korpusu N=0, rozstrzygnięcie na pełnym korpusie (jeśli gra tak
-   drukuje, parser obejmuje i je).
+   Kronikarza obejmuje wszystkie trzy tabele. Anomalia rozstrzygnięta (pelny
+   korpus 576 sesji): typo-formy contracts.ts `piedziesiat`, `pieedziesieciu`
+   to **martwe klucze** (N=0) — gra jest spojna: 4 warianty 50-tki
+   (`piecdziesiat`, `piecdziesieciu`, `piecdziesiata`, `piecdziesiecioma`);
+   forma `piescdziesiat` to literowka GRACZA w mowie (kanal comm), nie tekst
+   gry — poza parserem kwot. Formy zlozone jednostka+setka slownie
+   (`siedem czterysta`, `tysiac szescset`) wystepuja w mowie graczy, nie w
+   liniach kasowych — unia pokrywa je zapasowo.
 
 **Kantor — pełne zdarzenie bez kwoty (dowód korpusowy):** komenda `zdenominuj` (81 ech)
 drukuje wyłącznie `Twoje pieniadze zostaly zdenominowane.` (61×) lub `Twoje pieniadze
@@ -164,8 +169,10 @@ banku w Daevon.`, `Kantorek Vimme Vivaldiego.`, `Posterunek celny i kantor wymia
 walut.`, `Niewielki kantorek.`, generyczny `Kantor.`) oraz wynik (wykonana /
 maksymalnie zdenominowane). Zdarzenie wchodzi do osi czasu, wyszukiwania i filtrów
 jak każde inne; statystyki: łącznie, per kantor, per postać, per sesja. Z tabliczek
-kantorów: `Za kazda transakcje pobieramy tylko 8 procent prowizji.` — prowizja 8%
-pozostaje niewidzialnym mikrowydatkiem (wymiana nie zmienia majątku poza prowizją).
+kantorów: `Za kazda transakcje pobieramy tylko 8 procent prowizji.` (forma slowna)
+oraz druga forma z procentem cyfra `...pobieramy tylko 5% prowizji.` (pelny
+korpus: 14 wyst.); tabliczka 3% potwierdzona korpusem u Vimme Vivaldiego —
+prowizja pozostaje niewidzialnym mikrowydatkiem (wymiana nie zmienia majątku poza prowizją).
 Świadomie poza bilansowaniem — ale nie poza kroniką. **Prowizja jest per bank, nie
 globalna** (wiki „Pieniądze"): 3% (Nuln, Novigrad, Wyzima, Ard Skellige, Carbon),
 5% (Ebino, Karak Varn, Parravon, Quenelles, Daevon, Baccala, Hagge, Maribor,
@@ -197,25 +204,26 @@ Dargoth) subskrybuje zgodnie 1:1. Kasa zawsze z tekstu lub premium storage.
 | Wpłata / wypłata | triggery kontekstowe na lokacji z bindem `depozyt` (lista referencyjna, §5); linie `Wkladasz/Bierzesz <coś> do/z otwartej skrzynki depozytowej.` (w tym monety: `Wkladasz dwie mithrylowe monety do otwartej skrzynki depozytowej.`) | kod + mapa + korpus |
 | Wykupienie / rozbudowa skrzynki | **wydatek kategorii „usługa bankowa"**: podstawa 50 złotych, poziomy rozbudowy 2 / 5 / 10 / 20 mithryli (wiki „Skrytki"); raz wykupiona działa **do końca gry postacią** (zero odnawiania; śmierć = utrata depozytu, §2.8); limit 25 przedmiotów w depozycie niezależnie od rozbudowy (stos jednego rodzaju = 1 przedmiot; notka Mistrza Rafgarta na tablicy, korpus). Linia gry nieznana (żaden klient nie triggeruje, korpusy nie pokazały) + komenda pomocy `?depozyt` — **tryb capture** | wiki „Skrytki" + korpus (tablica) |
 | Cudze operacje | `<Gracz> bierze ... ze swojej otwartej skrzynki depozytowej.` / `<Gracz> wklada ... do swojej otwartej skrzynki depozytowej.` — marker `swojej` = odfiltrować (nie nasz depozyt) | korpus |
-| Stan konta per bank | premium: odczyt storage klienta klucz `deposits` (characterStorage); klient trzyma `wiele` jako pseudo-count `'wie'` poza sumą (zgodne z regułą 6 §2.2); konwerter klienta kończy na 99 — lista z `sto+` słownie nie sparsuje się klientowi, unia Kronikarza pokrywa (§2.2 reguła 7) | kod |
+| Stan konta per bank | premium: odczyt storage klienta klucz `deposits` (characterStorage); klient trzyma `wiele` jako pseudo-count `'wie'` poza sumą (zgodne z regułą 6 §2.2); konwerter klienta kończy na 99 — lista z `sto+` słownie nie sparsuje się klientowi, unia Kronikarza pokrywa (§2.2 reguła 7); pelny korpus: forma `sto+` slownie N=0 w listach depozytu i liniach kasowych — unia z setkami zostaje zapasowo | kod + korpus (N=0 na 576 sesjach) |
 
 **Zasada księgowa:** wpłata i wypłata to **transfer** (przesunięcie gotówka ↔ bank),
 nigdy przychód ani wydatek. Bilans majątku pokazuje gotówkę i depozyty osobno i łącznie.
 
 Backfill: echo `→ depozyt` + odczyt w logach daje historię stanów banków. Nazwy sal
 bankowych **w grze ≠ nazwy mapy** (gra: `Glowna sala banku.`, mapa: `Bank w Daevon`)
-— lista korpusowa nazw sal w danych referencyjnych (rosnie z korpusu/capture).
+— lista korpusowa 18 nazw sal domknieta na pelnym korpusie (dane referencyjne,
+klucz `korpus_pelny_2026_09_18`).
 
 **Komendy zarządzania depozytem** (wiki „Skrytki"): `przejrzyj [pobieznie] <co>
 [z czego]` (filtry: uszkodzone, naprawialne, typy broni/zbroi), `wybierz <co>` —
 echo tych komend w backfillu to markery kontekstu depozytowego (rodzina
 `→ przejrzyj depozyt`).
 
-**Komendy `wplac`/`wyplac`/`przelej` — status nieznany:** gra je zna (walidator
-asystenta Dargotha: „Komenda operuje na pieniadzach"; lista testowych komend
-Mudleta), ale konta procentowe zlikwidowano w 2011 (wiki „Pieniądze") — legacy
-albo żywe operacje (np. przelew gracz→gracz przez bank). Rozstrzygnięcie: capture
-przy banku + pełny korpus (otwarte §10).
+**Komendy `wplac`/`wyplac`/`przelej` — rozstrzygniete (pelny korpus 576 sesji):**
+`wplac`/`wyplac` N=0 — martwe legacy po likwidacji kont procentowych w 2011
+(wiki „Pieniądze"), **poza katalogiem**; `przelej` to komenda **przelewania
+plynow** (`Napelniasz/Dopelniasz <naczynie> <plynem> z <naczynia>`) — NIGDY
+operacja bankowa: kolizja nazwy, twardy filtr (zdarzenie nie wchodzi do ksiegi).
 
 **Zasada świata:** zakaz pośredniego i bezpośredniego przekazywania pieniędzy
 między własnymi postaciami gracza (wiki „Pieniądze") — kontekst interpretacji
@@ -361,8 +369,9 @@ KM, OS, OHM, SGW, BK, WKS, LE, KG, KGKS, MC, OK, RA, GL, ZT, ZS, ZH, NPC, GP.
 **Normalizacja nazw mobów (upstream):** klucz = ostatnie słowo małą literą
 (zostaje w dopełniaczu: „szczura", „wilka") albo dwuwyrazowy wyjątek z listy 26
 (identycznej w Dargoth i Mudlecie) albo nazwa własna (1 słowo, wielka litera);
-tag przy nazwie ofiary zanieczyszcza klucz upstream (korpus N=0) — Kronikarz ścina
-tagi przed normalizacją.
+tag przy nazwie ofiary zanieczyszcza klucz upstream — pelny korpus potwierdza
+N=0 (0/1796 linii zabojstw z tagiem `(NPC)` przy OFIERZE; tagi wystepuja
+wylacznie przy zabojcy) — Kronikarz ścina tagi przed normalizacją prewencyjnie.
 
 | Premium live | eventy API `kill` {killer: ME/TEAM/OTHER} i `enemyKilled` {objNum, killer, hasBody}; eventBus `zabici.updated` (sesja) i `zabici2.updated` (lifetime); aliasy klienta: `/zabici`, `/zabiciw`, `/zabici2`, `/zabici2 [rrrr/m/d]`, `/zabici2w`, `/zabici2!`, `/zabici_reset` | kod (kill.ts, plugin-types) |
 | Premium historia | characterStorage: `kill_counter` (lifetime), `kill_counter_session`, `kill_counter_team` (per gracz); IndexedDB `ArkadiaKillsDB` — rekord per postać+mob+data, zapis **tylko własnych** zabójstw, odczyt per data/grupowanie/statystyki globalne, import rekordów | kod (kill.ts, killLifetimeStorage.ts) |
@@ -400,8 +409,13 @@ Mechanika poziomów (kod Dargotha improveCounter + Mudlet + wiki „Doświadczen
   czas między wbiciami NIE jest porównywalny między postaciami o różnej sile;
   kronika nie traktuje go jako metryki tempa.
 - **Linia kliencka wbicia**: klient drukuje własny komunikat (tab +
-  `Wlasnie wbiles postepy: <stan> (czas: m:ss)`) — to NIE jest linia gry; digest
-  korpusu N=0, re-check na pełnym korpusie → otwarte 16 (§10).
+  `Wlasnie wbiles postepy: <stan> (czas: m:ss)`) — to NIE jest linia gry, ale
+  **println klienta jest logowany** (pelny korpus: 273 wyst. w 56 sesjach) —
+  backfill postepow zyskuje dokladne timestampy wbic; MUD nie drukuje wlasnej
+  linii wbicia (kanal czysto GMCP; towarzyszy jej linia sesyjna `Poczyniles
+  <stan> postepy...`). Korpusowy dowod emisji poziomow posrednich (delta > 1):
+  sekwencje `gigantyczne (czas: 24:52)` → `niebotyczne (czas: 0:00)` — kazdy
+  poziom osobno, zgodnie z mechanika `record` w petli (wyzej).
 - **Kontekst wpisu — decyzja 2026-09-18**: wpis prosty (stan + timestamp);
   czas od poprzedniego wbicia (m:ss) i snapshot zabójstw (my+team) trafiają do
   **metadanych audytowych** zdarzenia i zasilają weryfikator krzyżowy (§11).
@@ -421,16 +435,19 @@ zweryfikowanych patternów (klient: lvlCalc.ts; Mudlet lvl_calc.lua — tablice 
 
 **Tablice kanoniczne** (kod ×2 + wiki „Cechy"):
 
-- 5 cech × 9 poziomów + `nadludzki` = 10; anomalia: kod ×2 ma „thorzliwy" przy
-  odwadze 1, wiki „tchórzliwy" — korpus N=0, parser akceptuje obie formy
-  (otwarte 19);
+- 5 cech × 9 poziomów + `nadludzki` = 10; anomalia rozstrzygnieta (pelny korpus):
+  `tchorzliwy` 10× / `thorzliwy` 0× — **forma wiki jest kanoniczna** (gra ja
+  drukuje), forma kodowa `thorzliwy` zostaje w parserze zapasowo;
 - kroki do następnego poziomu: bardzo duzo=0, duzo=1, troche=2, niewiele=3,
   bardzo niewiele=4; suma cechy = (poziom−1)×5 + krok;
 - progi poziomu postaci: LEVEL_THRESHOLDS 58–190 (12 progów, 13 etykiet od
   „ktos niedoswiadczony" do „osoba owiana legenda"); rzeczownik `intelekt`
   mapowany na inteligencję;
 - komenda `poziomy` (pomoc gry) = referencja opisów poziomów — walidator skal;
-  output nieznany (otwarte 20).
+  output korpusowy: 35 list opisow poziomow (np. `→ poziomy sily`) + kompletna
+  skala cech zrodlem gry (sila: slabiutki, watly, slaby, krzepki, silny, mocny,
+  potezny, mocarny, epicko silny) — tablice kanoniczne potwierdzone Z GRY,
+  nie tylko z kodu klienta.
 
 Odczyt z modyfikatorem (sprzęt/zioła) jest odrzucany — nie zapisuje się fałszywej
 wartości; gate: `gmcp.char.options.state_modifiers===1` (wiki „Opcje": `opcje
@@ -438,24 +455,31 @@ modyfikatory wlacz`). Detekcja odczytu: event `command` = `cechy` + własny pars
 linii; komenda `cechy` jest **bezargumentowa** (pomoc gry) — subkomenda `cechy um`
 nie istnieje (echo w korpusie = literówka gracza, §10: 39). Linia `Twoj aktualny
 poziom to ...` w logach = generowana przez klienta (calculateLvl), nie przez grę
-(korpus N=0 zgodne z kodem).
+— **ERRATA (pelny korpus): linia WYSTEPUJE w logach wielokrotnie** (println
+klienta jest logowany razem z liniami gry; wniosek bez zmian: to nie jest linia
+gry; wczesniejsze digesty korpusu mylnie raportowaly N=0 — §10: 58).
 Premium: kanał live `cechy.read` (snapshot: odczyty/suma/poziom/osłabienie) +
 storage klienta `cechy_history` (MAX 500 wpisów, tylko zmiany, null per cecha
 zmodyfikowana, flaga estimated; pole `postepy` = lifetime postępów przy odczycie,
-czyli koszt zmiany cechy wyrażony w postępach). Rozszerzona linia osłabienia:
-`...By je odbudowac potrzebujesz zdobyc jeszcze <gradacja> postepy.` (16 gradacji
-+ `zadnych`).
+czyli koszt zmiany cechy wyrażony w postępach). Rozszerzona linia osłabienia
+(pelny korpus, 116 wyst.): `Twoje cechy sa oslabione po ostatniej smierci. By je
+odbudowac potrzebujesz zdobyc jeszcze <gradacja> postepy.` — gradacje = skala
+6-stopniowa z §2.8 (wszystkie 6 obecne w korpusie), NIE skala 16-stopniowa.
 Backfill: echo `→ cechy` + odczyt w logach. **Uwaga korpusowa:** logi HTML zawierają
 linie cech w wersji **wzbogaconej przez klienta** — `[18] Jestes krzepki [4/10] i
 niewiele [3/5] ci brakuje, zebys mogl wyzej ocenic swa sile.` — parser backfillu musi
 tolerować prefiks `[N]` i wstawki `[x/y]` (bonus: wartości liczbowe dostępne wprost).
+Po smierci klient dokleja przy prefiksie `[N]` wstawke `(±N)` = delta sumy cech
+od poprzedniego odczytu (korpus: `[19] (-4) Jestes krzepki ...`, `[23] (+1) ...`)
+— metadane gratis, parser toleruje; po smierci klient loguje tez wlasne paski
+cech `[---- ... ----]` i znacznik `[Szczescie wroci?]` (rozpoznawane i pomijane).
 
 ### 2.8 Śmierć
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
 | Śmierć własna | `^Umierasz\.$` (następna linia `Oddalasz sie.` to odejście duszy — ignorowana); przyczyna bywa środowiskowa, nie tylko walka (korpus: upadek — `Odpadasz od sciany i lecisz w dol...`) | kod (Towarzysz DEATH_PATTERNS) + korpus |
-| Osłabienie po śmierci | `Twoje cechy sa oslabione po ostatniej smierci\.` + **6 gradacji** wymaganych postępów: minimalne / bardzo małe / nieduże / nieznaczne / małe / zadowalające | kod (klient: afterDeathProgress, lvlCalc) + korpus (143 odczyty przy 10 śmierciach) |
+| Osłabienie po śmierci | `Twoje cechy sa oslabione po ostatniej smierci\.` (pelna forma rozszerzona: `... By je odbudowac potrzebujesz zdobyc jeszcze <gradacja> postepy.`) + **6 gradacji** wymaganych postępów: minimalne / bardzo małe / nieduże / nieznaczne / małe / zadowalające — **pelny korpus potwierdza tabele 1:1** (116 wyst. linii rozszerzonej, wszystkie 6 gradacji: minimalne 55, nieduze 25, nieznaczne 22, male 12, bardzo male i zadowalajace w blokach); 11 smierci z pelnym blokiem posmiertnym (sekwencja zaswiatow = flavor, nie ksiega; `Jestes ledwo zywy` po odrodzeniu) | kod (klient: afterDeathProgress, lvlCalc) + korpus (143 odczyty przy 10 śmierciach + pelny korpus: 116 wyst.) |
 | Śmierć członka drużyny | **„kto" rozstrzygnięte kodem**: diff `objects.nums` (przed→po) + akumulowane `objects.data` (id → {desc, team, hp}) identyfikuje ubyłego drużynowego w 100% — oba klienty tak akumulują (Dargoth `accumulatedObjectsData`, Mudlet `ateam.objs`); **„dlaczego ubył" w capture** (otwarte 18): dyskryminator śmierci vs wyjście/quit/teleport = brak linii odejścia + pojawienie się ciała w pokoju (wiki „Śmierć": ciało zostaje z dobytkiem, duch w zaświaty na kilka minut, odrodzenie wg opcji); forma ciała gracza, zachowanie `hp` i powrót ducha (ten sam id?) — nieznane, 1 obserwacja live; errata: flaga `living` NIE jest flagą śmierci (spec t=740: „istota żywa", zawsze true); linia tekstowa śmierci osób: korpus N=0 (576 sesji, zero śmierci drużynowych) | spec GMCP + korpus + kod ×2 + wiki „Śmierć" — zdarzenie live-only, brak backfillu; **zasięg: tylko ta sama lokacja** (GMCP milczy o innych pokojach — śmierć podzielonej drużyny poza zasięgiem, jawne ograniczenie); widok statystyk: „Zmarli czlonkowie druzyny" (decyzja 2026-09-18) |
 
 ### 2.9 Poczta (listy)
@@ -497,8 +521,8 @@ Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
 | Wzrost wiedzy (tick) | `Wydaje ci sie, ze twoja wiedza o <dziedzina> wzrosla nieznacznie\.` — gradacja zawsze „nieznacznie" (wiki: przekroczenie minipoziomu co 1%, 100 minipoziomow = pelna wiedza); wildcard z kodu Dargotha (`wzrosla .*`) jako fallback | wiki „Wiedza" + kod (Dargoth knowledge.ts KNOWLEDGE_TICK_PATTERN; Mudlet knowledge.lua: brak parsowania ticka) + korpus (8 dziedzin, wszystkie „nieznacznie") |
-| Pozyskanie fragmentu wiedzy | `Dowiadujesz sie czegos wiecej o <dziedzina>\.` — nowy wpis `* ` w migawce; gated opcja gry WIEDZA (wiki „Opcje") | wiki „Wiedza"; korpus N=0 → capture |
-| Pelna wiedza w dziedzinie | brak osobnej linii — rozstrzygalne z migawki komendy `wiedza o <dziedzinie>` (poziom `pelna`) lub z odczytu tytulu; tytul „Znawca <dziedziny>" | wiki „Wiedza" |
+| Pozyskanie fragmentu wiedzy | `Dowiadujesz sie czegos wiecej o <dziedzina>\.` — **pelny korpus: 266 wyst. w 68 sesjach** — promocja z capture na pelne zdarzenie kroniki (decyzja, §11); linia push gry, czesto w parze z linia czynu `Widziales/Ogladales/Sluchales opowiesci o/Analizowales <cos>.` (tez push; korpus: `Widziales kobolda.`, `Ogladales smocza luske.`, `Analizowales szczatki wippera.`); gated opcja gry WIEDZA (wiki „Opcje") | wiki „Wiedza" + korpus (266 wyst.) |
+| Pelna wiedza w dziedzinie | brak osobnej linii — rozstrzygalne z migawki komendy `wiedza o <dziedzinie>` (poziom `pelna`) lub z odczytu tytulu; tytul „Znawca <dziedziny>"; wariant korpusowy na who: „Znawca Wiedzy Wszelakiej" | wiki „Wiedza" + korpus |
 
 **14 dziedzin kanonicznych** (kod Dargoth `knowledgeCategories.ts` = Mudlet
 `knowledge.lua`, 1:1): Chaos i jego twory, goblinoidy, golemy, istoty demoniczne,
@@ -529,6 +553,12 @@ pelna (wiki + Mudlet knowledge_desc [1/10..10/10]); Dargoth dodaje `brak` na
 indeksie 0 (11 etykiet). Migawka rozbija dziedzine na 3 typy; linia ticka NIE
 mowi ktorego typu dotyczy — wpis kroniki = dziedzina + timestamp, typ nieznany.
 
+**Filtr szumu `porownaj` (pelny korpus):** linia `Wydaje ci sie, ze jestes <...>
+niz <kto>.` (komenda `porownaj`, z doklejkami klienta `(±N)`) dzieli prefiks
+`Wydaje ci sie, ze` z tickiem wiedzy i linia nauki (§2.6) — twardy filtr:
+kotwica ticka na pelnej frazie `twoja wiedza o ... wzrosla`, nigdy na samym
+prefiksie.
+
 Wpis kroniki: `12:03:44 — Wzrost wiedzy: goblinoidy.` Backfill mozliwy z logow
 (linia ticka jest pushem gry); koroboracja z migawki komendy `wiedza` (poziomy
 per dziedzina x typ). Decyzja 2026-09-18: wzrost wiedzy = zdarzenie kroniki (§11).
@@ -545,20 +575,35 @@ wiki): 1 ledwo, 2 troche, 3 pobieznie, 4 zadowalajaco, 5 niezle, 6 dobrze,
 
 **Typy** (wiki „Umiejętności"): ogólne (11), bojowe (16), magiczne (3),
 złodziejskie (6), praktyczne, językowe, specjalne. Komendy: `um`,
-`umiejetnosci [typ]`, `maksymalne [typ]` (pomoc gry; output `maksymalne` —
-otwarte 22).
+`umiejetnosci [typ]`, `maksymalne [typ]` (pomoc gry). Pelny korpus: echa
+`→ umiejetnosci [typ]` N=0 (gracz uzywa golego `um`, 623 wyst.) — filtry
+typow zostaja z pomocy gry (kod), bez potwierdzenia korpusowego; output
+`maksymalne` potwierdzony: surowa tabela 38 pozycji BEZ wstawek `[N/10]`
+(w przeciwienstwie do tabeli `um`).
 
 Modyfikacje klienta w logach: tabela `um` przepisana z wstawkami `[N/10]`
 (skillTable) — parser backfillu toleruje i odcina; wiersz tabeli rozpoznawany
 po słowniku poziomów (isSkillRow), obce linie w ramach tabeli przepuszczane.
-Modyfikator na wierszu `um` (suffix jak w cechach) — próbka N=0 → capture
-(otwarte 21).
+Modyfikator na wierszu `um` (suffix jak w cechach) — pelny korpus N=0
+(576 sesji): zostaje wylacznie z kodu, parser przygotowany. Mechanika
+diff-migawki potwierdzona korpusem: zmiana `topory: ledwo → troche` miedzy
+kolejnymi migawkami `um` w odstepie 5 minut (brak jakiejkolwiek linii push).
 
-**Koszt treningu** (decyzja 2026-09-18, §11): trening u mistrzów zawodu
-(`trenuj` / `trenuj intensywnie`) księgowany jako wydatek „usługa/trening" —
-wyłącznie łączna kwota wydana na treningi, bez atrybucji per umiejętność
-(indywidualne treningi nierozróżnialne kasowo); sam trening jako kategoria
-kroniki pozostaje poza zakresem.
+**Koszt treningu** (decyzja 2026-09-18, §11; mechanika z pelnego korpusu):
+trening u mistrzów zawodu księgowany jako wydatek „usługa/trening" —
+wyłącznie łączna kwota wydana na treningi. Sygnatury (korpus):
+`→ trenuj` (bez argumentu) drukuje **cennik**: `Oto umiejetnosci, w jakich
+mozesz sie szkolic:` + tabela dwukolumnowa `Umiejetnosc: / Koszt sesji
+treningowej:` z kwotami slownie per umiejetnosc (`walka dwiema bronmi
+5 srebrnych i 1 miedziana moneta`); sesja treningowa `→ trenuj <um>` →
+`Przechodzisz szkolenie w <opis>.` — **gra NIE drukuje linii kasowej przy
+pobraniu oplaty** (zero linii kasowej w 10 echach treningowych w korpusie);
+limit mistrza: `Obawiam sie, ze w tej dziedzinie nie naucze cie juz nic
+nowego. Moze jednak uda ci sie znalezc innego mistrza...` Księgowanie:
+koszt = liczba sesji `Przechodzisz szkolenie ...` × stawka z ostatniego
+znanego cennika tej lokacji (stawki per um dostepne jako metadane; suma
+łączna wg decyzji); sam trening jako kategoria kroniki pozostaje poza
+zakresem; trening meczy (`Jestes bardzo zmeczony.`).
 
 ### 2.14 Języki
 
@@ -571,12 +616,20 @@ dosc dobra, dobra, bardzo dobra, doskonala, prawie pelna, pelna — Dargoth
 languageLevels = Mudlet knowledge_desc = wiki „Wiedza").
 
 **20 języków** (wiki „Języki"): 14 Imperium + 6 Ishtar; nauka od innych graczy
-lub z pochodzenia postaci; Mroczna Mowa = mutacja. Komenda `jezyki
-maksymalne` — output nieznany (otwarte 22); klient trzyma poziomy maksymalne
-w storage `language_max_levels` (koroboracja premium).
+lub z pochodzenia postaci; Mroczna Mowa = mutacja. Linia negatywna komendy
+`jezyki`: `Nie znasz zadnych jezykow obcych.` (pelny korpus: 297 wyst.).
+Komenda `jezyki maksymalne` — output korpusowy: wiersze `<jezyk>: <poziom>`
+BEZ paskow (`starsza mowa: dobra`, `tileanski: pelna`, `reikspiel: pelna`);
+klient trzyma poziomy maksymalne
+w storage `language_max_levels` (koroboracja premium). Pomoc gry
+(`pomoc jezyki` → `Dostepne jezyki: ...`) potwierdza liste 14 jezykow
+Imperium zrodlem gry.
 
-Modyfikacje klienta w logach: paski postępu `[====    ]` doklejane do wierszy
-języków (gauge) — parser backfillu odcina.
+Modyfikacje klienta w logach: wiersz tabeli `jezyki` ma forme
+`<jezyk>:  <poziom>  [#---------]` — pasek klienta (gauge) o **zmiennej
+dlugosci skalowanej do poziomu maksymalnego** jezyka (korpus: `[#---------]`
+przy max pelna, `[#-----]` przy max dobra) — parser backfillu kotwiczy na
+poziomie slownym i odcina wszystko po nim, nigdy nie parsuje paska.
 
 ---
 
@@ -873,14 +926,18 @@ Nadal otwarte:
    i poziomy domkniete na wiki + kod x2 + korpus + JSON Delwinga + API ethel.pl.
 2. Zgłoszenie upstream do arkadia-mapa: bind `depozyt` dla pokoju 10416 (Ard Skellig)
    — po stronie mapy, nieblokujące.
-3. Linia wynikowa komendy `sprawdz swoja reputacje` — nieznana (komenda nieużywana
-   w korpusie) — tryb capture; reputacja śledzona heurystycznie per rewir (§2.1).
+3. ~~Linia wynikowa komendy `sprawdz swoja reputacje`~~ — domkniete na pelnym
+   korpusie: skala 6 gradacji odpowiedzi pracownika poczty (§2.1, §10: 46).
 4. Stawka prowizji kantoru Eysenlaan — tabliczka nieznana (wiki milczy) — tryb
-   capture.
-5. Typo-formy `piedziesiat/pieedziesieciu` (contracts.ts) — martwe klucze albo
-   literówki gry; próbka N=0 — re-check na pełnym korpusie 576 sesji.
+   capture; pelny korpus: nikt nie odwiedzil kantoru Eysenlaan w 576 sesjach
+   (N=0 wizyt); wzorce tabliczki gotowe (forma slowna + forma z procentem
+   cyfra, §2.2).
+5. ~~Typo-formy `piedziesiat/pieedziesieciu` (contracts.ts)~~ — domkniete na
+   pelnym korpusie: martwe klucze (N=0), gra spojna (4 warianty 50-tki);
+   `piescdziesiat` = literowka gracza w mowie (§2.2 reguła 7, §10: 47).
 6. Linia refundacji kaucji wozu — format nieznany z kodu (klient nie triggeruje);
-   `Wynajmujesz` w próbce korpusu N=0 — capture lub pełny korpus.
+   `Wynajmujesz` N=0 rowniez na pelnym korpusie 576 sesji — capture (potwierdzone
+   N=0 jako dowod, nie brak danych).
 
 Domknięte na analizie źródeł banków 2026-09-17 (Dargoth deposits.ts + pretty-
 Containers parseItems + Mudlet boxes.lua + tjurczyk boxes.lua (ta sama rodzina;
@@ -902,26 +959,34 @@ Towarzysz: brak modułu) + wiki „Skrytki" i „Pieniądze" + korpus-próbka 33
 
 Nadal otwarte (uzupełnienie):
 7. Linia wykupienia/rozbudowy skrzynki depozytowej + wyjście `?depozyt` — format
-   nieznany (żaden klient nie triggeruje) — tryb capture.
-8. Status komend `wplac`/`wyplac`/`przelej` — legacy czy żywe (konta zlikwidowane
-    2011) — capture przy banku + re-check pełny korpus.
-9. Korpusowe nazwy sal bankowych (gra: `Glowna sala banku.` ≠ mapa: `Bank w
-    Daevon`) — lista do backfill-atrybucji — pełny korpus / capture.
-10. `sto+` słownie w listach depozytu — konwerter klienta ślepy (1–99), unia
-    Kronikarza pokrywa; częstotliwość nieznana — re-check pełny korpus.
-11. Eysenlaan: czy „Kantor, Bank, Sklep" oferuje depozyt (wiki milczy) — capture.
+   nieznany (żaden klient nie triggeruje); pelny korpus: N=0 potwierdzone —
+   tryb capture.
+8. ~~Status komend `wplac`/`wyplac`/`przelej`~~ — domkniete na pelnym korpusie:
+    `wplac`/`wyplac` N=0 (martwe legacy po 2011, poza katalogiem); `przelej` =
+    przelewanie plynow, kolizja nazwy — twardy filtr (§2.3, §10: 48).
+9. ~~Korpusowe nazwy sal bankowych~~ — domkniete na pelnym korpusie: 18 nazw
+    sal (dane referencyjne, klucz `korpus_pelny_2026_09_18`) (§2.3, §10: 49).
+10. ~~`sto+` słownie w listach depozytu~~ — domkniete na pelnym korpusie: N=0
+    w depozytach i liniach kasowych; unia z setkami zostaje zapasowo; formy
+    zlozone `siedem czterysta` tylko w mowie graczy (§2.3, §10: 50).
+11. Eysenlaan: czy „Kantor, Bank, Sklep" oferuje depozyt (wiki milczy) — capture;
+    pelny korpus: N=0 wizyt (jak otwarte 4).
 12. Zabójstwa followerów/charmów drużynowych — czy przechodzą przez bramkę drużyny
     i jak wygląda ich linia: korpus N=0 (drużyna = sami gracze) — capture.
-13. Tag `(NPC)` przy nazwie OFIARY w linii zabójstwa — korpus N=0 (widziane tylko
-    przy zabójcy); parser ścina tagi prewencyjnie (§2.5) — capture opisowe.
+13. ~~Tag `(NPC)` przy nazwie OFIARY w linii zabójstwa~~ — domkniete na pelnym
+    korpusie: 0/1796 linii zabojstw — potwierdzenie N=0; parser scina tagi
+    prewencyjnie (§2.5, §10: 51).
 14. Zachowanie GMCP `improve` na szczycie skali (15): cap (zostaje 15) czy wrap
     (spada do 0)? Kod klienta spadek w trakcie sesji ignoruje — przy wrap licznik
-    zamiera do końca sesji; źródła milczą — capture live.
+    zamiera do końca sesji; pelny korpus: `niebotyczne` ×5 (osiagalne; dowod
+    emisji poziomow posrednich `gigantyczne → niebotyczne (czas: 0:00)`), ale
+    brak dowodu cap/wrap — capture live.
 15. Czy śmierć lub inne zdarzenie obniża `improve` w trakcie sesji — kod traktuje
     spadek wyłącznie przy fresh login (absorb między sesjami) — capture live.
-16. Linia kliencka wbicia `Wlasnie wbiles postepy: ... (czas: m:ss)` — digest
-    korpusu N=0; do potwierdzenia, że MUD nie drukuje własnej linii przy wbiciu
-    (kanał czysto GMCP) — re-check pełny korpus.
+16. ~~Linia kliencka wbicia `Wlasnie wbiles postepy: ... (czas: m:ss)`~~ —
+    domkniete na pelnym korpusie: 273 wyst. w 56 sesjach — println klienta JEST
+    logowany (dokladne timestampy wbic w backfillu); MUD nie drukuje wlasnej
+    linii wbicia (kanal czysto GMCP) (§2.6, §10: 52).
 17. ~~Format wpisu postępu~~ — decyzja 2026-09-18: wpis prosty (stan +
     timestamp); czas od poprzedniego wbicia i snapshot zabójstw = metadane
     audytowe zdarzenia zasilające weryfikator krzyżowy; polityka rozbieżności:
@@ -1011,17 +1076,62 @@ jezyki, poziomy, trenuj + próbka logów HTML: um ×4, jezyki ×4):
 45. ~~Skala i lista języków~~ — 10 gradacji (= skala wiedzy); 20 języków:
     14 Imperium + 6 Ishtar; Mroczna Mowa = mutacja (§2.14).
 
+Domkniete na pelnym korpusie 2026-09-18 (skrypty ekstrakcyjne v1-v5 na 576
+sesjach HTML, 3,86 mln linii; piec przelotow tematycznych):
+46. ~~Reputacja pocztowa — linia wynikowa~~ — skala 6 gradacji odpowiedzi
+    pracownika poczty po `sprawdz swoja reputacje` (od `Nie znam cie wcale.`
+    do kamieni milowych zaufania; wariant formy trzecioosobowej per NPC)
+    (§2.1).
+47. ~~Typo-formy 50-tki~~ — contracts.ts `piedziesiat/pieedziesieciu` = martwe
+    klucze (N=0); gra spojna: `piecdziesiat/piecdziesieciu/piecdziesiata/
+    piecdziesiecioma` (1502 trafienia); `piescdziesiat` = literowka gracza
+    w mowie, poza parserem (§2.2 reguła 7).
+48. ~~Komendy `wplac`/`wyplac`/`przelej`~~ — `wplac`/`wyplac` N=0 (martwe
+    legacy po 2011, poza katalogiem); `przelej` = przelewanie plynow
+    (`Napelniasz/Dopelniasz ... z ...`), NIGDY bankowe — twardy filtr (§2.3).
+49. ~~Nazwy sal bankowych~~ — 18 nazw korpusowych w danych referencyjnych
+    (klucz `korpus_pelny_2026_09_18`) (§2.3).
+50. ~~`sto+` slownie~~ — N=0 w depozytach i kasie; formy zlozone
+    jednostka+setka (`siedem czterysta`, `tysiac szescset`) tylko w mowie
+    graczy (§2.3, §2.2 reguła 7).
+51. ~~Tag `(NPC)` przy ofierze~~ — 0/1796 linii zabojstw: potwierdzenie N=0;
+    scinanie tagow prewencyjne (§2.5).
+52. ~~Linia kliencka wbicia~~ — 273 wyst. w 56 sesjach: println klienta jest
+    logowany; MUD nie drukuje linii wbicia; dowod delta > 1: sekwencje
+    `gigantyczne (czas: X)` → `niebotyczne (czas: 0:00)` (§2.6).
+53. ~~`thorzliwy` vs `tchorzliwy`~~ — korpus: 0× / 10× — forma wiki
+    kanoniczna, kodowa zapasowa (§2.7).
+54. ~~Output komendy `poziomy`~~ — 35 list opisow poziomow + kompletna skala
+    cech zrodlem gry (sila: slabiutki … epicko silny); walidator tablic
+    potwierdzony Z GRY (§2.7).
+55. ~~Modyfikator na wierszu `um`~~ — N=0 w 576 sesjach; mechanika zostaje
+    z kodu, parser przygotowany (§2.13).
+56. ~~Output `umiejetnosci maksymalne` / `jezyki maksymalne`~~ — um: surowa
+    tabela 38 pozycji bez wstawek `[N/10]`; jezyki: wiersze `<jezyk>:
+    <poziom>` bez paskow (dobra/pelna) (§2.13, §2.14).
+57. ~~Rozszerzona linia oslabienia~~ — potwierdzona 1:1 z kodem: 116 wyst.,
+    wszystkie 6 gradacji (minimalne/bardzo male/nieznaczne/male/nieduze/
+    zadowalajace); 11 smierci z blokiem posmiertnym (zaswiaty = flavor)
+    (§2.8).
+58. ~~ERRATA §10:40~~ — linia `Twoj aktualny poziom to ...` WYSTEPUJE w
+    logach (println klienta logowany, jak `Wlasnie wbiles` — pkt 52);
+    wniosek bez zmian: to nie jest linia gry; wczesniejsza notka „korpus
+    N=0 zgodne z kodem" bledna (§2.7). Bonusy przelotow: linia negatywna
+    jezykow `Nie znasz zadnych jezykow obcych.` (297×, §2.14); fragment
+    wiedzy `Dowiadujesz sie czegos wiecej o ...` (266×/68 sesji) — promocja
+    na pelne zdarzenie (§2.12, §11); filtr szumu `porownaj` (§2.12);
+    paski klienta `[#---]` w tabeli jezykow (§2.14); wstawka `(±N)` przy
+    `[N]` po smierci (§2.7); echa `→ umiejetnosci [typ]` N=0 (§2.13);
+    cennik treningu + brak linii kasowej (§2.13); druga forma tabliczki
+    prowizji z procentem cyfra (§2.2); tytul „Znawca Wiedzy Wszelakiej"
+    (§2.12).
+
 Nadal otwarte (cechy, umiejętności, języki):
-19. Forma przy odwadze 1: `thorzliwy` (kod ×2) vs `tchorzliwy` (wiki) — korpus
-    N=0 → re-check pełny korpus (skrypt ekstrakcyjny pkt 5); parser akceptuje
-    obie formy (§2.7).
-20. Output komendy `poziomy` (referencja opisów poziomów) — nieznany → capture
-    / skrypt ekstrakcyjny pkt 7a (§2.7).
-21. Forma modyfikatora na wierszu `um` (suffix jak w cechach) — próbka N=0 →
-    capture / skrypt ekstrakcyjny pkt 8 (§2.13).
-22. Output komend `umiejetnosci maksymalne` / `jezyki maksymalne` — nieznany →
-    capture / skrypt ekstrakcyjny pkt 7c; storage klienta
-    `language_max_levels` jako koroboracja (§2.13, §2.14).
+19. ~~Forma przy odwadze 1~~ — domkniete (§10: 53).
+20. ~~Output komendy `poziomy`~~ — domkniete (§10: 54).
+21. ~~Forma modyfikatora na wierszu `um`~~ — domkniete N=0 (§10: 55).
+22. ~~Output komend `umiejetnosci maksymalne` / `jezyki maksymalne`~~ —
+    domkniete (§10: 56).
 
 ---
 
@@ -1199,9 +1309,28 @@ Podjęte:
   rozpoznawane i pomijane (§6.2).
 - (2026-09-17, kod) Komendy `wplac`/`wyplac`/`przelej` istnieją w grze, status
   nieznany (konta zlikwidowane 2011) — capture, nie modelujemy na ślepo (§2.3).
+- (2026-09-18, pelny korpus v1-v5) Fragment wiedzy `Dowiadujesz sie czegos
+  wiecej o <dziedzina>.` = **pelne zdarzenie kroniki** (promocja z capture;
+  266 wyst. w 68 sesjach); linie czynu `Widziales/Ogladales/Sluchales
+  opowiesci o/Analizowales ...` to towarzyszacy push gry (§2.12).
+- (2026-09-18, pelny korpus v1-v5) Komendy `wplac`/`wyplac` = martwe legacy
+  (N=0 w 576 sesjach) — poza katalogiem; `przelej` = przelewanie plynow,
+  twardy filtr kolizji, nigdy zdarzenie bankowe (§2.3).
+- (2026-09-18, pelny korpus v1-v5) Koszt treningu: gra nie drukuje linii
+  kasowej przy pobraniu oplaty — ksiegowanie = liczba sesji `Przechodzisz
+  szkolenie ...` × stawka z ostatniego cennika `Oto umiejetnosci, w jakich
+  mozesz sie szkolic:` tej lokacji; suma laczna wg decyzji „usługa/trening",
+  stawki per umiejetnosc dostepne jako metadane (§2.13).
+- (2026-09-18, pelny korpus v1-v5) Zasada ogolna po erracie §10:40: **println
+  klienta JEST logowany** w logach HTML (linia poziomu, linia wbicia
+  postepow, paski cech/jezykow, wstawki `[x/y]`, `(±N)`, `[N]`) — backfill
+  rozpoznaje linie klienckie i nie myli ich z liniami gry; digesty korpusu
+  raportujace N=0 dla takich linii byly bledne (§2.6, §2.7, §10: 52, 58).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
+- Komendy `wplac`/`wyplac` — martwe legacy po likwidacji kont procentowych
+  (2011); N=0 na pelnym korpusie 576 sesji (decyzja 2026-09-18, §2.3).
 - Kwota denominacji w kantorze — niemierzalna bez porównania ekwipunku (potwierdzone
   na korpusie: zero kwot w kontekstach `zdenominuj`); samo zdarzenie pełnoprawne
   (§2.2); prowizja 8% (tabliczki kantorów) poza bilansowaniem.
