@@ -2,8 +2,9 @@
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
 Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (analiza
-wlasnych pluginow kalendarzowych Ishtar/Imperium — 5 implementacji;
-domkniecia 68-69, errata Hexenstag/Hexentag).
+wlasnych pluginow kalendarzowych Ishtar/Imperium + audyt kompletnosci:
+repo testowe, python-toolkit, aliasy Mudlet/pasek; domkniecia 68-70,
+errata Hexenstag/Hexentag).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -581,13 +582,25 @@ dnia (PM gdy `poludniu`/`wieczorem` albo `nocy` przy v>=6); pluginy trzymaja
 kotwice w localStorage (`dargoth.imperium_cal.anchor.v2` /
 `dargoth.ishtar_cal.anchor.v2`, scheme `hexenstag`/`saovine`) z pasywnym
 zapisem kazdej wlasnej sparsowanej linii `czas`; aliasy pluginow `/imperium`
-i `/ishtar` (help|pomoc|reset); komunikaty klienckie z prefiksem
-`[imperium_cal]` / `[ishtar_cal]` = wstawki pluginow (println -> logowane w
-logach HTML — backfill odcina jak `[ PORA ]`, zasada §6.2); Geheimnisnacht:
-event MG — kandydaci = 5 jesiennych pelni Mannslieba (1/26 Nachgeheim,
-18 Erntezeit, 9 Brauzeit, 1 Kaldezeit), okno RL 19:00-21:00 Europe/Warsaw
-(potw. empirycznie 11.08.2026 ~20:00 = pelnia 1 Nachgeheim), w trakcie
-eventu `czas` NIE podaje daty (`noc Geheimnisnacht`).
+i `/ishtar` (help|pomoc|reset; Mudlet dodatkowo `aktualizuj` —
+autoaktualizacja); pasek Mudleta: rodzina `/pasek` (on/off, float, window,
+pozycja, kolory, wartosci, aktualizuj, `ustaw imperium|ishtar <doy> [h]` =
+reczna kotwica); komunikaty klienckie z prefiksem `[imperium_cal]` /
+`[ishtar_cal]` / `[pasek_kalendarz]` = wstawki pluginow (println -> logowane
+w logach HTML — backfill odcina jak `[ PORA ]`, zasada §6.2; korpus: N=0
+wszystkich trzech prefiksow — w objetych sesjach pluginy nie byly uzywane);
+Geheimnisnacht: event MG — kandydaci = 5 jesiennych pelni Mannslieba
+(1/26 Nachgeheim, 18 Erntezeit, 9 Brauzeit, 1 Kaldezeit), okno RL
+19:00-21:00 Europe/Warsaw (potw. empirycznie 11.08.2026 ~20:00 = pelnia
+1 Nachgeheim), w trakcie eventu `czas` NIE podaje daty
+(`noc Geheimnisnacht`).
+
+Audyt kompletny: centralne repo testowe arkadia-kalendarze-testy (9 silnikow
+z 7 repo, ~200 tys. porownan; zloty standard fixtures/golden.py; 760 linii
+bazowych + 76 edge generowanych deterministycznie, formaty potwierdzone
+audytem z realnym outputem gry) + dziewiaty silnik python-toolkit
+(kalendarz/arkadia_calendar_core.py, pelny paritet); gra sledzi wylacznie
+Mannslieba (Morrslieb nigdzie nie wystepuje).
 
 Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
 
@@ -1319,6 +1332,13 @@ wszystkie spojne 1:1 z clock.ts):
     `[imperium_cal]`/`[ishtar_cal]` = linie klienckie (backfill
     odcina); dni tygodnia Imperium ignorowane przez pluginy; w trakcie
     Geheimnisnacht `czas` bez daty (§2.10).
+70. ~~Audyt kompletnosci zrodel czasu IG~~ — repo arkadia-kalendarze-testy
+    (golden.py = zloty standard, 760+76 linii fixture, formaty z audytu
+    gry) + python-toolkit arkadia_calendar_core.py (9. silnik, paritet);
+    Mudlet: aliasy z `aktualizuj`, rodzina `/pasek` z reczna kotwica
+    `ustaw`; prefiksy linii klienckich `[imperium_cal]`/`[ishtar_cal]`/
+    `[pasek_kalendarz]` — korpus N=0 (pluginy nieuzywane w sesjach);
+    tylko Mannslieb (§2.10, JSON `kalendarze_pluginy_2026_09_18`).
 
 Nadal otwarte (apokalipsa i czas IG):
 24. Dokladne formuly sekwencji Apokalipsy: ostrzezenie z koniosem i bez
