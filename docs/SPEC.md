@@ -1,9 +1,9 @@
 # Kronikarz — specyfikacja produktu
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
-Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (pelny korpus:
-skrypty ekstrakcyjne v1-v5 na 576 sesjach HTML, 3 865 554 linii; domkniecia
-46-58, errata §10:40).
+Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (analiza
+zrodel poczty-listow: kod klienta + testy byte-for-byte + pomoc gry + korpus;
+domkniecia 59-61, otwarte 23).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -484,9 +484,36 @@ cech `[---- ... ----]` i znacznik `[Szczescie wroci?]` (rozpoznawane i pomijane)
 
 ### 2.9 Poczta (listy)
 
+Listy = zdalna komunikacja gracz-gracz (bezplatna), odrebna od paczek
+kurierskich (§2.1); wysylka/odbior na poczcie albo przez zwierze pocztowe
+(`wyslij zwierze`, 15 gatunkow — flavor). Jedyny klient z modulem pocztowym
+to Dargoth (Mudlet arkadia-skrypty: 0 trafien, brak modulu).
+
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Nowy list | `^Masz nowa poczte od [A-Za-z]+\.$`; w logach HTML linia występuje z **prefiksem klienta** `[ POCZTA ] ` — parser backfillu akceptuje opcjonalny prefiks | kod (Towarzysz MAIL_PATTERN) + korpus (21 nadawców) |
+| Nowy list | `^Masz nowa poczte od [A-Za-z]+\.$` — nadawca w **dopelniaczu** (korpus: 21 unikalnych, m.in. Eldura, Tahiry, Yoany, Gvidona, Kalkofoniksa, Ulika, Ulvhedina, Selene, Kruxa); w logach HTML linia występuje z **prefiksem klienta** `[ POCZTA ] ` (println newMail.ts jest logowany) — parser backfillu akceptuje opcjonalny prefiks; koroboracja premium live: GMCP `Mail.State.unread` | kod (newMail.ts pattern 1:1) + korpus (21 nadawcow) + spec GMCP |
+| Status skrzynek (GMCP) | `Mail.State` {unread, unreceived, unsent} — booleany, push automatyczny przy logowaniu i przy kazdej zmianie (otrzymanie/czytanie/wysylka); **metadane sesji live-only, nie wpis kroniki**; badge klienta pokazuje tylko unreceived („Nowa") i unsent („Niewyslana"), unread ignorowany (decyzja UI Dargotha, potwierdzona e2e); klik badge = `wyslij zwierze`; opcja `Char.Options.mail_hidden`; typy Gmcp_msgs: `mail`, `editor.mail`, `notification.mail` | spec GMCP forum t=740 + kod (MailStatus.tsx, e2e mail-status.spec.ts) |
+| Migawka indeksu `listy` | naglowek `^Listy (nieprzeczytane\|odebrane\|wyslane\|niewyslane)(?: \([^)]*\))?:$` — warianty skrotu: `(prezentowane jest pierwsze 20)` / `(prezentowane jest pierwszych 50)` / `(prezentowanych jest pierwszych 50)`; wpis `N. [*R* ]Temat: <temat>` (`*R*` = przeczytany; numeracja dowolna, nie od 1; ≤50 najnowszych) + druga linia `Nadawca: <imie>` (skrzynki odbiorcze) albo `Odbiorcy:`/`Odbiorca:` (wyslane/niewyslane) z **data IG w drugiej kolumnie** po 2+ spacjach (`Pn, 31 VIII 2026`); dlugie listy odbiorcow zawijane (kontynuacja z wcieciem); korpus: **suffix `(forwardowany)` po temacie** = list doslany (`doslij`); **metadane audytowe, nie wpis** — indeks z popupa klient UKRYWA (trigger zwraca null), w logach tylko z komend manualnych | kod (poczta.ts + test byte-for-byte z sesji live) + korpus (wpisy 4×, forward 1×) |
+| Czytanie listu | naglowki `List : N`, `Od   :`, `Temat:`, `Do   :` (opcjonalnie), `DW   :` (opcjonalnie), `Data : <Pn, 31 VIII 2026, 21:16:12>` — pola zawijane (kontynuacja wciecie 2+); tresc dowolna (takze ASCII-art pergaminu); koniec = pager `^\[<zakres> <klawisze>\] \(aktualny: N\) -- $`; negatyw `Nie ma takiego listu.`; **kontekst/zalacznik do zdarzenia, nie wpis** — popup ukrywa jak indeks | kod (poczta.ts + test byte-for-byte) + korpus (tresc raportu kurierskiego) |
+| List-raport dostawy paczki | temat `opis doreczenia przesylki` (indeks/list) + tresc `Dnia <n>. pory <miesiac IG>, wedlug rachuby czasu Starszego Ludu paczka zostala doreczona do adresata - <Imie>...` — **weryfikator krzyzowy z §2.1** (koroborant dostawy paczki, nie osobne zdarzenie); drugi temat korpusowy: `przesylka kurierska - PILNE` | korpus (wpis indeksu + tresc) |
+| Negatywy | `Nie masz zadnych (nieprzeczytanych \|odebranych \|wyslanych \|niewyslanych )?listow.` (korpus: wariant nieprzeczytanych ×2 — komenda `poczta` / `listy nieprzeczytane`) i `Nie ma takiego listu.` — filtr, nie zdarzenie | kod (emptyPattern) + korpus |
+
+Komenda `listy` (pomoc gry `?listy` = strona „Poczta"; `?poczta` nie istnieje
+— 404): 4 skrzynki, ≤50 najnowszych wg daty wyslania, filtry `do`/`od <kogo>`,
+`dzis`/`wczoraj`/`przedwczoraj`, `dnia`/`przed`/`po <data>`, `o temacie
+<fragment>` (argumenty laczone, temat ostatni); pozostale komendy: `napisz
+list` (edytor: `**` wysyla, `~q` porzuca, `~l` lista, `~dw`/`~udw` DW),
+`przeczytaj list <n>` (alias `list <n>`), `doslij`, `aliasy pocztowe`,
+`poczta` (status nieodebranych/nieprzeczytanych).
+
+**Rozbieznosc nazewnicza**: pomoc gry i wiki dokumentuja skrzynke `otrzymane`,
+gra drukuje `odebrane`/`odebranych` (naglowek indeksu + negatyw — test klienta
+byte-for-byte z sesji live); klient wysyla `listy odebrane` i dostaje indeks
+— parser naglowka i negatywu akceptuje prewencyjnie OBIE formy.
+
+Wysylka: potwierdzenie wyslania listu z edytora (`**`) nieznane z kodu, wiki
+ani korpusu → capture (otwarte 23); znikniecie flagi GMCP `unsent` to
+koroborant wysylki.
 
 ### 2.10 Apokalipsa i czas IG
 
@@ -1127,6 +1154,32 @@ sesjach HTML, 3,86 mln linii; piec przelotow tematycznych):
     prowizji z procentem cyfra (§2.2); tytul „Znawca Wiedzy Wszelakiej"
     (§2.12).
 
+Domkniete na analizie zrodel poczty-listow 2026-09-18 (Dargoth newMail.ts +
+poczta.ts w calosci + MailStatus.tsx + PocztaPopup.tsx + testy poczta.test.ts
+i mail-status.spec.ts (fixture byte-for-byte z sesji live) + Mudlet
+arkadia-skrypty (brak modulu) + spec GMCP forum t=740 + wiki „Poczta" i
+„Zwierzeta pocztowe" + pomoc arkadia.rpg.pl/help/command/listy + korpus 576
+sesji):
+59. ~~Format indeksu i listu~~ — kompletny z testu klienta (byte-for-byte):
+    naglowek z 3 odmianami skrotu, wpis `N. [*R*] Temat:`, `Nadawca:`/
+    `Odbiorcy:` + data IG w drugiej kolumnie, zawijanie odbiorcow; list:
+    6 pol naglowka + pager `(aktualny: N)` + `Nie ma takiego listu.`;
+    korpus doklada suffix `(forwardowany)` i raport kurierski `opis
+    doreczenia przesylki` (§2.9).
+60. ~~Rozbieznosc `otrzymane` vs `odebrane`~~ — pomoc gry i wiki:
+    `otrzymane`; gra drukuje `odebrane`/`odebranych` (naglowek + negatyw);
+    parser akceptuje obie formy prewencyjnie (§2.9).
+61. ~~Konsumenci GMCP Mail~~ — `Mail.State` {unread, unreceived, unsent},
+    push przy logowaniu i zmianach; Dargoth: badge (ignoruje unread) +
+    popup; Mudlet: brak modulu (0 trafien); indeks i list z popupa sa
+    UKRYWANE (trigger null) — w logach tylko z komend manualnych (§2.9).
+
+Nadal otwarte (poczta-listy):
+23. Linia potwierdzenia wyslania listu z edytora (`**`) + tresc typow
+    Gmcp_msgs `mail`/`editor.mail`/`notification.mail` — nieznane z kodu,
+    wiki i korpusu — capture live (ring buffer surowego GMCP, protokol jak
+    otwarte 18).
+
 Nadal otwarte (cechy, umiejętności, języki):
 19. ~~Forma przy odwadze 1~~ — domkniete (§10: 53).
 20. ~~Output komendy `poziomy`~~ — domkniete (§10: 54).
@@ -1327,6 +1380,18 @@ Podjęte:
   postepow, paski cech/jezykow, wstawki `[x/y]`, `(±N)`, `[N]`) — backfill
   rozpoznaje linie klienckie i nie myli ich z liniami gry; digesty korpusu
   raportujace N=0 dla takich linii byly bledne (§2.6, §2.7, §10: 52, 58).
+- (2026-09-18, kod + testy + pomoc gry + korpus) Zakres poczty-listow:
+  zdarzeniem kroniki jest **nowy list** {timestamp, nadawca}; indeks
+  skrzynki, tresc listu i status GMCP `Mail.State` = metadane audytowe,
+  nie wpisy; tresc listu trafia do kroniki tylko gdy widoczna w logach
+  (komenda manualna — popup klienta ukrywa indeks i list, backfill ich
+  nie widzi) (§2.9).
+- (2026-09-18, korpus) List-raport `opis doreczenia przesylki` = koroborant
+  dostawy paczki (weryfikator krzyzowy z §2.1), nie osobne zdarzenie;
+  suffix `(forwardowany)` przy temacie = list doslany (metadane) (§2.9).
+- (2026-09-18, pomoc gry + test klienta) Rozbieznosc nazewnicza skrzynki:
+  pomoc/wiki `otrzymane` vs gra `odebrane`/`odebranych` — parser akceptuje
+  obie formy naglowka i negatywu prewencyjnie (§2.9).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
