@@ -1671,7 +1671,36 @@
    "season (number 0-3, opcjonalne)"
   ],
   "odliczanie_apokalipsy": "Pamietaj, juz tylko N minut do momentu zniszczenia swiata. (kod; korpus N=0, capture)",
-  "odmowa_logowania": "Na Arkadii trwa wlasnie Apokalipsa. Zapraszamy za kilka minut, kiedy to Arkadia bedzie z powrotem. (korpus 1x, mojibake)"
+  "odmowa_logowania": "Na Arkadii trwa wlasnie Apokalipsa. Zapraszamy za kilka minut, kiedy to Arkadia bedzie z powrotem. (korpus 1x, mojibake)",
+  "toolkit_modul_apokalipsa": {
+   "zrodlo": "Isithunzi000/arkadia-python-toolkit (PRIV): apokalipsa/apokalipsa_gui.py 1.0 + README; parser logow HTML Dargotha (pliki session_*.html)",
+   "kotwica_komendy": "echo `<span>-> system</span>` z class=\"log-time\" (YYYY-MM-DD HH:MM:SS.fff); okno parsowania 2000 znakow po echu",
+   "regexy": {
+    "odrodzenie": "Swiat odrodzil sie\\s*:\\s*\\w+,\\s*(\\d+)\\s+(rzymski)\\s+(\\d{4}),\\s*(\\d{2}:\\d{2}:\\d{2}) — weekday dowolne slowo (toleruje 2-lit. i pelne)",
+    "lokalny_czas": "Lokalny czas\\s*:\\s*\\w+,\\s*(\\d+)\\s+(rzymski)\\s+(\\d{4}),\\s*(\\d{2}:\\d{2}:\\d{2}) — OPCJONALNA; korpus N=0 (slowo `lokalny` nie wystepuje w 576 sesjach)",
+    "uptime": "Swiat istnieje\\s*:\\s*(.+?)(?=<); skladniki tylko (\\d+)\\s+(dni|godzin|minut|sekund) — BRAK singular `dzien` (ograniczenie toolkitu; Kronikarz pelna odmiana)",
+    "ciemnosc": "(\\d+)%\\s*swiata zostalo opanowane — zgodne z twardym filtrem §2.10 (szum bez `%`+`zostalo` odfiltrowany)",
+    "wymuszenie_forced": "Nadchodzi Czas Apokalipsy.{0,250}?poprosil.{0,40}?przyspieszenie (DOTALL) — marker prosby czarodzieja o przyspieszenie; asocjacja: marker -> najblizsze POZNIEJSZE odrodzenie (bisect po pierwszej obserwacji); wymuszone cykle domyslnie wykluczane z modelu"
+   },
+   "model_predykcyjny": {
+    "faza_stabilna": "uptime > 86400 s (24 h); wczesniejsze odczyty odrzucane",
+    "korekta": "+0.5 pp (system drukuje ciemnosc jako int)",
+    "per_cykl": "regresja liniowa pct(uptime_h) -> a [%/h], b [%]; wymaga >=5 punktow stabilnych, a>0",
+    "h95": "h95 = (95-b)/a per cykl; rozklad: srednia +/- margines t-Studenta 95% CI (n>=3); n=2 -> midrange +/- half-range; n=1 -> fallback +/-5%",
+    "globalne": "R2 na wszystkich stabilnych punktach cykli niewykluczonych",
+    "predykcja": "okno = h95_mean +/- margin od odrodzenia; pct>=95 -> komunikat `moze nastapic w kazdej chwili`; prog 95% zgodny z wiki",
+    "walidacja": "porownanie predykcji z kolejnymi odrodzeniami (sekcja raportu)",
+    "pamiec": "apokalipsa_dane.json (readings/processed_files/model/excluded/forced_*); inkrementalne wczytywanie po ostatnim log-time pliku"
+   },
+   "powiazania": "analizator_czasu importuje apokalipsy z tego modulu jako granice segmentow analizy zegara; analizator_czasu erratum 2026-08-20: Belleteyn 135->180 (potwierdza rok od 1 Saovine)",
+   "status_w_korpusie": {
+    "Swiat odrodzil sie": "13x",
+    "Swiat istnieje": "32x pelna odmiana",
+    "Ciemnosc": "1x (77%)",
+    "Lokalny czas": "N=0",
+    "RE_FORCED": "N=0 (capture)"
+   }
+  }
  },
  "kalendarze_pluginy_2026_09_18": {
   "zrodla": {
