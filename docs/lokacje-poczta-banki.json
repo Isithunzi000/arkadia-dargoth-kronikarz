@@ -2146,5 +2146,159 @@
    "gagowanie": "linia `czas` gagowana tylko przy oczekujacym zapytaniu pluginu; pasywnie przechodzi do logow",
    "reczna_kotwica_pasek": "/pasek ustaw (imperium|ishtar) <doy> [godzina]"
   }
+ },
+ "sesja_trasa_komendy_2026_09_18": {
+  "zrodla": {
+   "kod_dargoth": [
+    "ConnectionEngine.ts",
+    "CommandProcessor.ts",
+    "MovementManager.ts",
+    "MapHelper.ts",
+    "directions.ts",
+    "TeamManager.ts",
+    "orderTimer.ts",
+    "color_other.lua",
+    "clientEvents.ts",
+    "gmcp.ts",
+    "Recorder.ts"
+   ],
+   "mudlet_tjurczyk": "Arkadia.xml (grupy triggerow team: left_team/no_team/druzyna/invite_bind; order_action)",
+   "logi_temp": "19 plikow 2026-08-24/25 (Arahi_log Dargoth, Arkadia MUD web, session_* Mudlet)",
+   "wiki": [
+    "Komendy",
+    "Poruszanie",
+    "Historia Arkadii"
+   ],
+   "korpus": "576 sesji, worek deduplikowany"
+  },
+  "sesja_start": {
+   "blok_gry": [
+    "Aktualny czas : <wd>, <d> <rzymski> <yyyy>, <hh:mm:ss>",
+    "Ostatnie logowanie: <wd>, <d> <rzymski> <yyyy>, <hh:mm:ss>",
+    " z hosta: <ip>"
+   ],
+   "weekday_skroty": [
+    "N",
+    "Pn",
+    "Wt",
+    "Sr",
+    "Cz",
+    "Pt",
+    "So"
+   ],
+   "niedziela": "1-literowa N (potw. temp: N, 23 VIII 2026)",
+   "prompt_hasla": "Witaj, <imie>. Podaj swe haslo: (temp 1x, session Mudlet)",
+   "temp_wystapienia": 30,
+   "korpus_576": 0,
+   "uwaga": "logi korpusowe ciete ponizej loginu — blok startu nigdy nie wystepuje w korpusie",
+   "live": "event client.connect; handshake banner -> socket.incoming -> name -> telnet.echo -> password (preserveCase); gmcp_msg.system.login = notice ekranu logowania, czyszczone na gmcp_msg.room.long (= w swiecie); credentials nigdy nie persistowane; fazy offline/connecting/online"
+  },
+  "sesja_koniec": {
+   "sekwencja": [
+    "-> zakoncz (echo komendy)",
+    "Nagrywam postac.",
+    "Zdejmujesz ... (sekwencja eq)",
+    "Do zobaczenia!",
+    "Polaczenie zostalo przerwane. (linia kliencka)"
+   ],
+   "linia_kliencka_utf8": "Połączenie zostało przerwane. — wyjatkowo Z ogonkami (inaczej niz reszta gry)",
+   "temp_statystyka": {
+    "zakoncz": 29,
+    "Nagrywam postac": 17,
+    "Do zobaczenia": 13,
+    "Przerwane": 9
+   },
+   "rozminiecia": "zakoncz bez Nagrywam (odrzucenie/uciecie); Nagrywam bez Do zobaczenia i bez Przerwane (przerwanie polaczenia, odswiezenie strony)",
+   "korpus_576": 0,
+   "live": "event client.disconnect"
+  },
+  "trasa": {
+   "event_enterLocation": "{id, room, direction} — emisja z MapHelper.renderRoomById; direction = this.lastMoveDirection (zerowany po emisji)",
+   "direction_semantyka": "dluga forma EN (north/south/east/west/northeast/northwest/southeast/southwest/up/down) TYLKO gdy ruch przez znane wyjscie mapy (MapHelper.move -> lastMoveDirection = getLongDir(actualDirection)); inaczej null (asercja GMCP room.info, /ustaw, pluginy, teleport)",
+   "directions_ts": "PL->EN 1:1: polnoc/poludnie/wschod/zachod + 4 mieszane + dol->down, gora/gore->up; skroty n/ne/e/se/s/sw/w/nw/u/d; isPolishDirection = tylko pelne slowa PL (ochrona przed przyimkiem 'w')",
+   "gmcp": "room.info przy kazdym ruchu (objects+num); setMapPosition -> setMapRoom bez direction (null); event mapMove po kazdej zmianie (flaga suppressMapMoveEvent)",
+   "followMove": "ruch za prowadzacym: isPolishDirection + team_follow_link z userData lokacji (wpis search*exit#...)",
+   "pojazdy": "carriageMode 'jedz na X', pre/postWalkCommands; przejazd async — GMCP = autorytet pozycji (MapHelper)",
+   "lazik_gry": "idz [tempo] / stoj — auto-ruch tylko z lokacji z dokladnie 2 widocznymi wyjsciami (pomoc ?idz, wiki Poruszanie)",
+   "tereny_specjalne": "przejscia niestandardowe (drzwi/schody/ukryte — komendy dowolne wg czarodzieja); plywanie/wozy inne komendy (przeplyn na wschod); tereny bez listy wyjsc (wyczucie kierunku, kompas)"
+  },
+  "komendy": {
+   "pipeline": [
+    "commandHooks",
+    "stripPolishCharacters",
+    "Map.parseCommand",
+    "expandObjectShortcuts (@short -> ob_N)",
+    "echo '-> <cmd>' (builtin)",
+    "split (user /;/, non-user /[#;]/)",
+    "aliasy",
+    "event command = finalna komenda",
+    "MovementManager"
+   ],
+   "echo_log": "-> <cmd> (Dargoth; web client bez strzalki; edytor listu tez echowany: -> **, -> ~?)",
+   "echo_korpus_przyklady": {
+    "-> cechy": 977,
+    "-> system": 681,
+    "-> wez paczke z torby": 822,
+    "-> oddaj paczke": 1110
+   },
+   "nieznany_alias": "--- Nieznany alias: <cmd> (linia kliencka; korpus 5 wyst., 4 unikalne: /ob cialo, /ob paczke, /odpp, /paczka)",
+   "moveMode": "0 mapper / 1 na slepo / 2 podazanie (MovementManager)",
+   "komendy_ruchu": "10 kierunkow PL bez ogonkow + skroty EN (wiki Poruszanie; bindy numpad w klientach)",
+   "komendy_druzynowe": [
+    "zapros",
+    "dolacz",
+    "porzuc",
+    "przekaz",
+    "druzyna"
+   ],
+   "komendy_pokrewne": [
+    "rozkaz",
+    "zablokuj",
+    "przemknij",
+    "zakoncz"
+   ],
+   "historia": "przekaz prowadzenie od VII 2005; limit druzyny 20 czlonkow + zmiany czasu rozkazow II 2013 (wiki Historia Arkadii)",
+   "pomoc_gry_ekrany": "?druzyna/?rozkaz niedostepne publicznie (pomoc tylko w grze; korpus bez ekranow pomocy) — wzorce z kodu klientow"
+  },
+  "druzyna": {
+   "triggery_dargoth_9": [
+    "^Zmuszasz \\[?([A-Za-z][a-z ]+?)\\]? do opuszczenia druzyny\\.$",
+    "^\\[?([A-Z][a-z ]+?)\\]? porzuca twoja druzyne\\.$",
+    "^\\[?([A-Z][a-z ]+?)\\]? zmusza cie do opuszczenia druzyny\\.$",
+    "Nie jestes w zadnej druzynie.",
+    "^\\[?([A-Z][a-z ]+?)\\]? rozwiazuje druzyne\\.$",
+    "^Porzucasz (?:swoja druzyne|druzyne, ktorej przewodzil[ea]s)\\.$",
+    "^Przewodzisz druzynie, w ktorej oprocz ciebie (?:jest|sa) jeszcze(?::|) (?<team>.*)\\.$",
+    "^Druzyne prowadzi (?<leader>.+?)(?:, zas ty jestes jej jedynym czlonkiem| i oprocz ciebie (?:jest|sa) w niej jeszcze:? (?<team>.*))\\.$",
+    "^Dolaczasz do druzyny \\[?([A-Z][a-z ]+?)\\]?\\.(?: Od teraz jej sklad stanowicie ty(?:, | i )(.+)\\.)?$"
+   ],
+   "imiona_w_nawiasach": "opcjonalne [X] (gagowanie wrogow? nie — nazwy wlasne w bracketach)",
+   "gmcp_stan": "objects.data team/team_leader — autorytet skladu; eventy teamChange/isTeamLeader/teamPanelStatus",
+   "tjurczyk_paritet": "te same wzorce (left_team 3, no_team 3, druzyna 2) + invite_bind ^\\[?([A-Z][a-z ]+?)\\]? zaprasza cie do swojej druzyny\\.$ (brak w Dargoth); tjurczyk NIE ma triggera Dolaczasz (ma go Dargoth)",
+   "przekazanie_prowadzenia": {
+    "linia_gry": "<X> przekazuje ci prowadzenie druzyny.",
+    "prefix_klienta": "[   DRUZYNA   ]  (color_other.lua: DarkGoldenrod, padding 3+3, echo \\n\\n)",
+    "parser": "^\\[\\s*DRUZYNA\\s*\\]",
+    "korpus": [
+     "[ DRUZYNA ] Gwenn przekazuje ci prowadzenie druzyny. (14x)",
+     "[ DRUZYNA ] Gvidon przekazuje ci prowadzenie druzyny. (11x)"
+    ]
+   },
+   "order_timer": {
+    "czas": "15 s, tylko dla lidera",
+    "wzorce": [
+     "Wydajesz rozkaz",
+     "Glosno wypowiadasz rozkaz, chyba jednak nikt cie nie zrozumia",
+     "przekazuje ci prowadzenie druzyny."
+    ],
+    "paritet": "Dargoth orderTimer.ts = tjurczyk order_action (1:1)"
+   },
+   "korpus_surowe": 0,
+   "uwaga": "surowe linie druzynowe N=0 w korpusie i temp (gra solo) — wzorce wylacznie z kodu klientow i pomocy gry"
+  },
+  "reprezentatywnosc": {
+   "korpus_576": "zero linii granic sesji (start i koniec wyciete z logow korpusowych); echo komend obecne; [ DRUZYNA ] 2 unikalne; --- Nieznany alias 5 wyst.",
+   "logi_temp": "bloki startu 30x, konce 17/13/9, 3 klienty (Dargoth/web/Mudlet); sekwencja startu i konca w pelni udokumentowana"
+  }
  }
 }
