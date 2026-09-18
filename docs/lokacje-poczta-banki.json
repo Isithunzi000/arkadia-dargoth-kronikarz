@@ -1672,5 +1672,432 @@
   ],
   "odliczanie_apokalipsy": "Pamietaj, juz tylko N minut do momentu zniszczenia swiata. (kod; korpus N=0, capture)",
   "odmowa_logowania": "Na Arkadii trwa wlasnie Apokalipsa. Zapraszamy za kilka minut, kiedy to Arkadia bedzie z powrotem. (korpus 1x, mojibake)"
+ },
+ "kalendarze_pluginy_2026_09_18": {
+  "zrodla": {
+   "implementacje": [
+    "Dargoth imperium_cal 1.8.24 + ishtar_cal (Isithunzi000/arkadia-dargoth-plugins src/)",
+    "oficjalny klient WWW arkadia_cal 1.0.12 (Isithunzi000/www-arkadia_cal src/arkadia_cal/cal.js)",
+    "Mudlet imperium_cal (Isithunzi000/arkadia-mudlet-calendar_imperium)",
+    "Mudlet ishtar_cal 1.8.12m+ (Isithunzi000/arkadia-mudlet-calendar_ishtar)",
+    "Mudlet pasek_czas (Isithunzi000/arkadia-mudlet-pasek_czas)",
+    "arkadia_tools.html (Isithunzi000/arkadia-web_standalone-tools)"
+   ],
+   "spojnosc": "wszystkie implementacje 1:1 z clock.ts Dargotha (deklarowane w komentarzach) i wzajemnie",
+   "analiza": "2026-09-18"
+  },
+  "imperium": {
+   "rok_dni": 400,
+   "struktura": "12 miesiecy (32/33 dni) + 5 swiat interkalarnych 1-dniowych; BRAK Geheimnistag (rozmijanie z kanonem WFRP)",
+   "miesiace": [
+    {
+     "nazwa": "Hexenstag",
+     "dni": 1,
+     "wschod": 8,
+     "zachod": 17
+    },
+    {
+     "nazwa": "Nachexen",
+     "dni": 32,
+     "wschod": 8,
+     "zachod": 17
+    },
+    {
+     "nazwa": "Jahrdrung",
+     "dni": 33,
+     "wschod": 7,
+     "zachod": 18
+    },
+    {
+     "nazwa": "Mitterfruhl",
+     "dni": 1,
+     "wschod": 7,
+     "zachod": 18
+    },
+    {
+     "nazwa": "Pflugzeit",
+     "dni": 33,
+     "wschod": 6,
+     "zachod": 19
+    },
+    {
+     "nazwa": "Sigmarzeit",
+     "dni": 33,
+     "wschod": 5,
+     "zachod": 20
+    },
+    {
+     "nazwa": "Sommerzeit",
+     "dni": 33,
+     "wschod": 5,
+     "zachod": 21
+    },
+    {
+     "nazwa": "Sonnstill",
+     "dni": 1,
+     "wschod": 5,
+     "zachod": 22
+    },
+    {
+     "nazwa": "Vorgeheim",
+     "dni": 33,
+     "wschod": 4,
+     "zachod": 22
+    },
+    {
+     "nazwa": "Nachgeheim",
+     "dni": 33,
+     "wschod": 5,
+     "zachod": 21
+    },
+    {
+     "nazwa": "Erntezeit",
+     "dni": 33,
+     "wschod": 5,
+     "zachod": 20
+    },
+    {
+     "nazwa": "Mittherbst",
+     "dni": 1,
+     "wschod": 5,
+     "zachod": 20
+    },
+    {
+     "nazwa": "Brauzeit",
+     "dni": 33,
+     "wschod": 6,
+     "zachod": 19
+    },
+    {
+     "nazwa": "Kaldezeit",
+     "dni": 33,
+     "wschod": 6,
+     "zachod": 18
+    },
+    {
+     "nazwa": "Ulriczeit",
+     "dni": 33,
+     "wschod": 7,
+     "zachod": 17
+    },
+    {
+     "nazwa": "Mondstille",
+     "dni": 1,
+     "wschod": 8,
+     "zachod": 16
+    },
+    {
+     "nazwa": "Vorhexen",
+     "dni": 33,
+     "wschod": 8,
+     "zachod": 16
+    }
+   ],
+   "aliasy_miesiecy": {
+    "nachhexen": "nachexen",
+    "sigmarszeit": "sigmarzeit",
+    "kaltezeit": "kaldezeit",
+    "ulrichszeit": "ulriczeit",
+    "sonnenstill": "sonnstill",
+    "sonnenstil": "sonnstill",
+    "sonnenstille": "sonnstill",
+    "mondstill": "mondstille",
+    "mitterherbst": "mittherbst",
+    "hexensnacht": "hexenstag"
+   },
+   "swieta_interkalarne": [
+    {
+     "miesiac": "Hexenstag",
+     "dzien": 1,
+     "swieto": "Hexentag"
+    },
+    {
+     "miesiac": "Mitterfruhl",
+     "dzien": 1,
+     "swieto": "Mitterfruhl"
+    },
+    {
+     "miesiac": "Sonnstill",
+     "dzien": 1,
+     "swieto": "Sonnstill"
+    },
+    {
+     "miesiac": "Mittherbst",
+     "dzien": 1,
+     "swieto": "Mittherbst"
+    },
+    {
+     "miesiac": "Mondstille",
+     "dzien": 1,
+     "swieto": "Mondstille"
+    }
+   ],
+   "hexenstag_vs_hexentag": "Hexenstag = nazwa miesiaca (gra drukuje w `czas`), Hexentag = swieto interkalarne 1. dnia roku — dwa rozne byty; parser obu form",
+   "nowe_mannslieb": [
+    "13 Nachexen",
+    "6 Jahrdrung",
+    "31 Jahrdrung",
+    "22 Pflugzeit",
+    "14 Sigmarzeit",
+    "6 Sommerzeit",
+    "31 Sommerzeit",
+    "22 Vorgeheim",
+    "13 Nachgeheim",
+    "6 Erntezeit",
+    "31 Erntezeit",
+    "22 Brauzeit",
+    "14 Kaldezeit",
+    "6 Ulriczeit",
+    "31 Ulriczeit",
+    "22 Vorhexen"
+   ],
+   "pelnie_mannslieb": [
+    "25 Nachexen",
+    "18 Jahrdrung",
+    "9 Pflugzeit",
+    "2 Sigmarzeit",
+    "26 Sigmarzeit",
+    "18 Sommerzeit",
+    "9 Vorgeheim",
+    "1 Nachgeheim",
+    "26 Nachgeheim",
+    "18 Erntezeit",
+    "9 Brauzeit",
+    "1 Kaldezeit",
+    "26 Kaldezeit",
+    "18 Ulriczeit",
+    "9 Vorhexen"
+   ],
+   "pory_roku_doy": {
+    "wiosna": 18,
+    "lato": 118,
+    "jesien": 218,
+    "zima": 319
+   },
+   "geheimnisnacht": {
+    "typ": "event MG (nie cykliczny)",
+    "kandydaci": [
+     "1 Nachgeheim (doy 201)",
+     "26 Nachgeheim (doy 226)",
+     "18 Erntezeit (doy 251)",
+     "9 Brauzeit (doy 276)",
+     "1 Kaldezeit (doy 301)"
+    ],
+    "okno_rl": "19:00-21:00 Europe/Warsaw (prime 20:00)",
+    "potwierdzenie_empiryczne": "11.08.2026 ok. 20:00 = noc pelni 1 Nachgeheim (zachod 19:57 PL)",
+    "czas_w_trakcie": "komenda `czas` NIE podaje daty (linia `noc Geheimnisnacht` bez daty)"
+   },
+   "format_linii_czas": "^Jest w przyblizeniu <godzina slownie>[ <mod> <pora dnia>], ... w <DzienTyg>, [<ordinal> dzien miesiaca <Miesiac> | (dzien|noc) <Swieto>] wedlug Kalendarza Imperialnego.$",
+   "dni_tygodnia": {
+    "z_korpusu": [
+     "Festtag",
+     "Koenigstag",
+     "Aubentag",
+     "Markttag"
+    ],
+    "uwaga": "wszystkie pluginy kalendarzowe ignoruja dzien tygodnia przy parsowaniu"
+   }
+  },
+  "ishtar": {
+   "rok_dni": 360,
+   "struktura": "8 savoedow x 45 dni; rok od 1 Saovine (konwencja gry, potwierdzona empirycznie — uwaga 1.8.12m)",
+   "savoedy": [
+    "Saovine",
+    "Yule",
+    "Imbaelk",
+    "Birke",
+    "Blathe",
+    "Feainn",
+    "Lammas",
+    "Velen"
+   ],
+   "wschod_slonca": {
+    "Yule": 8,
+    "Imbaelk": 7,
+    "Birke": 6,
+    "Blathe": 5,
+    "Feainn": 4,
+    "Lammas": 5,
+    "Velen": 7,
+    "Saovine": 6
+   },
+   "zachod_slonca": {
+    "Yule": 16,
+    "Imbaelk": 18,
+    "Birke": 19,
+    "Blathe": 21,
+    "Feainn": 20,
+    "Lammas": 20,
+    "Velen": 18,
+    "Saovine": 17
+   },
+   "swieta": [
+    {
+     "nazwa": "Midinvaerne",
+     "typ": "astronomiczne",
+     "doy": 45
+    },
+    {
+     "nazwa": "Birke",
+     "typ": "astronomiczne",
+     "doy": 135
+    },
+    {
+     "nazwa": "Midaete",
+     "typ": "astronomiczne",
+     "doy": 225
+    },
+    {
+     "nazwa": "Velen",
+     "typ": "astronomiczne",
+     "doy": 315
+    },
+    {
+     "nazwa": "Imbaelk",
+     "typ": "magiczne",
+     "doy": 90
+    },
+    {
+     "nazwa": "Belleteyn",
+     "typ": "magiczne",
+     "doy": 180,
+     "uwaga": "ostatni dzien Birke; wyroznione"
+    },
+    {
+     "nazwa": "Lammas",
+     "typ": "magiczne",
+     "doy": 270
+    },
+    {
+     "nazwa": "Saovine",
+     "typ": "magiczne",
+     "doy": 360,
+     "uwaga": "wyroznione"
+    }
+   ],
+   "swieta_boundary": "swieta wypadaja w ostatni dzien poprzedzajacej pory roku (start o zmierzchu)",
+   "opisy_swiat_w_linii_czas": [
+    "Belleteyn - Dzien Rozkwitu",
+    "Lammas - Dzien Dojrzewania",
+    "Saovine - Dzien Zamierania",
+    "noc Midaete"
+   ],
+   "pelnie_okna_doy": [
+    [
+     1,
+     3
+    ],
+    [
+     25,
+     27
+    ],
+    [
+     49,
+     51
+    ],
+    [
+     73,
+     75
+    ],
+    [
+     97,
+     99
+    ],
+    [
+     121,
+     123
+    ],
+    [
+     145,
+     147
+    ],
+    [
+     169,
+     171
+    ],
+    [
+     193,
+     195
+    ],
+    [
+     217,
+     219
+    ],
+    [
+     241,
+     243
+    ],
+    [
+     267,
+     269
+    ],
+    [
+     289,
+     291
+    ],
+    [
+     313,
+     315
+    ],
+    [
+     337,
+     339
+    ]
+   ],
+   "festyn_eysenlaan": {
+    "dni_savoedu": "6-8 wlacznie",
+    "pokazywane_wystapienia": 2
+   },
+   "format_linii_czas": "^Jest w przyblizeniu <godzina slownie>[ <mod> <pora dnia>], ... [<N slownie|cyfra> dzien pory <Savoed> | <Swieto>[ - <opis>]] wedlug rachuby czasu Starszego Ludu.$"
+  },
+  "wspolne": {
+   "konwersja_rl_ig": "2000 ms RL = 1 min IG (120 s RL = 1 h IG, obie domeny)",
+   "minuty": "linia `czas` nie podaje minut — kotwica na pelnej godzinie",
+   "godziny_slownie": {
+    "polnoc": 0,
+    "pierwsza": 1,
+    "druga": 2,
+    "trzecia": 3,
+    "czwarta": 4,
+    "piata": 5,
+    "szosta": 6,
+    "siodma": 7,
+    "osma": 8,
+    "dziewiata": 9,
+    "dziesiata": 10,
+    "jedenasta": 11,
+    "dwunasta": 12,
+    "poludnie": 12
+   },
+   "reguly_pm": "+12 gdy `poludniu`/`wieczorem` albo `nocy` przy wartosci >= 6; >23 -> 0",
+   "modyfikatory_pory_dnia": [
+    "dzien",
+    "nocy",
+    "poludniu",
+    "poludniem",
+    "poludnie",
+    "rano",
+    "ranem",
+    "wieczorem"
+   ],
+   "kotwice_pluginow": {
+    "dargoth": [
+     "dargoth.imperium_cal.anchor.v2 (scheme hexenstag)",
+     "dargoth.ishtar_cal.anchor.v2 (scheme saovine)"
+    ],
+    "www": [
+     "www.imperium_cal.anchor.v2",
+     "www.ishtar_cal.anchor.v2"
+    ],
+    "pasywny_zapis": "kazda poprawnie sparsowana wlasna linia `czas` zapisuje kotwice (takze bez oczekujacego zapytania)"
+   },
+   "aliasy_pluginow": [
+    "/imperium [help|pomoc|reset]",
+    "/ishtar [help|pomoc|reset]"
+   ],
+   "komunikaty_klienckie": "prefiksy [imperium_cal] / [ishtar_cal] (println -> logowane w logach HTML; backfill odcina jak [ PORA ])",
+   "cross_domain": "komunikat `Otrzymano czas Ishtar/Imperium - postac jest w domenie ...` + raport z zapisanej kotwicy",
+   "gagowanie": "linia `czas` gagowana tylko przy oczekujacym zapytaniu pluginu; pasywnie przechodzi do logow"
+  }
  }
 }
