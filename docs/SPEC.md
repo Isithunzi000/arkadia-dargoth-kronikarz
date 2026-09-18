@@ -486,12 +486,15 @@ cech `[---- ... ----]` i znacznik `[Szczescie wroci?]` (rozpoznawane i pomijane)
 
 Listy = zdalna komunikacja gracz-gracz (bezplatna), odrebna od paczek
 kurierskich (§2.1); wysylka/odbior na poczcie albo przez zwierze pocztowe
-(`wyslij zwierze`, 15 gatunkow — flavor). Jedyny klient z modulem pocztowym
-to Dargoth (Mudlet arkadia-skrypty: 0 trafien, brak modulu).
+(`wyslij zwierze`, 15 gatunkow — flavor). Klientami z modulem pocztowym sa
+Dargoth i tjurczyk/arkadia (fork Mudleta: mail_creator + triggery);
+upstream Delwinga arkadia-skrypty: 0 trafien, brak modulu.
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
-| Nowy list | `^Masz nowa poczte od [A-Za-z]+\.$` — nadawca w **dopelniaczu** (korpus: 21 unikalnych, m.in. Eldura, Tahiry, Yoany, Gvidona, Kalkofoniksa, Ulika, Ulvhedina, Selene, Kruxa); w logach HTML linia występuje z **prefiksem klienta** `[ POCZTA ] ` (println newMail.ts jest logowany) — parser backfillu akceptuje opcjonalny prefiks; koroboracja premium live: GMCP `Mail.State.unread` | kod (newMail.ts pattern 1:1) + korpus (21 nadawcow) + spec GMCP |
+| Nowy list | `^Masz nowa poczte od [A-Za-z]+\.$` — nadawca w **dopelniaczu** (korpus: 21 unikalnych, m.in. Eldura, Tahiry, Yoany, Gvidona, Kalkofoniksa, Ulika, Ulvhedina, Selene, Kruxa); w logach HTML linia występuje z **prefiksem klienta** `[ POCZTA ] ` (println newMail.ts jest logowany; **padding wariantowy**: Dargoth `[ POCZTA ] `, tjurczyk `[  POCZTA   ] ` — regex `^\[\s*POCZTA\s*\]`, regula jak przy `[ ZABIL* ]`, §10: 9) — parser backfillu akceptuje opcjonalny prefiks; koroboracja premium live: GMCP `Mail.State.unread` | kod (newMail.ts pattern 1:1) + korpus (21 nadawcow) + spec GMCP |
+| Wyslany list | potwierdzenie wysylki z edytora: regex tjurczyka `zostal.* pomyslnie wyslan` (**dokladna forma capture** — korpus N=0, otwarte 23); towarzyszaca linia po `**`: `List jest gotowy do wyslania.`; koroboracja: znikniecie GMCP `unsent`; wpis prosty {timestamp} (decyzja §11) | kod (tjurczyk Arkadia.xml) + korpus (N=0) |
+| Sygnaly tekstowe statusu | login: `Czeka na ciebie nieprzeczytana poczta` (tekstowy odpowiednik GMCP `unread`; trigger tjurczyka masz_poczte_login) i `^Wysylasz .* na poczte.$` (potwierdzenie `wyslij zwierze` — kontekst odbioru) — **metadane/kontekst, nie wpisy**; korpus N=0 | kod (tjurczyk Arkadia.xml) |
 | Status skrzynek (GMCP) | `Mail.State` {unread, unreceived, unsent} — booleany, push automatyczny przy logowaniu i przy kazdej zmianie (otrzymanie/czytanie/wysylka); **metadane sesji live-only, nie wpis kroniki**; badge klienta pokazuje tylko unreceived („Nowa") i unsent („Niewyslana"), unread ignorowany (decyzja UI Dargotha, potwierdzona e2e); klik badge = `wyslij zwierze`; opcja `Char.Options.mail_hidden`; typy Gmcp_msgs: `mail`, `editor.mail`, `notification.mail` | spec GMCP forum t=740 + kod (MailStatus.tsx, e2e mail-status.spec.ts) |
 | Migawka indeksu `listy` | naglowek `^Listy (nieprzeczytane\|odebrane\|wyslane\|niewyslane)(?: \([^)]*\))?:$` — warianty skrotu: `(prezentowane jest pierwsze 20)` / `(prezentowane jest pierwszych 50)` / `(prezentowanych jest pierwszych 50)`; wpis `N. [*R* ]Temat: <temat>` (`*R*` = przeczytany; numeracja dowolna, nie od 1; ≤50 najnowszych) + druga linia `Nadawca: <imie>` (skrzynki odbiorcze) albo `Odbiorcy:`/`Odbiorca:` (wyslane/niewyslane) z **data IG w drugiej kolumnie** po 2+ spacjach (`Pn, 31 VIII 2026`); dlugie listy odbiorcow zawijane (kontynuacja z wcieciem); korpus: **suffix `(forwardowany)` po temacie** = list doslany (`doslij`); **metadane audytowe, nie wpis** — indeks z popupa klient UKRYWA (trigger zwraca null), w logach tylko z komend manualnych | kod (poczta.ts + test byte-for-byte z sesji live) + korpus (wpisy 4×, forward 1×) |
 | Czytanie listu | naglowki `List : N`, `Od   :`, `Temat:`, `Do   :` (opcjonalnie), `DW   :` (opcjonalnie), `Data : <Pn, 31 VIII 2026, 21:16:12>` — pola zawijane (kontynuacja wciecie 2+); tresc dowolna (takze ASCII-art pergaminu); koniec = pager `^\[<zakres> <klawisze>\] \(aktualny: N\) -- $`; negatyw `Nie ma takiego listu.`; **kontekst/zalacznik do zdarzenia, nie wpis** — popup ukrywa jak indeks | kod (poczta.ts + test byte-for-byte) + korpus (tresc raportu kurierskiego) |
@@ -511,9 +514,26 @@ gra drukuje `odebrane`/`odebranych` (naglowek indeksu + negatyw — test klienta
 byte-for-byte z sesji live); klient wysyla `listy odebrane` i dostaje indeks
 — parser naglowka i negatywu akceptuje prewencyjnie OBIE formy.
 
-Wysylka: potwierdzenie wyslania listu z edytora (`**`) nieznane z kodu, wiki
-ani korpusu → capture (otwarte 23); znikniecie flagi GMCP `unsent` to
-koroborant wysylki.
+Edytor i wysylka: `napisz list` otwiera konwersacje **adresat -> temat ->
+DW** (teksty promptow nieznane — oba klienty odpowiadaja pozycyjnie, na
+slepo; capture), potem prompt edytora `Wpisz ~?, zeby uzyskac pomoc, lub
+**, by zakonczyc edycje.` (**zgodny w dwoch klientach**: Dargoth
+PROMPT_PATTERN, tjurczyk tempTrigger); w edytorze: `~udw <imie>` per ukryty
+odbiorca, `**` wysyla, `~q` porzuca (wiki: tez `~l`, `~dw`); po `**` linia
+`List jest gotowy do wyslania.`, a po faktycznej wysylce potwierdzenie
+`zostal.* pomyslnie wyslan` (oba z kodu tjurczyka, korpus N=0 — otwarte 23);
+znikniecie flagi GMCP `unsent` to koroborant wysylki.
+
+Szablony klientow: Dargoth (none/plain/parchment/parchment2/parchment3/raw,
+szerokosc konfigurowalna 20-120) i tjurczyk (plain/plain_border/parchment
+x3, sztywne 55) — **ta sama rodzina ASCII-art** (naglowek pergaminu Dargotha
+= art z listu w tescie poczta.test.ts); tresci listow bywaja preformatowane
+przez klienty — parser tresci bierny (dowolne linie). Linia kliencka
+podgladu `Podglad listu (szerokosc N, szablon <bez szablonu|Ramka|
+pergamin|pergamin 2|pergamin 3|bez formatowania>)` (+ `(brak tresci)`) —
+println logowany, backfill pomija (zasada §11). Alias `/list` jest kliencki
+w obu klientach (Dargoth: kompozytor; tjurczyk: tez `/list <kto> <tresc>`
+= szybki list) — echo `-> /list` bez odbicia w grze.
 
 ### 2.10 Apokalipsa i czas IG
 
@@ -1171,14 +1191,41 @@ sesji):
     parser akceptuje obie formy prewencyjnie (§2.9).
 61. ~~Konsumenci GMCP Mail~~ — `Mail.State` {unread, unreceived, unsent},
     push przy logowaniu i zmianach; Dargoth: badge (ignoruje unread) +
-    popup; Mudlet: brak modulu (0 trafien); indeks i list z popupa sa
-    UKRYWANE (trigger null) — w logach tylko z komend manualnych (§2.9).
+    popup; indeks i list z popupa sa UKRYWANE (trigger null) — w logach
+    tylko z komend manualnych. ERRATA (pkt 62): „Mudlet: brak modulu"
+    dotyczy wylacznie upstreamu Delwinga — fork tjurczyk/arkadia modul
+    pocztowy MA (§2.9).
+
+Domkniete na analizie zrodel poczty-listow II 2026-09-18 (tjurczyk/arkadia:
+mail_creator + 5 szablonow + footer + triggery Arkadia.xml; Dargoth
+letter.ts + types/letter + LetterComposer/LetterViewPopup + letterRenderer +
+e2e; pomoc ?napisz/?przeczytaj/?list):
+62. ~~Moduly pocztowe klientow~~ — ERRATA §2.9 i §10: 61: modul pocztowy
+    maja DWA klienty — Dargoth i tjurczyk/arkadia (fork Mudleta, aktywny);
+    upstream Delwinga arkadia-skrypty: 0 trafien, brak modulu (§2.9).
+63. ~~Prompt edytora i przeplyw `napisz list`~~ — prompt `Wpisz ~?, zeby
+    uzyskac pomoc, lub **, by zakonczyc edycje.` zgodny w dwoch klientach;
+    konwersacja adresat -> temat -> DW (teksty promptow nieznane — oba
+    klienty odpowiadaja na slepo) -> edytor (`~udw` per ukryty odbiorca,
+    `**` wysyla) (§2.9).
+64. ~~Linie wysylki i statusu~~ — z kodu tjurczyka: `List jest gotowy do
+    wyslania.`, `zostal.* pomyslnie wyslan`, `Czeka na ciebie
+    nieprzeczytana poczta` (login), `Wysylasz .* na poczte.`, negatywy
+    `Nie otrzymal(e)s zadnych...`; korpus N=0 calej partii (Arahi nie
+    pisal listow) — dokladne formuly capture (otwarte 23); alias `/list`
+    kliencki w obu klientach; padding prefixu `[ POCZTA ]` wariantowy
+    (Dargoth 1+1, tjurczyk 2+3) -> `^\[\s*POCZTA\s*\]`; linia kliencka
+    podgladu `Podglad listu (szerokosc N, szablon X)` (§2.9).
 
 Nadal otwarte (poczta-listy):
-23. Linia potwierdzenia wyslania listu z edytora (`**`) + tresc typow
-    Gmcp_msgs `mail`/`editor.mail`/`notification.mail` — nieznane z kodu,
-    wiki i korpusu — capture live (ring buffer surowego GMCP, protokol jak
-    otwarte 18).
+23. Wysylka listu — formuly capture: dokladna forma potwierdzenia (kod
+    tjurczyka: `zostal.* pomyslnie wyslan`, korpus N=0), teksty trzech
+    promptow konwersacji `napisz list` (adresat/temat/DW), tresc typow
+    Gmcp_msgs `mail`/`editor.mail`/`notification.mail`, mechanika
+    znacznika `(forwardowany)` (strona nadawca/odbiorca; korpus 1x w
+    indeksie odbiorczym), output `aliasy pocztowe`, bare `listy`,
+    pozytywny `poczta` — capture live (ring buffer surowego GMCP,
+    protokol jak otwarte 18).
 
 Nadal otwarte (cechy, umiejętności, języki):
 19. ~~Forma przy odwadze 1~~ — domkniete (§10: 53).
@@ -1392,6 +1439,16 @@ Podjęte:
 - (2026-09-18, pomoc gry + test klienta) Rozbieznosc nazewnicza skrzynki:
   pomoc/wiki `otrzymane` vs gra `odebrane`/`odebranych` — parser akceptuje
   obie formy naglowka i negatywu prewencyjnie (§2.9).
+- (2026-09-18, kod tjurczyka + decyzja) **Wyslany list = zdarzenie
+  kroniki** (potwierdzenie `zostal.* pomyslnie wyslan` — dokladna forma
+  capture, korpus N=0); wpis prosty {timestamp}; `List jest gotowy do
+  wyslania.` = linia towarzyszaca; loginowe `Czeka na ciebie
+  nieprzeczytana poczta` i `Wysylasz .* na poczte.` = sygnaly statusu
+  (metadane), nie wpisy (§2.9).
+- (2026-09-18, kod x2) Prefix `[ POCZTA ]` z wariantowym paddingiem —
+  parser `^\[\s*POCZTA\s*\]` (regula jak `[ ZABIL* ]`, §10: 9); ASCII-art
+  w tresciach listow = szablony klientow (Dargoth/tjurczyk, ta sama
+  rodzina pergaminow) — parser tresci bierny (§2.9).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
