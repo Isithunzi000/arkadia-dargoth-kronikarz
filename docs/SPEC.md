@@ -2,8 +2,8 @@
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
 Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (analiza
-modulu apokalipsa toolkitu python: parser bloku system, RE_FORCED, model
-predykcyjny; domkniecie 71, otwarte 24 zawężone).
+modulu apokalipsa toolkitu python + decyzja: okno predykcji Apokalipsy
+funkcja premium; domkniecie 71, otwarte 24 zawężone).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -602,6 +602,14 @@ bazowych + 76 edge generowanych deterministycznie, formaty potwierdzone
 audytem z realnym outputem gry) + dziewiaty silnik python-toolkit
 (kalendarz/arkadia_calendar_core.py, pelny paritet); gra sledzi wylacznie
 Mannslieba (Morrslieb nigdzie nie wystepuje).
+
+Funkcja premium (zatwierdzona 2026-09-18): **okno predykcji Apokalipsy**
+wg modelu toolkitu (apokalipsa_gui.py) — adaptacyjna regresja per cykl na
+odczytach `system` zebranych przez kronike (faza stabilna uptime >24 h,
+korekta +0.5 pp, >=5 punktow na cykl), h95 z marginesem t-Studenta 95%
+(n>=3; n=2 midrange; n=1 fallback 5%); cykle wymuszone (marker RE_FORCED)
+i recznie odznaczone wykluczane z modelu; predykcja zawsze prezentowana
+z marginesem, nigdy jako punkt.
 
 Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
 
@@ -1593,6 +1601,10 @@ Podjęte:
   wstawka klienta (seasonPrint + GMCP `room.time.season`) — backfill
   odcina; konwersja RL<->IG wg modelu clock.ts; gra drukuje `Hexenstag`
   (wiki/tjurczyk `Hexentag` — parser akceptuje obie formy) (§2.10).
+- (2026-09-18, decyzja gracza) Okno predykcji Apokalipsy = funkcja
+  premium Kronikarza wg modelu toolkitu (adaptacyjna regresja per cykl,
+  margines t-Studenta; wymuszone i recznie odznaczone cykle wykluczane);
+  predykcja prezentowana zawsze z marginesem (§2.10).
 - (2026-09-18, toolkit apokalipsa_gui.py) Linia `Lokalny czas : ...` =
   opcjonalny element bloku `system` (metadane kontekstowe, nie wpis;
   korpus N=0 — parser toleruje bez wymogu); marker wymuszenia apokalipsy
