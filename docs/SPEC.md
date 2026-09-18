@@ -2,9 +2,8 @@
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
 Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (analiza
-wlasnych pluginow kalendarzowych Ishtar/Imperium + audyt kompletnosci:
-repo testowe, python-toolkit, aliasy Mudlet/pasek; domkniecia 68-70,
-errata Hexenstag/Hexentag).
+modulu apokalipsa toolkitu python: parser bloku system, RE_FORCED, model
+predykcyjny; domkniecie 71, otwarte 24 zawężone).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -542,8 +541,10 @@ Komenda `system` (pomoc gry) drukuje blok: `Swiat odrodzil sie : <DzTyg>,
 <d> <miesiac rzymski> <yyyy>, <hh:mm:ss>` + `Swiat istnieje : <uptime>` +
 `<n>% swiata zostalo opanowane przez Ciemnosc.` (w trakcie Apokalipsy takze
 termin zniszczenia swiata); blok konczy sie linia z `Ciemnosc.` (zgodnie
-z multiline Dargotha). Komenda `czas` zalezy od krainy (pomoc: bywa brak
-kalendarza).
+z multiline Dargotha). Opcjonalna linia bloku (toolkit apokalipsa_gui.py):
+`Lokalny czas : <DzTyg>, <d> <rzymski> <yyyy>, <hh:mm:ss>` — korpus N=0
+(slowo „lokalny" nie wystepuje w 576 sesjach), parser toleruje, nie wymaga.
+Komenda `czas` zalezy od krainy (pomoc: bywa brak kalendarza).
 
 | Zdarzenie | Detekcja | Weryfikacja |
 |---|---|---|
@@ -555,7 +556,7 @@ kalendarza).
 | Pora roku (wstawka klienta) | suffix `[ WIOSNA\|LATO\|JESIEN\|ZIMA ]` po linii `czas` = **wstawka klienta** (seasonPrint.ts, kolorowana; pora z GMCP `room.time.season` 0-3) — backfill odcina (zasada §6.2); korpus: wszystkie 292 linie `czas` z suffixem | kod (seasonPrint.ts) + korpus |
 | Kotwica czasu IG (premium) | GMCP `room.time` {daylight: bool, season?: number} — dokladne kotwice wschod/zachod (flip daylight observowany na wlasnym niebie; **domena nieoznaczona** — filtr jak w clock.ts); brak GMCP daty kalendarzowej i apokalipsy — te kanaly tekstowe/storage; zero samodzielnych linii wschodu/zachodu slonca w korpusie | kod (clock.ts, sunTracker.ts) + korpus (N=0) |
 | Uptime i Ciemnosc | `Swiat istnieje : <uptime>` — pelna odmiana (dzien/dni, godzina/y/in, minuta/y/, sekunda/y/) + wariant bez dni (`1 godzina 15 minut 41 sekund`); `<n>% swiata zostalo opanowane przez Ciemnosc.` (korpus 1×: 77%) — kontekst bloku `system`, nie osobny wpis; **twardy filtr: `opanowane` ≠ `opanowany`** (przymiotnik NPC — 46/47 trafien to szum) | korpus (32× + 1×) + kod (worldRebirth.ts) |
-| Flavor apokaliptyczny | `Nie przetrwaja najblizszej Apokalipsy: <itemy>.` (korpus 1× — kontekst nieznany); ogloszenia tablicowe `Jezdziec Apokalipsy Mistrz <kto> ...` (gracze raportuja czasy apokalips na tablicach) — filtr szumu, nie zdarzenie; toolkit-legacy `Nadchodzi Czas Apokalipsy ... poprosil ... przyspieszenie` — N=0 w korpusie i obu klientach, wzorzec nieweryfikowany (capture) | korpus + kod ×2 (0 trafien) |
+| Flavor apokaliptyczny | `Nie przetrwaja najblizszej Apokalipsy: <itemy>.` (korpus 1× — kontekst nieznany); ogloszenia tablicowe `Jezdziec Apokalipsy Mistrz <kto> ...` (gracze raportuja czasy apokalips na tablicach) — filtr szumu, nie zdarzenie; marker wymuszenia `Nadchodzi Czas Apokalipsy.{0,250}?poprosil.{0,40}?przyspieszenie` (DOTALL) — **wzorzec potwierdzony z toolkitu** (apokalipsa_gui.py RE_FORCED; asocjacja: marker -> najblizsze POZNIEJSZE odrodzenie; wymuszone cykle wykluczane z modelu predykcyjnego); N=0 w korpusie i obu klientach — capture | korpus + kod ×2 (0 trafien) + toolkit |
 
 Mechanika (wiki „Apokalipsa"): 3 typy — nagle (Jezdziec automatyczny,
 rzadkie), czarodziejow i automatyczne (od ~95% pamieci; Ciemnosc -> 100% =
@@ -1340,15 +1341,33 @@ wszystkie spojne 1:1 z clock.ts):
     `[pasek_kalendarz]` — korpus N=0 (pluginy nieuzywane w sesjach);
     tylko Mannslieb (§2.10, JSON `kalendarze_pluginy_2026_09_18`).
 
+Domkniete na analizie modulu apokalipsa toolkitu python 2026-09-18
+(arkadia-python-toolkit/apokalipsa/apokalipsa_gui.py + README; parser
+logow HTML Dargotha session_*.html):
+71. ~~Parser i model predykcyjny apokalips~~ — kotwica komendy: echo
+    `-> system` z log-time, okno 2000 znakow; `Swiat odrodzil sie` z
+    weekday `\w+,` (toleruje 2-lit. i pelne); NOWA linia bloku:
+    `Lokalny czas : ...` (opcjonalna, korpus N=0); uptime parser
+    toolkitu bez singular `dzien` (ograniczenie — Kronikarz pelna
+    odmiana); filtr ciemnosci `(\d+)% swiata zostalo opanowane`
+    zgodny z §2.10; marker wymuszenia RE_FORCED
+    (`Nadchodzi Czas Apokalipsy...poprosil...przyspieszenie`, DOTALL)
+    potwierdzony — wymuszone cykle wykluczane z modelu; model: faza
+    stabilna uptime >24h, korekta +0.5 pp (int z `system`), regresja
+    per cykl a[%/h], b[%] (>=5 pkt), h95=(95-b)/a z marginesem
+    t-Studenta 95% (n>=3; n=2 midrange; n=1 fallback 5%), prog 95%
+    zgodny z wiki; analizator_czasu importuje apokalipsy z tego
+    modulu jako granice segmentow zegara (§2.10, JSON
+    `apokalipsa_czas_2026_09_18`).
+
 Nadal otwarte (apokalipsa i czas IG):
 24. Dokladne formuly sekwencji Apokalipsy: ostrzezenie z koniosem i bez
     (`W swoim umysle slyszysz glos Jezdzca Apokalipsy ... Pamietaj,
     juz tylko N minut do momentu zniszczenia swiata.`), termin
     zniszczenia w `system` w trakcie Apokalipsy (pomoc ?system), linia
-    odwolania, toolkit-legacy `Nadchodzi Czas Apokalipsy ... poprosil
-    ... przyspieszenie` (N=0 wszedzie), kontekst `Nie przetrwaja
-    najblizszej Apokalipsy:` — capture live (rzadkie; w korpusie 576
-    sesji tylko odmowa logowania 1×).
+    odwolania, kontekst `Nie przetrwaja najblizszej Apokalipsy:`,
+    linia `Lokalny czas` (korpus N=0) — capture live (rzadkie; w
+    korpusie 576 sesji tylko odmowa logowania 1×).
 
 ---
 
@@ -1574,6 +1593,11 @@ Podjęte:
   wstawka klienta (seasonPrint + GMCP `room.time.season`) — backfill
   odcina; konwersja RL<->IG wg modelu clock.ts; gra drukuje `Hexenstag`
   (wiki/tjurczyk `Hexentag` — parser akceptuje obie formy) (§2.10).
+- (2026-09-18, toolkit apokalipsa_gui.py) Linia `Lokalny czas : ...` =
+  opcjonalny element bloku `system` (metadane kontekstowe, nie wpis;
+  korpus N=0 — parser toleruje bez wymogu); marker wymuszenia apokalipsy
+  `Nadchodzi Czas Apokalipsy ... poprosil ... przyspieszenie` przyjety
+  wg wzorca toolkitu (capture; §2.10).
 - (2026-09-18, pluginy kalendarzowe ×5) ERRATA powyzszej decyzji:
   `Hexenstag` = nazwa miesiaca (gra w `czas`), `Hexentag` = swieto
   interkalarne — dwa rozne byty, parser obu form pozostaje sluszny;
