@@ -2,8 +2,8 @@
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
 Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (analiza
-zrodel apokalipsy i czasu IG: Dargoth + tjurczyk + wiki + pomoc gry +
-korpus; domkniecia 65-67, otwarte 24).
+wlasnych pluginow kalendarzowych Ishtar/Imperium — 5 implementacji;
+domkniecia 68-69, errata Hexenstag/Hexentag).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -549,8 +549,8 @@ kalendarza).
 | Apokalipsa (odrodzenie swiata) | blok `system`: `^Swiat odrodzil sie\s*:\s*(.+)$` — format `Pt, 19 XII 2025, 07:27:33` (**dzien tygodnia skrocony 2-lit.**: Pn/Wt/Sr/Cz/Pt/So; korpus 13×); wpis = timestamp odrodzenia **z linii**, nie log-time; **twarda granica kontekstu sesji w backfillu**; premium: Dargoth trzyma `last_world_rebirth` (unix ts) w globalStorage + event `systemRebirth` — koroboracja | kod (worldRebirth.ts + test/e2e) + korpus (13×) + pomoc `?system` |
 | Odliczanie Apokalipsy | `Pamietaj, juz tylko (\d+) minut do momentu zniszczenia swiata.` — bywa wydluzone prefiksem `W swoim umysle slyszysz glos Jezdzca Apokalipsy ...` (komentarz w kodzie); wiki: ostrzezenia 10/5/4/3/2/1 min (apokalipsy czarodziejow i automatyczne od ~95% pamieci; mozliwe odwolanie; **logowanie zablokowane w odliczaniu**); korpus N=0 — **zdarzenie capture** | kod (worldDestructionTimer.ts) + wiki „Apokalipsa" + korpus (N=0) |
 | Odmowa logowania w Apokalipsie | `Na Arkadii trwa wlasnie Apokalipsa. Zapraszamy za kilka minut, kiedy to Arkadia bedzie z powrotem.` (ekran logowania; korpus 1× — w korpusie z mojibake UTF-8) — granica sesji, nie wpis | korpus (1×) |
-| Czas IG — Ishtar (Starszy Lud) | `^Jest w przyblizeniu <godzina slownie>[ <mod>] <pora dnia>, [po wschodzie slonca, \| po zachodzie slonca, ] [<n> dzien pory <miesiac> \| <swieto>[ - <opis>]] wedlug rachuby czasu Starszego Ludu.$` — korpus 124×; wstawki `po wschodzie/zachodzie slonca,` POZA regexami klientow (klienci toleruja przez `.*,`); wariant swieta z opisem `<nazwa> - <...>` (pattern Dargotha); 8 miesiecy: Birke/Blathe/Feainn/Lammas/Velen/Saovine/Yule/Imbaelk | korpus (124×) + kod ×2 (clock.ts + Arkadia.xml) + pomoc `?czas` |
-| Czas IG — Imperium | `^Jest w przyblizeniu <godzina>[ <mod>] <pora>, [przed wschodem slonca \| po ...] w <DzienTygImp>, [<n> dzien miesiaca <miesiac> \| dzien\|noc <swieto>] wedlug Kalendarza Imperialnego.$` — korpus 168×; dni tygodnia z korpusu: Festtag, Koenigstag, Aubentag, Markttag; swieto `dzien Hexenstag` (korpus 2×) — **rozbieznosc: gra `Hexenstag`, wiki/tjurczyk `Hexentag`** (parser obie); 12 miesiecy + swieta wg wiki „Czas" (Nowy Rok, Mitterfruhl, Sonnenstill, Geheimnisnacht, Mitterherbst, Mondstill) | korpus (168×) + kod ×2 + wiki „Czas" |
+| Czas IG — Ishtar (Starszy Lud) | `^Jest w przyblizeniu <godzina slownie>[ <mod>] <pora dnia>, [po wschodzie slonca, \| po zachodzie slonca, ] [<n> dzien pory <savoed> \| <swieto>[ - <opis>]] wedlug rachuby czasu Starszego Ludu.$` — korpus 124×; wstawki `po wschodzie/zachodzie slonca,` POZA regexami klientow (klienci toleruja przez `.*,`); opisy swiat w linii potwierdzone w pluginach: `Belleteyn - Dzien Rozkwitu`, `Lammas - Dzien Dojrzewania`, `Saovine - Dzien Zamierania`, `noc Midaete`; rok 360 dni = 8 savoedow × 45, rok od 1 Saovine (konwencja gry, potw. empirycznie): Saovine/Yule/Imbaelk/Birke/Blathe/Feainn/Lammas/Velen | korpus (124×) + kod ×2 (clock.ts + Arkadia.xml) + pluginy kalendarzowe ×5 + pomoc `?czas` |
+| Czas IG — Imperium | `^Jest w przyblizeniu <godzina>[ <mod>] <pora>, [przed wschodem slonca \| po ...] w <DzienTygImp>, [<n> dzien miesiaca <miesiac> \| dzien\|noc <swieto>] wedlug Kalendarza Imperialnego.$` — korpus 168×; dni tygodnia z korpusu: Festtag, Koenigstag, Aubentag, Markttag (wszystkie pluginy je IGNORUJA — parser Kronikarza rowniez); **ERRATA**: `Hexenstag` = nazwa MIESIACA (1 dzien; gra drukuje miesiac w `czas` — stad korpus 2× `dzien Hexenstag`), `Hexentag` = SWIETO interkalarne 1. dnia roku (wiki/tjurczyk/pluginy) — dwa rozne byty, parser obu form sluszny; rok 400 dni = 12 miesiecy (32/33 dni) + 5 swiat interkalarnych, BRAK Geheimnistag (rozmijanie z kanonem WFRP, potw. komentarzem w pluginach); pelne tabele: JSON `kalendarze_pluginy_2026_09_18` | korpus (168×) + kod ×2 + wiki „Czas" + pluginy kalendarzowe ×5 |
 | Pora roku (wstawka klienta) | suffix `[ WIOSNA\|LATO\|JESIEN\|ZIMA ]` po linii `czas` = **wstawka klienta** (seasonPrint.ts, kolorowana; pora z GMCP `room.time.season` 0-3) — backfill odcina (zasada §6.2); korpus: wszystkie 292 linie `czas` z suffixem | kod (seasonPrint.ts) + korpus |
 | Kotwica czasu IG (premium) | GMCP `room.time` {daylight: bool, season?: number} — dokladne kotwice wschod/zachod (flip daylight observowany na wlasnym niebie; **domena nieoznaczona** — filtr jak w clock.ts); brak GMCP daty kalendarzowej i apokalipsy — te kanaly tekstowe/storage; zero samodzielnych linii wschodu/zachodu slonca w korpusie | kod (clock.ts, sunTracker.ts) + korpus (N=0) |
 | Uptime i Ciemnosc | `Swiat istnieje : <uptime>` — pelna odmiana (dzien/dni, godzina/y/in, minuta/y/, sekunda/y/) + wariant bez dni (`1 godzina 15 minut 41 sekund`); `<n>% swiata zostalo opanowane przez Ciemnosc.` (korpus 1×: 77%) — kontekst bloku `system`, nie osobny wpis; **twardy filtr: `opanowane` ≠ `opanowany`** (przymiotnik NPC — 46/47 trafien to szum) | korpus (32× + 1×) + kod (worldRebirth.ts) |
@@ -565,9 +565,29 @@ z `?system`).
 
 Konwersja RL<->IG per sesja: model referencyjny = clock.ts Dargotha (tablice
 swiat, siatki sloneczne sunModel, domeny Imperium/Ishtar); kalendary
-zweryfikowane wczesniej 1:1 z pluginami kalendarzowymi. Klienckie aliasy
-`/czas`, `/czasw`, `/czas imperium|ishtar <d> [m]` — echo `-> /czas` bez
-odbicia w grze (gra zna tylko `czas`).
+zweryfikowane 1:1 z wlasnymi pluginami kalendarzowymi — 5 implementacji
+spojnych (komentarze „1:1 z clock.ts"): Dargoth imperium_cal 1.8.24 i
+ishtar_cal (zrodla w arkadia-dargoth-plugins), oficjalny klient WWW
+arkadia_cal 1.0.12 (www-arkadia_cal), Mudlet imperium_cal + ishtar_cal +
+pasek_czas, arkadia_tools.html. Klienckie aliasy `/czas`, `/czasw`,
+`/czas imperium|ishtar <d> [m]` — echo `-> /czas` bez odbicia w grze
+(gra zna tylko `czas`).
+
+Wspolne mechaniki czasu IG z pluginow (pelne tabele: JSON
+`kalendarze_pluginy_2026_09_18`): konwersja 2000 ms RL = 1 min IG (120 s RL
+= 1 h IG, obie domeny); linia `czas` nie podaje minut — kotwica na pelnej
+godzinie; godziny slownie polnoc..dwunasta/poludnie z modyfikatorami pory
+dnia (PM gdy `poludniu`/`wieczorem` albo `nocy` przy v>=6); pluginy trzymaja
+kotwice w localStorage (`dargoth.imperium_cal.anchor.v2` /
+`dargoth.ishtar_cal.anchor.v2`, scheme `hexenstag`/`saovine`) z pasywnym
+zapisem kazdej wlasnej sparsowanej linii `czas`; aliasy pluginow `/imperium`
+i `/ishtar` (help|pomoc|reset); komunikaty klienckie z prefiksem
+`[imperium_cal]` / `[ishtar_cal]` = wstawki pluginow (println -> logowane w
+logach HTML — backfill odcina jak `[ PORA ]`, zasada §6.2); Geheimnisnacht:
+event MG — kandydaci = 5 jesiennych pelni Mannslieba (1/26 Nachgeheim,
+18 Erntezeit, 9 Brauzeit, 1 Kaldezeit), okno RL 19:00-21:00 Europe/Warsaw
+(potw. empirycznie 11.08.2026 ~20:00 = pelnia 1 Nachgeheim), w trakcie
+eventu `czas` NIE podaje daty (`noc Geheimnisnacht`).
 
 Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
 
@@ -1275,6 +1295,31 @@ worldRebirth + worldDestructionTimer + clock/sunModel/sunTracker/seasonPrint
     apokalips, ostrzezenia 10-1 min, blokada logowania; linie
     odliczania korpus N=0 -> capture (otwarte 24) (§2.10).
 
+Domkniete na analizie wlasnych pluginow kalendarzowych 2026-09-18 (5
+implementacji: Dargoth imperium_cal 1.8.24 + ishtar_cal
+[arkadia-dargoth-plugins], WWW arkadia_cal 1.0.12 [www-arkadia_cal],
+Mudlet imperium_cal + ishtar_cal + pasek_czas, arkadia_tools.html —
+wszystkie spojne 1:1 z clock.ts):
+68. ~~Tabele kalendarzy Imperium i Ishtar~~ — Imperium: rok 400 dni =
+    12 miesiecy (32/33 dni) + 5 swiat interkalarnych 1-dniowych;
+    ERRATA: miesiac `Hexenstag` vs swieto `Hexentag` (dwa byty);
+    brak Geheimnistag; nowe (16) i pelnie (15) Mannslieba; pory roku
+    doy 18/118/218/319; Geheimnisnacht = event MG (5 jesiennych pelni,
+    okno 19-21 Europe/Warsaw). Ishtar: rok 360 = 8 savoedow × 45 od
+    1 Saovine; swieta astronomiczne (Midinvaerne 45, Birke 135,
+    Midaete 225, Velen 315) i magiczne (Imbaelk 90, Belleteyn 180,
+    Lammas 270, Saovine 360); 15 okien pelni 2-dniowych; festyn
+    Eysenlaan dni 6-8 savoedu; opisy swiat w linii `czas`
+    (`Belleteyn - Dzien Rozkwitu` itd.); wschody/zachody slonca per
+    miesiac/savoed (§2.10, JSON `kalendarze_pluginy_2026_09_18`).
+69. ~~Wspolne mechaniki czasu IG~~ — konwersja 2000 ms RL = 1 min IG;
+    `czas` bez minut (kotwica na pelnej godzinie); godziny slownie +
+    reguly PM; kotwice localStorage z pasywnym zapisem; aliasy
+    `/imperium` `/ishtar` (help|pomoc|reset); komunikaty
+    `[imperium_cal]`/`[ishtar_cal]` = linie klienckie (backfill
+    odcina); dni tygodnia Imperium ignorowane przez pluginy; w trakcie
+    Geheimnisnacht `czas` bez daty (§2.10).
+
 Nadal otwarte (apokalipsa i czas IG):
 24. Dokladne formuly sekwencji Apokalipsy: ostrzezenie z koniosem i bez
     (`W swoim umysle slyszysz glos Jezdzca Apokalipsy ... Pamietaj,
@@ -1509,6 +1554,12 @@ Podjęte:
   wstawka klienta (seasonPrint + GMCP `room.time.season`) — backfill
   odcina; konwersja RL<->IG wg modelu clock.ts; gra drukuje `Hexenstag`
   (wiki/tjurczyk `Hexentag` — parser akceptuje obie formy) (§2.10).
+- (2026-09-18, pluginy kalendarzowe ×5) ERRATA powyzszej decyzji:
+  `Hexenstag` = nazwa miesiaca (gra w `czas`), `Hexentag` = swieto
+  interkalarne — dwa rozne byty, parser obu form pozostaje sluszny;
+  linie `[imperium_cal]`/`[ishtar_cal]` = wstawki pluginow (println,
+  logowane) — backfill odcina jak `[ PORA ]`; dni tygodnia Imperium
+  (Festtag itd.) pomijane przy parsowaniu (pluginy je ignoruja) (§2.10).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
