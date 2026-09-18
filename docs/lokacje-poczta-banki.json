@@ -1579,6 +1579,37 @@
    "mail",
    "editor.mail",
    "notification.mail"
-  ]
+  ],
+  "linie_tjurczyk_korpus_N0": [
+   "Czeka na ciebie nieprzeczytana poczta (login)",
+   "List jest gotowy do wyslania. (po **)",
+   "zostal.* pomyslnie wyslan (potwierdzenie wysylki, regex)",
+   "Wysylasz .* na poczte. (wyslij zwierze)",
+   "Nie otrzymal(e)s zadnych ... (druga rodzina negatywow)"
+  ],
+  "prompt_edytora_2_klienty": "Wpisz ~?, zeby uzyskac pomoc, lub **, by zakonczyc edycje.",
+  "przeplyw_napisz_list": "konwersacja: adresat -> temat -> DW (prompty nieznane, capture) -> edytor (~udw per ukryty odbiorca, ** wysyla, ~q porzuca)",
+  "prefix_padding": [
+   "[ POCZTA ] (Dargoth 1+1)",
+   "[  POCZTA   ] (tjurczyk 2+3)",
+   "regex: ^\\[\\s*POCZTA\\s*\\]"
+  ],
+  "szablony_dargoth": [
+   "none",
+   "plain",
+   "parchment",
+   "parchment2",
+   "parchment3",
+   "raw"
+  ],
+  "szablony_tjurczyk": [
+   "plain",
+   "plain_border",
+   "parchment",
+   "parchment2",
+   "parchment3"
+  ],
+  "linia_podgladu_dargoth": "Podglad listu (szerokosc N, szablon <bez szablonu|Ramka|pergamin|pergamin 2|pergamin 3|bez formatowania>)",
+  "alias_list_kliencki": "/list w obu klientach (Dargoth: kompozytor; tjurczyk: tez /list <kto> <tresc>) - bez odbicia w grze"
  }
 }
