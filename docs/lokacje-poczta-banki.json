@@ -1611,5 +1611,66 @@
   ],
   "linia_podgladu_dargoth": "Podglad listu (szerokosc N, szablon <bez szablonu|Ramka|pergamin|pergamin 2|pergamin 3|bez formatowania>)",
   "alias_list_kliencki": "/list w obu klientach (Dargoth: kompozytor; tjurczyk: tez /list <kto> <tresc>) - bez odbicia w grze"
+ },
+ "apokalipsa_czas_2026_09_18": {
+  "system_blok": {
+   "odrodzenie": "Swiat odrodzil sie : <DzTyg2lit>, <d> <rzymski> <yyyy>, <hh:mm:ss> (korpus 13x)",
+   "uptime": "Swiat istnieje : <dzien/dni godzina/y/in minuta/y/ sekunda/y/> lub bez dni (korpus 32x)",
+   "ciemnosc": "<n>% swiata zostalo opanowane przez Ciemnosc. (korpus 1x: 77%)",
+   "koniec_bloku": "Ciemnosc. (multiline Dargotha)",
+   "premium": "last_world_rebirth (unix ts) w globalStorage + event systemRebirth"
+  },
+  "dni_tygodnia_skroty_korpus": [
+   "Pn",
+   "Wt",
+   "Sr",
+   "Cz",
+   "Pt",
+   "So"
+  ],
+  "czas_ishtar": {
+   "liczba_korpus": 124,
+   "miesiace": [
+    "Birke",
+    "Blathe",
+    "Feainn",
+    "Lammas",
+    "Velen",
+    "Saovine",
+    "Yule",
+    "Imbaelk"
+   ],
+   "wstawki": [
+    "po wschodzie slonca,",
+    "po zachodzie slonca,"
+   ],
+   "zakonczenie": "wedlug rachuby czasu Starszego Ludu."
+  },
+  "czas_imperium": {
+   "liczba_korpus": 168,
+   "dni_tygodnia_korpus": [
+    "Festtag",
+    "Koenigstag",
+    "Aubentag",
+    "Markttag"
+   ],
+   "swieta_wiki": [
+    "Hexentag",
+    "Mitterfruhl",
+    "Sonnenstill",
+    "Geheimnisnacht",
+    "Mitterherbst",
+    "Mondstill"
+   ],
+   "rozbieznosc": "gra drukuje Hexenstag (korpus 2x + Dargoth), wiki/tjurczyk Hexentag",
+   "zakonczenie": "wedlug Kalendarza Imperialnego."
+  },
+  "wstawka_klienta_pora": "[ WIOSNA|LATO|JESIEN|ZIMA ] (seasonPrint.ts, pora z GMCP room.time.season 0-3)",
+  "gmcp_room_time": [
+   "daylight (bool)",
+   "season (number 0-3, opcjonalne)"
+  ],
+  "odliczanie_apokalipsy": "Pamietaj, juz tylko N minut do momentu zniszczenia swiata. (kod; korpus N=0, capture)",
+  "odmowa_logowania": "Na Arkadii trwa wlasnie Apokalipsa. Zapraszamy za kilka minut, kiedy to Arkadia bedzie z powrotem. (korpus 1x, mojibake)"
  }
 }
