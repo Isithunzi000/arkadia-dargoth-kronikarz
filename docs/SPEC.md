@@ -2,8 +2,8 @@
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
 Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (analiza
-zrodel poczty-listow: kod klienta + testy byte-for-byte + pomoc gry + korpus;
-domkniecia 59-61, otwarte 23).
+zrodel apokalipsy i czasu IG: Dargoth + tjurczyk + wiki + pomoc gry +
+korpus; domkniecia 65-67, otwarte 24).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -537,19 +537,37 @@ w obu klientach (Dargoth: kompozytor; tjurczyk: tez `/list <kto> <tresc>`
 
 ### 2.10 Apokalipsa i czas IG
 
-Patterny przeniesione z toolkitu (moduły `apokalipsa`, `analizator_czasu`), działające
-na echu komendy `→ system` / `→ czas` + oknie odpowiedzi:
+Komenda `system` (pomoc gry) drukuje blok: `Swiat odrodzil sie : <DzTyg>,
+<d> <miesiac rzymski> <yyyy>, <hh:mm:ss>` + `Swiat istnieje : <uptime>` +
+`<n>% swiata zostalo opanowane przez Ciemnosc.` (w trakcie Apokalipsy takze
+termin zniszczenia swiata); blok konczy sie linia z `Ciemnosc.` (zgodnie
+z multiline Dargotha). Komenda `czas` zalezy od krainy (pomoc: bywa brak
+kalendarza).
 
-- `Swiat odrodzil sie : <dzień tygodnia>, <dzien> <miesiąc rzymski> <rok>, <hh:mm:ss>`
-  (korpus: `Swiat odrodzil sie : Pt, 19 XII 2025, 07:27:33` — **z dniem tygodnia**,
-  czego nie łapał regex toolkitu) — apokalipsa jako zdarzenie kroniki i twarda granica
-  kontekstu sesji w backfillu;
-- `Swiat istnieje : ...` — uptime z pełną odmianą (dzień/dni, godzina/godziny/godzin,
-  minuta/minuty/minut, sekunda/sekundy/sekund) i wariantem bez dni (`6 godzin 30 minut
-  8 sekund`); `<n>% swiata zostalo opanowane` — ciemność;
-- `Nadchodzi Czas Apokalipsy ... poprosil ... przyspieszenie` — apokalipsa wymuszona;
-- `Jest w przyblizeniu <godzina słownie> ...` — kotwice czasu IG; konwersja RL↔IG
-  per sesja; kalendary Imperium/Ishtar zweryfikowane 1:1 z pluginami kalendarzowymi.
+| Zdarzenie | Detekcja | Weryfikacja |
+|---|---|---|
+| Apokalipsa (odrodzenie swiata) | blok `system`: `^Swiat odrodzil sie\s*:\s*(.+)$` — format `Pt, 19 XII 2025, 07:27:33` (**dzien tygodnia skrocony 2-lit.**: Pn/Wt/Sr/Cz/Pt/So; korpus 13×); wpis = timestamp odrodzenia **z linii**, nie log-time; **twarda granica kontekstu sesji w backfillu**; premium: Dargoth trzyma `last_world_rebirth` (unix ts) w globalStorage + event `systemRebirth` — koroboracja | kod (worldRebirth.ts + test/e2e) + korpus (13×) + pomoc `?system` |
+| Odliczanie Apokalipsy | `Pamietaj, juz tylko (\d+) minut do momentu zniszczenia swiata.` — bywa wydluzone prefiksem `W swoim umysle slyszysz glos Jezdzca Apokalipsy ...` (komentarz w kodzie); wiki: ostrzezenia 10/5/4/3/2/1 min (apokalipsy czarodziejow i automatyczne od ~95% pamieci; mozliwe odwolanie; **logowanie zablokowane w odliczaniu**); korpus N=0 — **zdarzenie capture** | kod (worldDestructionTimer.ts) + wiki „Apokalipsa" + korpus (N=0) |
+| Odmowa logowania w Apokalipsie | `Na Arkadii trwa wlasnie Apokalipsa. Zapraszamy za kilka minut, kiedy to Arkadia bedzie z powrotem.` (ekran logowania; korpus 1× — w korpusie z mojibake UTF-8) — granica sesji, nie wpis | korpus (1×) |
+| Czas IG — Ishtar (Starszy Lud) | `^Jest w przyblizeniu <godzina slownie>[ <mod>] <pora dnia>, [po wschodzie slonca, \| po zachodzie slonca, ] [<n> dzien pory <miesiac> \| <swieto>[ - <opis>]] wedlug rachuby czasu Starszego Ludu.$` — korpus 124×; wstawki `po wschodzie/zachodzie slonca,` POZA regexami klientow (klienci toleruja przez `.*,`); wariant swieta z opisem `<nazwa> - <...>` (pattern Dargotha); 8 miesiecy: Birke/Blathe/Feainn/Lammas/Velen/Saovine/Yule/Imbaelk | korpus (124×) + kod ×2 (clock.ts + Arkadia.xml) + pomoc `?czas` |
+| Czas IG — Imperium | `^Jest w przyblizeniu <godzina>[ <mod>] <pora>, [przed wschodem slonca \| po ...] w <DzienTygImp>, [<n> dzien miesiaca <miesiac> \| dzien\|noc <swieto>] wedlug Kalendarza Imperialnego.$` — korpus 168×; dni tygodnia z korpusu: Festtag, Koenigstag, Aubentag, Markttag; swieto `dzien Hexenstag` (korpus 2×) — **rozbieznosc: gra `Hexenstag`, wiki/tjurczyk `Hexentag`** (parser obie); 12 miesiecy + swieta wg wiki „Czas" (Nowy Rok, Mitterfruhl, Sonnenstill, Geheimnisnacht, Mitterherbst, Mondstill) | korpus (168×) + kod ×2 + wiki „Czas" |
+| Pora roku (wstawka klienta) | suffix `[ WIOSNA\|LATO\|JESIEN\|ZIMA ]` po linii `czas` = **wstawka klienta** (seasonPrint.ts, kolorowana; pora z GMCP `room.time.season` 0-3) — backfill odcina (zasada §6.2); korpus: wszystkie 292 linie `czas` z suffixem | kod (seasonPrint.ts) + korpus |
+| Kotwica czasu IG (premium) | GMCP `room.time` {daylight: bool, season?: number} — dokladne kotwice wschod/zachod (flip daylight observowany na wlasnym niebie; **domena nieoznaczona** — filtr jak w clock.ts); brak GMCP daty kalendarzowej i apokalipsy — te kanaly tekstowe/storage; zero samodzielnych linii wschodu/zachodu slonca w korpusie | kod (clock.ts, sunTracker.ts) + korpus (N=0) |
+| Uptime i Ciemnosc | `Swiat istnieje : <uptime>` — pelna odmiana (dzien/dni, godzina/y/in, minuta/y/, sekunda/y/) + wariant bez dni (`1 godzina 15 minut 41 sekund`); `<n>% swiata zostalo opanowane przez Ciemnosc.` (korpus 1×: 77%) — kontekst bloku `system`, nie osobny wpis; **twardy filtr: `opanowane` ≠ `opanowany`** (przymiotnik NPC — 46/47 trafien to szum) | korpus (32× + 1×) + kod (worldRebirth.ts) |
+| Flavor apokaliptyczny | `Nie przetrwaja najblizszej Apokalipsy: <itemy>.` (korpus 1× — kontekst nieznany); ogloszenia tablicowe `Jezdziec Apokalipsy Mistrz <kto> ...` (gracze raportuja czasy apokalips na tablicach) — filtr szumu, nie zdarzenie; toolkit-legacy `Nadchodzi Czas Apokalipsy ... poprosil ... przyspieszenie` — N=0 w korpusie i obu klientach, wzorzec nieweryfikowany (capture) | korpus + kod ×2 (0 trafien) |
+
+Mechanika (wiki „Apokalipsa"): 3 typy — nagle (Jezdziec automatyczny,
+rzadkie), czarodziejow i automatyczne (od ~95% pamieci; Ciemnosc -> 100% =
+Czas Apokalipsy wg pomocy `?system`); ostrzezenia 10/5/4/3/2/1 min, mozliwe
+odwolanie; ekwipunek przetrwalny, czas kalendarzowy przenoszony miedzy
+restartami (wiki „Czas"); pomoc `?apokalipsa` nie istnieje (404, linkowana
+z `?system`).
+
+Konwersja RL<->IG per sesja: model referencyjny = clock.ts Dargotha (tablice
+swiat, siatki sloneczne sunModel, domeny Imperium/Ishtar); kalendary
+zweryfikowane wczesniej 1:1 z pluginami kalendarzowymi. Klienckie aliasy
+`/czas`, `/czasw`, `/czas imperium|ishtar <d> [m]` — echo `-> /czas` bez
+odbicia w grze (gra zna tylko `czas`).
 
 Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
 
@@ -1234,6 +1252,39 @@ Nadal otwarte (cechy, umiejętności, języki):
 22. ~~Output komend `umiejetnosci maksymalne` / `jezyki maksymalne`~~ —
     domkniete (§10: 56).
 
+Domkniete na analizie zrodel apokalipsy i czasu IG 2026-09-18 (Dargoth
+worldRebirth + worldDestructionTimer + clock/sunModel/sunTracker/seasonPrint
++ testy + tjurczyk calendar.lua i triggery Arkadia.xml + Delwing Mudlet
+(brak modulu) + wiki „Apokalipsa" i „Czas" + pomoc ?czas/?system (a
+?apokalipsa = 404) + korpus 576 sesji):
+65. ~~Blok komendy `system`~~ — odrodzenie (dzien tygodnia skrocony
+    2-lit., korpus 13×), uptime z pelna odmiana i wariantem bez dni
+    (32×), `<n>% swiata zostalo opanowane przez Ciemnosc.` (1×: 77%);
+    blok konczy `Ciemnosc.` zgodnie z multiline Dargotha; premium:
+    `last_world_rebirth` w globalStorage + event `systemRebirth`;
+    twardy filtr `opanowane` ≠ `opanowany` (§2.10).
+66. ~~Format `czas` obu kalendarzy~~ — korpus 292 linie (Ishtar 124,
+    Imperium 168); wstawki `po wschodzie slonca,`/`po zachodzie slonca,`
+    (Ishtar) i `w <DzienTygImp>,` (Imperium: Festtag/Koenigstag/
+    Aubentag/Markttag); suffix `[ PORA ]` = wstawka klienta
+    (seasonPrint + GMCP `room.time.season`); rozbieznosc: gra
+    `Hexenstag` vs wiki/tjurczyk `Hexentag` (§2.10).
+67. ~~Kanal premium czasu IG i mechanika apokalips~~ — GMCP `room.time`
+    {daylight, season}: kotwice wschod/zachod (flip na wlasnym niebie,
+    domena nieoznaczona); brak GMCP daty/apokalipsy; wiki: 3 typy
+    apokalips, ostrzezenia 10-1 min, blokada logowania; linie
+    odliczania korpus N=0 -> capture (otwarte 24) (§2.10).
+
+Nadal otwarte (apokalipsa i czas IG):
+24. Dokladne formuly sekwencji Apokalipsy: ostrzezenie z koniosem i bez
+    (`W swoim umysle slyszysz glos Jezdzca Apokalipsy ... Pamietaj,
+    juz tylko N minut do momentu zniszczenia swiata.`), termin
+    zniszczenia w `system` w trakcie Apokalipsy (pomoc ?system), linia
+    odwolania, toolkit-legacy `Nadchodzi Czas Apokalipsy ... poprosil
+    ... przyspieszenie` (N=0 wszedzie), kontekst `Nie przetrwaja
+    najblizszej Apokalipsy:` — capture live (rzadkie; w korpusie 576
+    sesji tylko odmowa logowania 1×).
+
 ---
 
 ## 11. Rejestr decyzji
@@ -1449,6 +1500,15 @@ Podjęte:
   parser `^\[\s*POCZTA\s*\]` (regula jak `[ ZABIL* ]`, §10: 9); ASCII-art
   w tresciach listow = szablony klientow (Dargoth/tjurczyk, ta sama
   rodzina pergaminow) — parser tresci bierny (§2.9).
+- (2026-09-18, kod + wiki + korpus) Apokalipsa = zdarzenie kroniki z linii
+  `Swiat odrodzil sie : ...` (timestamp z linii = twarda granica
+  kontekstu; koroboracja premium `last_world_rebirth`); odliczanie
+  (ostrzezenia 10-1 min) = zdarzenie capture (korpus N=0); odmowa
+  logowania i ogloszenia tablicowe = granica/filtr, nie wpisy (§2.10).
+- (2026-09-18, kod Dargotha + korpus) Suffix `[ PORA ]` po linii `czas` =
+  wstawka klienta (seasonPrint + GMCP `room.time.season`) — backfill
+  odcina; konwersja RL<->IG wg modelu clock.ts; gra drukuje `Hexenstag`
+  (wiki/tjurczyk `Hexentag` — parser akceptuje obie formy) (§2.10).
 
 Odrzucone / poza zakresem (z uzasadnieniem):
 - Kradzież — nie istnieje na Arkadii.
