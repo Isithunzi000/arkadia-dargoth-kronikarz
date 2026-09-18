@@ -1522,5 +1522,63 @@
   "linia_wykupienia_depositu": 0,
   "sto_plus_w_depositach_i_kasie": 0,
   "niebotyczne_wystapienia": 5
+ },
+ "poczta_listy_2026_09_18": {
+  "skrzynki_gra": [
+   "nieprzeczytane",
+   "odebrane",
+   "wyslane",
+   "niewyslane"
+  ],
+  "skrzynki_wiki_pomoc": [
+   "nieprzeczytane",
+   "otrzymane",
+   "wyslane",
+   "niewyslane"
+  ],
+  "naglowek_skrot_odmiany": [
+   "prezentowane jest pierwsze 20",
+   "prezentowane jest pierwszych 50",
+   "prezentowanych jest pierwszych 50"
+  ],
+  "negatyw_korpus": "Nie masz zadnych nieprzeczytanych listow. (x2)",
+  "nadawcy_korpus_dopelniacz": [
+   "Afanenn",
+   "Anayensen",
+   "Arcaina",
+   "Berrina",
+   "Eldura",
+   "Ellei",
+   "Ferila",
+   "Genevive",
+   "Gvidona",
+   "Gwenn",
+   "Hollo",
+   "Isil",
+   "Kalkofoniksa",
+   "Kruxa",
+   "Liloo",
+   "Miili",
+   "Selene",
+   "Tahiry",
+   "Ulika",
+   "Ulvhedina",
+   "Yoany"
+  ],
+  "suffix_doslania": "(forwardowany)",
+  "tematy_kurierskie_korpus": [
+   "opis doreczenia przesylki",
+   "przesylka kurierska - PILNE"
+  ],
+  "gmcp_mail_state": [
+   "unread",
+   "unreceived",
+   "unsent"
+  ],
+  "gmcp_msgs_typy": [
+   "mail",
+   "editor.mail",
+   "notification.mail"
+  ]
  }
 }
