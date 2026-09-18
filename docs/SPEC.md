@@ -2,8 +2,9 @@
 
 Status: **planowanie** (analiza korpusu logów zakończona, implementacja nie rozpoczęta).
 Data sporządzenia: 2026-09-16. Ostatnia aktualizacja: 2026-09-18 (analiza
-modulu apokalipsa toolkitu python + decyzja: okno predykcji Apokalipsy
-funkcja premium; domkniecie 71, otwarte 24 zawężone).
+sesja/trasa/komendy/druzyna: kod Dargotha + tjurczyk Arkadia.xml + logi
+temp + wiki; errata 2.10: linia czasu indoor + legacy komunikaty pluginow;
+domkniecia 72-74; katalog 2.1-2.14 ZAMKNIETY).
 
 Kronikarz to plugin do klienta Dargoth (arkadia-web-client-extension), który prowadzi
 audytowalny dziennik wypraw postaci: zdarzenia, finanse, paczki, zlecenia, zabici,
@@ -589,7 +590,19 @@ pozycja, kolory, wartosci, aktualizuj, `ustaw imperium|ishtar <doy> [h]` =
 reczna kotwica); komunikaty klienckie z prefiksem `[imperium_cal]` /
 `[ishtar_cal]` / `[pasek_kalendarz]` = wstawki pluginow (println -> logowane
 w logach HTML — backfill odcina jak `[ PORA ]`, zasada §6.2; korpus: N=0
-wszystkich trzech prefiksow — w objetych sesjach pluginy nie byly uzywane);
+wszystkich trzech prefiksow — w objetych sesjach pluginy nie byly uzywane).
+ERRATA (logi temp 2026-08-24/25, poza korpusem): komunikaty pluginow
+kalendarzowych w starszych wersjach (ishtar_cal v1.0.9, imperium_cal
+v1.8.17) drukowane BEZ prefiksu `[*_cal]` — np. `Kotwica Ishtar
+wyczyszczona. Uzyj /ishtar na zewnatrz, zeby zapisac nowa.` (ramka `---`,
+30x temp), `Brak odpowiedzi na komende 'czas' (timeout) i nie mam
+zapamietanej daty. ...` — backfill odcina OBIE formy (z prefiksem i
+legacy); linia czasu w pomieszczeniu: `Zgadujesz, ze moze byc teraz
+<pora>, ale nie jestes w stanie tego sprawdzic bez wychodzenia na
+zewnatrz.` (temp 121x: popoludnie 36, noc 46, wieczor 17, ranek 13, swit
+12, pozny/wczesny 14; korpus N=0) — pluginy na nia timeoutuja (powyzszy
+komunikat), Kronikarz traktuje ja jak brak odczytu daty (pora dnia bez
+kalendarii);
 Geheimnisnacht: event MG — kandydaci = 5 jesiennych pelni Mannslieba
 (1/26 Nachgeheim, 18 Erntezeit, 9 Brauzeit, 1 Kaldezeit), okno RL
 19:00-21:00 Europe/Warsaw (potw. empirycznie 11.08.2026 ~20:00 = pelnia
@@ -615,13 +628,40 @@ Zdarzenia kroniki mogą być prezentowane z czasem RL i IG.
 
 ### 2.11 Sesja, trasa, komendy
 
-- Granice sesji: eventy API `client.connect` / `client.disconnect`.
-- Trasa wyprawy: GMCP `room.info` przy każdym ruchu + event `enterLocation` {id, room,
-  direction}.
-- Komendy gracza: event `command` — statystyki aktywności, kontekst odczytów
-  (`cechy`, `postepy`, `depozyt`, `zdenominuj`).
-- Drużyna: przekazanie prowadzenia `[ DRUZYNA ] <ktoś> przekazuje ci prowadzenie
-  druzyny.` (prefix klienta; korpus: 25 wyst.) + eventy `teamChange`.
+| Zdarzenie | Detekcja | Weryfikacja |
+|---|---|---|
+| Start sesji (login) | blok gry po zalogowaniu: `Aktualny czas : <wd>, <d> <rzymski> <yyyy>, <hh:mm:ss>` + `Ostatnie logowanie: <wd>, ...` + ` z hosta: <ip>` (weekday skrocony: N/Pn/Wt/Sr/Cz/Pt/So, niedziela 1-lit.; format `Wt, 25 VIII 2026, 03:58:30`); prompt hasla: `Witaj, <imie>. Podaj swe haslo:`; w Dargoth: event `client.connect`, handshake banner -> socket.incoming -> name -> telnet.echo -> password (preserveCase), `gmcp_msg.system.login` = notice ekranu logowania czyszczone na `gmcp_msg.room.long` (= w swiecie); credentials nigdy nie persistowane; korpus 576: N=0 (logi korpusowe ciete), logi temp 30x | logi temp (30x, 3 klienty) + kod (ConnectionEngine.ts) |
+| Koniec sesji | komenda `zakoncz` -> echo `-> zakoncz` -> `Nagrywam postac.` + sekwencja `Zdejmujesz ...` + `Do zobaczenia!` -> linia kliencka `Polaczenie zostalo przerwane.` (w logach Z ogonkami: `Połączenie zostało przerwane.` — wyjatkowo pelny UTF-8 w linii klienckiej); statystyka temp: Nagrywam 17 / Do zobaczenia 13 / Przerwane 9 (rozminiecia: przerwanie polaczenia, odswiezenie strony, utrata sesji); event `client.disconnect`, fazy ConnectionEngine offline/connecting/online; korpus 576: N=0 wszystkich trzech linii | logi temp (19 plikow) + kod (ConnectionEngine.ts) + korpus (N=0) |
+| Trasa wyprawy | GMCP `room.info` przy kazdym ruchu + event `enterLocation` {id, room, direction}: emisja z MapHelper.renderRoomById; `direction` = dluga forma EN (north/south/east/west/ne/nw/se/sw/up/down) TYLKO gdy ruch przeszedl przez znane wyjscie mapy (MapHelper.move ustawia lastMoveDirection = getLongDir, directions.ts: mapowanie PL->EN 1:1, `gora`/`gore` -> up), inaczej null (asercja GMCP room.info, /ustaw, pluginy, teleport); event `mapMove` po kazdej zmianie pozycji (flaga suppress); ruch za prowadzacym: followMove + team_follow_link z userData lokacji; pojazdy: carriageMode `jedz na X`, pre/postWalkCommands, przejazd async — GMCP = autorytet pozycji | kod (MapHelper.ts, directions.ts, MovementManager.ts, clientEvents.ts) |
+| Komenda gracza | event `command` = FINALNA komenda po pipeline CommandProcessor: commandHooks -> stripPolishCharacters -> Map.parseCommand -> expandObjectShortcuts (@short -> ob_N) -> echo `-> <cmd>` (builtin) -> split (user /;/, non-user /[#;]/) -> aliasy; echo komendy w logu: `-> <cmd>` (Dargoth, korpus: setki wyst., np. `-> cechy` 977x, `-> system` 681x; web client: bez strzalki); edytor listu tez echowany (`-> **`, `-> ~?`); nieznany alias `/x` -> linia kliencka `--- Nieznany alias: <cmd>` (korpus: 5 wyst., 4 unikalne: /ob cialo, /ob paczke, /odpp, /paczka); MovementManager moveMode 0 (mapper) / 1 (na slepo) / 2 (podazanie) | korpus + kod (CommandProcessor.ts, MovementManager.ts) |
+| Druzyna — sklad i prowadzenie | 9 triggerow gry (Dargoth TeamManager.ts): `Zmuszasz [X] do opuszczenia druzyny.`, `[X] porzuca twoja druzyne.`, `[X] zmusza cie do opuszczenia druzyny.`, `Nie jestes w zadnej druzynie.`, `[X] rozwiazuje druzyne.`, `Porzucasz (swoja druzyne|druzyne, ktorej przewodzil[ea]s).`, `Przewodzisz druzynie, w ktorej oprocz ciebie ...`, `Druzyne prowadzi [X], ...`, `Dolaczasz do druzyny [X].` (opcjonalny suffix ` Od teraz jej sklad stanowicie ty...`); imiona opcjonalnie w [nawiasach]; sklad autorytatywnie z GMCP objects.data (team/team_leader), eventy teamChange / isTeamLeader / teamPanelStatus; tjurczyk Arkadia.xml: te same wzorce (grupy left_team/no_team/druzyna) + invite_bind `[X] zaprasza cie do swojej druzyny.` — bez triggera Dolaczasz (roznica miedzy klientami); korpus: N=0 wszystkich surowych linii druzynowych (gra solo w logach) | korpus (N=0) + kod (TeamManager.ts) + Arkadia.xml tjurczyk |
+| Druzyna — przekazanie prowadzenia | linia gry `<X> przekazuje ci prowadzenie druzyny.` drukowana przez klienta z prefixem `[   DRUZYNA   ]  ` (color_other.lua: DarkGoldenrod + padding 3+3, echo `\n\n`) — parser `^\[\s*DRUZYNA\s*\]`; korpus: 2 unikalne (`[ DRUZYNA ] Gwenn ...` 14x, `Gvidon ...` 11x); komenda `przekaz prowadzenie` w grze od VII 2005 (wiki Historia Arkadii); orderTimer 15 s (Dargoth orderTimer.ts = tjurczyk order_action, paritet 1:1): `Wydajesz rozkaz`, `Glosno wypowiadasz rozkaz, chyba jednak nikt cie nie zrozumia`, `przekazuje ci prowadzenie druzyny.` — timer tylko dla lidera; limit druzyny 20 czlonkow (wiki, II 2013) | korpus (25 wyst.) + kod (color_other.lua, orderTimer.ts) + wiki Historia + Arkadia.xml tjurczyk |
+
+Ruch i komendy ruchu (pomoc `?poruszanie`, wiki): 10 kierunkow PL bez
+ogonkow (polnoc, polnocny-wschod, wschod, poludniowy-wschod, poludnie,
+poludniowy-zachod, zachod, polnocny-zachod, gora, dol) + skroty EN
+n/ne/e/se/s/sw/w/nw/u/d (bindy numpad w klientach); przejscia specjalne
+(drzwi, schody, przejscia ukryte w opisach — komendy dowolne wg
+czarodzieja, np. `przeslizgnij sie przez szczeline`); plywanie/nurkowanie
+i wozy: inne komendy (`przeplyn na wschod`); tereny bez listy wyjsc
+(umiejetnosc wyczucie kierunku, kompas); lazik gry: `idz [tempo]` / `stoj`
+— auto-ruch tylko z lokacji z dokladnie 2 widocznymi wyjsciami (pomoc
+`?idz`).
+
+Komendy druzynowe (pomoc `?komendy`): zapros / dolacz / porzuc / przekaz /
+druzyna; pokrewne: rozkaz, zablokuj (walka), przemknij (ukrywanie),
+zakoncz (kontrolne). Historia: `przekaz prowadzenie` od VII 2005; limit
+druzyny 20 czlonkow + zmiany czasu rozkazow II 2013 (wiki Historia
+Arkadii). Surowe ekrany pomocy `?druzyna`/`?rozkaz` niedostepne publicznie
+(pomoc gry tylko w grze; korpus bez ekranow pomocy) — wzorce linii z kodu
+obu klientow (paritet TeamManager.ts <-> tjurczyk Arkadia.xml).
+
+Reprezentatywnosc: korpus 576 sesji nie zawiera ZADNYCH linii granic sesji
+(blok logowania, Nagrywam postac, Do zobaczenia, Przerwane — wszystkie
+N=0; logi korpusowe ciete ponizej loginu i powyzej wylogowania); zrodlem
+dla granic sesji sa logi temp 2026-08-24/25 (30 blokow startowych, 17/13/9
+koncowych, 3 klienty: Dargoth, web, Mudlet). Surowe linie druzynowe N=0
+wszystkie — wzorzec druzynowy oparty na kodzie klientow i pomocy gry.
 
 ### 2.12 Wiedza
 
@@ -1368,6 +1408,37 @@ logow HTML Dargotha session_*.html):
     modulu jako granice segmentow zegara (§2.10, JSON
     `apokalipsa_czas_2026_09_18`).
 
+Domkniete na analizie sesja/trasa/komendy 2026-09-18 (kod Dargotha:
+ConnectionEngine.ts, CommandProcessor.ts, MovementManager.ts, MapHelper.ts,
+directions.ts, TeamManager.ts, orderTimer.ts, color_other.lua,
+clientEvents.ts, gmcp.ts; tjurczyk Arkadia.xml; logi temp 2026-08-24/25,
+19 plikow, 3 klienty; wiki: Komendy, Poruszanie, Historia Arkadii):
+72. ~~Granice sesji~~ — START: blok gry `Aktualny czas : <wd>, <d>
+    <rzymski> <yyyy>, <hh:mm:ss>` + `Ostatnie logowanie: ...` + ` z hosta:
+    <ip>` (temp 30x; korpus 576 N=0 — logi ciete); prompt hasla `Witaj,
+    <imie>. Podaj swe haslo:`; KONIEC: `zakoncz` -> `Nagrywam postac.` +
+    `Zdejmujesz ...` + `Do zobaczenia!` -> linia kliencka `Polaczenie
+    zostalo przerwane.` (temp 17/13/9; korpus N=0); live: eventy
+    `client.connect`/`client.disconnect`, handshake ConnectionEngine,
+    `gmcp_msg.system.login` czyszczone na `gmcp_msg.room.long` (§2.11).
+73. ~~Trasa i komendy~~ — `enterLocation` {id, room, direction} z
+    MapHelper.renderRoomById; direction = dluga forma EN tylko przy ruchu
+    przez znane wyjscie (MapHelper.move, directions.ts PL->EN 1:1),
+    inaczej null; event `command` = finalna komenda po pipeline (hooks ->
+    strip ogonkow -> parseCommand -> @short -> echo `-> cmd` -> split ->
+    aliasy); echo komendy `-> <cmd>` w logach (korpus: setki); `---
+    Nieznany alias: <cmd>` = linia kliencka (korpus 5 wyst.); pojazdy
+    async, GMCP = autorytet (§2.11).
+74. ~~Druzyna~~ — 9 triggerow TeamManager.ts z paratetem w tjurczyk
+    Arkadia.xml (grupy left_team/no_team/druzyna) + invite_bind
+    (`zaprasza cie do swojej druzyny.` — bez odpowiednika w Dargoth;
+    Dargoth ma `Dolaczasz do druzyny` — bez odpowiednika u tjurczyka);
+    sklad z GMCP objects.data (team/team_leader); przekazanie prowadzenia
+    z prefixem `[   DRUZYNA   ]` (color_other.lua; korpus 2 unikalne, 25
+    wyst.); orderTimer 15 s = tjurczyk order_action (paritet 1:1); `przekaz
+    prowadzenie` od VII 2005, limit 20 czlonkow II 2013 (wiki Historia);
+    surowe linie druzynowe N=0 w korpusie i temp (gra solo) (§2.11).
+
 Nadal otwarte (apokalipsa i czas IG):
 24. Dokladne formuly sekwencji Apokalipsy: ostrzezenie z koniosem i bez
     (`W swoim umysle slyszysz glos Jezdzca Apokalipsy ... Pamietaj,
@@ -1610,6 +1681,29 @@ Podjęte:
   korpus N=0 — parser toleruje bez wymogu); marker wymuszenia apokalipsy
   `Nadchodzi Czas Apokalipsy ... poprosil ... przyspieszenie` przyjety
   wg wzorca toolkitu (capture; §2.10).
+- (2026-09-18, kod + logi temp + korpus) Granice sesji w backfillu: START
+  = blok `Aktualny czas : ...` (timestamp z linii, granica lewa sesji);
+  KONIEC = `Do zobaczenia!` albo linia kliencka `Polaczenie zostalo
+  przerwane.`; sesja bez bloku startu = log uciety (calosc korpusu 576)
+  — granica lewa wtedy nieoznaczona, zdarzenia wczesniejsze niz pierwszy
+  timestamp logu niepodpiete (§2.11).
+- (2026-09-18, kod + korpus) Echo komendy `-> <cmd>` = linia kliencka,
+  ale dla Kronikarza ZRODLO komend gracza w backfillu (parsowane, nie
+  odcinane jak `[ PORA ]`): statystyki aktywnosci i kontekst odczytow;
+  zawartosc = finalna komenda po przepisaniu aliasow (event `command`),
+  przed splitem na `;`/`#`; `--- Nieznany alias: <cmd>` = linia kliencka
+  katalogowana, nie zdarzenie (§2.11).
+- (2026-09-18, kod x2 + korpus) Parser przekazania prowadzenia druzyny:
+  `^\[\s*DRUZYNA\s*\]` (prefix kliencki z wariantowym paddingiem,
+  regula jak `[ ZABIL* ]` i `[ POCZTA ]`); surowe linie druzynowe
+  (zapros/dolacz/porzuc/przekaz/druzyna) = capture opcjonalny — N=0 w
+  korpusie i temp, wzorce z kodu obu klientow (paritet), stan druzyny
+  live autorytatywnie z GMCP objects.data (§2.11).
+- (2026-09-18, logi temp) ERRATA §2.10: komunikaty pluginow kalendarzowych
+  w wersjach legacy (v1.0.9/v1.8.17) bez prefiksu `[*_cal]` — backfill
+  odcina obie formy; linia `Zgadujesz, ze moze byc teraz <pora>, ale nie
+  jestes w stanie tego sprawdzic bez wychodzenia na zewnatrz.` = czas
+  indoor (brak daty), traktowana jak brak odczytu (§2.10).
 - (2026-09-18, pluginy kalendarzowe ×5) ERRATA powyzszej decyzji:
   `Hexenstag` = nazwa miesiaca (gra w `czas`), `Hexentag` = swieto
   interkalarne — dwa rozne byty, parser obu form pozostaje sluszny;
