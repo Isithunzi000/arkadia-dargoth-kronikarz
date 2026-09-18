@@ -1676,15 +1676,24 @@
  "kalendarze_pluginy_2026_09_18": {
   "zrodla": {
    "implementacje": [
-    "Dargoth imperium_cal 1.8.24 + ishtar_cal (Isithunzi000/arkadia-dargoth-plugins src/)",
+    "Dargoth imperium_cal 1.8.24 + ishtar_cal 1.8.23 (Isithunzi000/arkadia-dargoth-plugins src/)",
     "oficjalny klient WWW arkadia_cal 1.0.12 (Isithunzi000/www-arkadia_cal src/arkadia_cal/cal.js)",
     "Mudlet imperium_cal (Isithunzi000/arkadia-mudlet-calendar_imperium)",
     "Mudlet ishtar_cal 1.8.12m+ (Isithunzi000/arkadia-mudlet-calendar_ishtar)",
     "Mudlet pasek_czas (Isithunzi000/arkadia-mudlet-pasek_czas)",
-    "arkadia_tools.html (Isithunzi000/arkadia-web_standalone-tools)"
+    "arkadia_tools.html (Isithunzi000/arkadia-web_standalone-tools)",
+    "python-toolkit kalendarz/arkadia_calendar_core.py (Isithunzi000/arkadia-python-toolkit) — 9. silnik, pelny paritet"
    ],
    "spojnosc": "wszystkie implementacje 1:1 z clock.ts Dargotha (deklarowane w komentarzach) i wzajemnie",
-   "analiza": "2026-09-18"
+   "analiza": "2026-09-18",
+   "audyt_testowy": {
+    "repo": "Isithunzi000/arkadia-kalendarze-testy (PRIV)",
+    "zakres": "9 silnikow z 7 repo, ~200 tys. porownan na przebieg",
+    "zloty_standard": "fixtures/golden.py — specyfikacja zasad kalendarza (nie kopia pluginow)",
+    "fixtures": "lines.json 760 linii bazowych (360 Ishtar + 400 Imperium) + edge_lines.json 76; generowane deterministycznie z golden.py; formaty linii potwierdzone audytem z realnym outputem gry",
+    "uwagi": "fixtures bez weekdayow i bez linii swiatecznych typu `Belleteyn - Dzien Rozkwitu` (te z obserwacji w komentarzach silnikow); format interkalarny `dzien {Miesiac}` zgodny z korpusem"
+   },
+   "ksiezyce": "gra sledzi wylacznie Mannslieba; Morrslieb nie wystepuje w zadnym silniku ani fixture"
   },
   "imperium": {
    "rok_dni": 400,
@@ -2092,12 +2101,14 @@
     "pasywny_zapis": "kazda poprawnie sparsowana wlasna linia `czas` zapisuje kotwice (takze bez oczekujacego zapytania)"
    },
    "aliasy_pluginow": [
-    "/imperium [help|pomoc|reset]",
-    "/ishtar [help|pomoc|reset]"
+    "/imperium [help|pomoc|reset] (Dargoth, WWW, Mudlet; Mudlet dodatkowo `aktualizuj`)",
+    "/ishtar [help|pomoc|reset] (Dargoth, WWW, Mudlet; Mudlet dodatkowo `aktualizuj`)",
+    "pasek Mudleta: /pasek [on|off|float|window|pozycja|tlo|tekst|ciemno|reset|domyslne|wartosci|aktualizuj|pomoc]"
    ],
-   "komunikaty_klienckie": "prefiksy [imperium_cal] / [ishtar_cal] (println -> logowane w logach HTML; backfill odcina jak [ PORA ])",
+   "komunikaty_klienckie": "prefiksy [imperium_cal] / [ishtar_cal] / [pasek_kalendarz] (println/cecho -> logowane w logach HTML; backfill odcina jak [ PORA ]); korpus N=0 wszystkich trzech — pluginy nieuzywane w objetych sesjach",
    "cross_domain": "komunikat `Otrzymano czas Ishtar/Imperium - postac jest w domenie ...` + raport z zapisanej kotwicy",
-   "gagowanie": "linia `czas` gagowana tylko przy oczekujacym zapytaniu pluginu; pasywnie przechodzi do logow"
+   "gagowanie": "linia `czas` gagowana tylko przy oczekujacym zapytaniu pluginu; pasywnie przechodzi do logow",
+   "reczna_kotwica_pasek": "/pasek ustaw (imperium|ishtar) <doy> [godzina]"
   }
  }
 }
