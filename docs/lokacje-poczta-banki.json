@@ -1692,14 +1692,21 @@
     "walidacja": "porownanie predykcji z kolejnymi odrodzeniami (sekcja raportu)",
     "pamiec": "apokalipsa_dane.json (readings/processed_files/model/excluded/forced_*); inkrementalne wczytywanie po ostatnim log-time pliku"
    },
-   "powiazania": "analizator_czasu importuje apokalipsy z tego modulu jako granice segmentow analizy zegara; analizator_czasu erratum 2026-08-20: Belleteyn 135->180 (potwierdza rok od 1 Saovine)",
+   "powiazania": "analizator_czasu importuje apokalipsy z tego modulu jako granice segmentow analizy zegara; analizator_czasu erratum 2026-08-20: Belleteyn 135->180 (potwierdza rok od 1 Saovine); import w analizatorze: parse_apocalypse_json czyta klucz model.per_apocalypse z apokalipsa_dane.json, timestampy = checkpointy segmentow zegara; parser czas analizatora 1:1 z pluginami (komentarz w kodzie), ORDINAL_MAP do 45",
    "status_w_korpusie": {
     "Swiat odrodzil sie": "13x",
     "Swiat istnieje": "32x pelna odmiana",
     "Ciemnosc": "1x (77%)",
     "Lokalny czas": "N=0",
     "RE_FORCED": "N=0 (capture)"
-   }
+   },
+   "funkcja_premium_kronikarz": {
+    "okno_predykcji_apokalipsy": "ZATWIERDZONE 2026-09-18 (decyzja gracza) — funkcja premium Kronikarza",
+    "model": "adaptacyjny wg toolkitu: regresja per cykl na odczytach `system` z kroniki (faza stabilna >24h, +0.5 pp, >=5 pkt), h95 z marginesem t-Studenta 95% (n>=3; n=2 midrange; n=1 fallback 5%)",
+    "wykluczenia": "cykle wymuszone (RE_FORCED) domyslnie + reczne odznaczanie per cykl (okno ustawien toolkitu)",
+    "prezentacja": "predykcja zawsze z marginesem, nigdy jako punkt"
+   },
+   "ustawienia_modelu": "okno ustawien toolkitu: checkbox per apokalipsa (reczne wykluczanie cykli zaburzajacych, np. restarty reczne/awarie); wymuszone GM domyslnie wykluczone"
   }
  },
  "kalendarze_pluginy_2026_09_18": {
